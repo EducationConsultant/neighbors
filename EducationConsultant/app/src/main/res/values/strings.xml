@@ -8,7 +8,7 @@
     <string name="password">Password</string>
 
     <string name="link_login">Already have an account? Log in.</string>
-    <string name="link_forget_password">Forget your password?</string>
+    <string name="link_forgot_password">Forgot password?</string>
 
     <string name="btn_login">Log in</string>
     <string name="btn_signup">Sign up</string>
