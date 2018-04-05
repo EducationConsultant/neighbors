@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">EducationConsultant</string>
+    <string name="app_name">EduConsult</string>
+
+    <!-- Signup/Login -->
+    <string name="first_name">Firstname</string>
+    <string name="last_name">Lastname</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+
+    <string name="link_login">Already have an account? Log in.</string>
+    <string name="link_forget_password">Forget your password?</string>
+
+    <string name="btn_login">Log in</string>
+    <string name="btn_signup">Sign up</string>
 </resources>
