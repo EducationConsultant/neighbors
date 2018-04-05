@@ -29,7 +29,7 @@ public class RegistrateActivity extends AppCompatActivity {
         if (linkLogin != null ){
             linkLogin.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    
+
                 }
             });
         }
