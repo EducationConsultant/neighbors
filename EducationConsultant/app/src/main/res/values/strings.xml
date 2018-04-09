@@ -17,7 +17,11 @@
     <string name="lbl_forgot_password_msg">To reset your password, enter the email address you use to sign in to EduConsult.</string>
 
     <!-- Messages -->
+    <string name="msg_enter_firstname">Enter firstname.</string>
+    <string name="msg_enter_lastname">Enter lastname.</string>
     <string name="msg_enter_email">Enter email address.</string>
     <string name="msg_invalid_email">Invalid email address.</string>
     <string name="msg_enter_password">Enter password.</string>
+    <string name="msg_password_length">Password too short, enter minimum 6 characters.</string>
+    <string name="msg_authentication_failed">Authentication failed.</string>
 </resources>
