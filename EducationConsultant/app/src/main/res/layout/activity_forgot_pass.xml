@@ -8,7 +8,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:background="@drawable/background_gradient"
-    tools:context=".LoginActivity">
+    tools:context=".ForgotPassActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -28,6 +28,23 @@
                 android:layout_marginBottom="20dp"
                 android:src="@mipmap/ic_launcher_round"
                 android:contentDescription="@string/app_name"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/link_forgot_password"
+                android:padding="10dp"
+                android:textSize="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                android:padding="16dp"
+                android:text="@string/lbl_forgot_password_msg"
+                android:textSize="14dp" />
 
             <EditText
                 android:id="@+id/email"
@@ -49,59 +66,17 @@
                 android:layout_height="1dp"
                 android:background="@color/colorPrimaryDark"/>
 
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:ems="10"
-                android:background="@android:color/transparent"
-                android:drawablePadding="12dp"
-                android:padding="8dp"
-                android:hint="@string/password"
-                android:maxLines="1"
-                android:drawableLeft="@drawable/ic_lock"
-                android:layout_marginTop="4dp"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorPrimaryDark"/>
-
             <Button
-                android:id="@+id/btn_login"
+                android:id="@+id/btn_reset_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_btn_login"
-                android:text="@string/btn_login"
+                android:text="@string/btn_reset_password"
                 android:textStyle="bold"
                 android:padding="16dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:layout_marginTop="32dp"/>
-
-            <Button
-                android:id="@+id/btn_signup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_btn_sign_up"
-                android:text="@string/btn_signup"
-                android:textStyle="bold"
-                android:padding="16dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:layout_marginTop="16dp"/>
-
-            <TextView
-                android:id="@+id/link_forgot_pass"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/link_forgot_password"
-                android:padding="16dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:layout_marginBottom="16dp"
-                />
 
         </LinearLayout>
     </ScrollView>

@@ -12,4 +12,8 @@
 
     <string name="btn_login">Log in</string>
     <string name="btn_signup">Sign up</string>
+    <string name="btn_reset_password">Reset password</string>
+
+    <string name="lbl_forgot_password_msg">To reset your password, enter the email address you use to sign in to EduConsult.</string>
+
 </resources>
