@@ -126,6 +126,8 @@
                 android:focusable="true"/>
 
         </LinearLayout>
+
+
     </ScrollView>
 
     <ProgressBar
@@ -135,5 +137,4 @@
         android:layout_gravity="center|bottom"
         android:layout_marginBottom="20dp"
         android:visibility="gone" />
-
 </LinearLayout>

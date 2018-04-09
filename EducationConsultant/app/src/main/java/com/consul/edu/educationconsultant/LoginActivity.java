@@ -2,14 +2,18 @@ package com.consul.edu.educationconsultant;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -18,35 +22,43 @@ import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity{
 
-    private FirebaseAuth auth;
-
-    // The view objects
     private Button btnLogin;
     private Button btnSignup;
     private TextView linkForgotPass;
-
     private EditText inputEmail;
     private EditText inputPassword;
+
+    private ProgressBar progressBar;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //Get Firebase auth instance
+        auth = FirebaseAuth.getInstance();
+
+        if (auth.getCurrentUser() != null) {
+            // User is logged in
+            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(i);
+            finish();
+        }
+
         setContentView(R.layout.activity_login);
 
-        //initializing EditText view objects
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
-
-        final String email = inputEmail.getEditableText().toString().trim();
-        final String password = inputPassword.getEditableText().toString().trim();
-
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         // LOGIN button
         btnLogin = (Button) findViewById(R.id.btn_login);
         if (btnLogin != null) {
             btnLogin.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+                    String email = inputEmail.getEditableText().toString().trim();
+                    final String password = inputPassword.getEditableText().toString().trim();
+
                     // validate email input
                     if (TextUtils.isEmpty(email)) {
                         Toast.makeText(getApplicationContext(), R.string.msg_enter_email, Toast.LENGTH_LONG).show();
@@ -59,9 +71,28 @@ public class LoginActivity extends AppCompatActivity{
                         return;
                     }
 
-                    // Start the Main activity
-                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(i);
+                    progressBar.setVisibility(View.VISIBLE);
+
+                    //authenticate user
+                    auth.signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                            // If sign in fails, display a message to the user. If sign in succeeds
+                                            // the auth state listener will be notified and logic to handle the
+                                            // signed in user can be handled in the listener.
+                                            progressBar.setVisibility(View.GONE);
+                                            if (!task.isSuccessful()) {
+                                                // there was an error
+                                                Toast.makeText(LoginActivity.this, getString(R.string.msg_authentication_failed), Toast.LENGTH_LONG).show();
+
+                                            } else {
+                                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                startActivity(intent);
+                                                finish();
+                                            }
+                                        }
+                                    });
                 }
             });
         }
@@ -72,7 +103,7 @@ public class LoginActivity extends AppCompatActivity{
             btnSignup.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     // Start the Registrate activity
-                    Intent i = new Intent(getApplicationContext(), RegistrateActivity.class);
+                    Intent i = new Intent(LoginActivity.this, RegistrateActivity.class);
                     startActivity(i);
                 }
             });
@@ -84,7 +115,7 @@ public class LoginActivity extends AppCompatActivity{
             linkForgotPass.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     // Start the ForgotPass activity
-                    Intent i = new Intent(getApplicationContext(), ForgotPassActivity.class);
+                    Intent i = new Intent(LoginActivity.this, ForgotPassActivity.class);
                     startActivity(i);
                 }
             });
