@@ -24,4 +24,6 @@
     <string name="msg_enter_password">Enter password.</string>
     <string name="msg_password_length">Password too short, enter minimum 6 characters.</string>
     <string name="msg_authentication_failed">Authentication failed.</string>
+    <string name="msg_send_instructions">We have sent you instructions to reset your password.</string>
+    <string name="msg_failed_send">Failed to send reset email.</string>
 </resources>

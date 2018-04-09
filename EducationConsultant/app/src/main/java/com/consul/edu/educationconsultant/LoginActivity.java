@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity{
             linkForgotPass.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     // Start the ForgotPass activity
-                    Intent i = new Intent(LoginActivity.this, ForgotPassActivity.class);
+                    Intent i = new Intent(LoginActivity.this, ResetPasswordActivity.class);
                     startActivity(i);
                 }
             });
