@@ -17,9 +17,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class LoginActivity extends AppCompatActivity{
 
     private Button btnLogin;
@@ -38,20 +35,30 @@ public class LoginActivity extends AppCompatActivity{
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-        if (auth.getCurrentUser() != null) {
+        // Check if a user is logged in
+        // TODO: Uncomment this part when development is finished
+        /*if (auth.getCurrentUser() != null) {
             // User is logged in
             Intent i = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(i);
             finish();
-        }
+        }*/
 
         setContentView(R.layout.activity_login);
 
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+    }
+
+    /**
+     * Called when a login button has been clicked.
+     *
+     * @param view The view (in this case a button) that was clicked.
+     *
+     * */
+    public void onClickLogin(View view){
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-        // LOGIN button
         btnLogin = (Button) findViewById(R.id.btn_login);
         if (btnLogin != null) {
             btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -59,13 +66,13 @@ public class LoginActivity extends AppCompatActivity{
                     String email = inputEmail.getEditableText().toString().trim();
                     final String password = inputPassword.getEditableText().toString().trim();
 
-                    // validate email input
+                    // Check if the email field is empty
                     if (TextUtils.isEmpty(email)) {
                         Toast.makeText(getApplicationContext(), R.string.msg_enter_email, Toast.LENGTH_LONG).show();
                         return;
                     }
 
-                    // validate password input
+                    // Check if the password field is empty
                     if (TextUtils.isEmpty(password)) {
                         Toast.makeText(getApplicationContext(), R.string.msg_enter_password, Toast.LENGTH_LONG).show();
                         return;
@@ -73,8 +80,14 @@ public class LoginActivity extends AppCompatActivity{
 
                     progressBar.setVisibility(View.VISIBLE);
 
-                    //authenticate user
-                    auth.signInWithEmailAndPassword(email, password)
+                    // Start the Main activity
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+
+                    // Authenticate user
+                    // TODO: Uncomment this part when development is finished
+                    /*auth.signInWithEmailAndPassword(email, password)
                             .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -87,38 +100,46 @@ public class LoginActivity extends AppCompatActivity{
                                                 Toast.makeText(LoginActivity.this, getString(R.string.msg_authentication_failed), Toast.LENGTH_LONG).show();
 
                                             } else {
+                                                // Start the Main activity
                                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                                 startActivity(intent);
                                                 finish();
                                             }
                                         }
-                                    });
-                }
-            });
-        }
-
-        // SIGNUP button
-        btnSignup = (Button) findViewById(R.id.btn_signup);
-        if (btnSignup != null) {
-            btnSignup.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    // Start the Registrate activity
-                    Intent i = new Intent(LoginActivity.this, RegistrateActivity.class);
-                    startActivity(i);
-                }
-            });
-        }
-
-        // FORGOT PASSWORD link
-        linkForgotPass = (TextView) findViewById(R.id.link_forgot_pass);
-        if (linkForgotPass != null) {
-            linkForgotPass.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    // Start the ForgotPass activity
-                    Intent i = new Intent(LoginActivity.this, ResetPasswordActivity.class);
-                    startActivity(i);
+                                    });*/
                 }
             });
         }
     }
+
+    /**
+     * Called when a signup button has been clicked.
+     *
+     * @param view The view (in this case a button) that was clicked.
+     *
+     * */
+    public void onClickSignUp(View view){
+        btnSignup = (Button) findViewById(R.id.btn_signup);
+        if (btnSignup != null) {
+            // Start the Registration activity
+            Intent i = new Intent(LoginActivity.this, RegistrationActivity.class);
+            startActivity(i);
+        }
+    }
+
+    /**
+     * Called when a forgot password link has been clicked.
+     *
+     * @param view The view (in this case a TextView) that was clicked.
+     *
+     * */
+    public void onClickResetPassword(View view){
+        linkForgotPass = (TextView) findViewById(R.id.link_forgot_pass);
+        if (linkForgotPass != null) {
+            // Start the ResetPassword activity
+            Intent i = new Intent(LoginActivity.this, ResetPasswordActivity.class);
+            startActivity(i);
+        }
+    }
+
 }

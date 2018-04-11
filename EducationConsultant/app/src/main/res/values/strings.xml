@@ -2,8 +2,8 @@
     <string name="app_name">EduConsult</string>
 
     <!-- Signup/Login -->
-    <string name="first_name">Firstname</string>
-    <string name="last_name">Lastname</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
 
@@ -18,8 +18,8 @@
     <string name="lbl_forgot_password_msg">To reset your password, enter the email address you use to sign in to EduConsult.</string>
 
     <!-- Messages -->
-    <string name="msg_enter_firstname">Enter firstname.</string>
-    <string name="msg_enter_lastname">Enter lastname.</string>
+    <string name="msg_enter_firstname">Enter first name.</string>
+    <string name="msg_enter_lastname">Enter last name.</string>
     <string name="msg_enter_email">Enter email address.</string>
     <string name="msg_invalid_email">Invalid email address.</string>
     <string name="msg_enter_password">Enter password.</string>

@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegistrateActivity"
+            android:name=".RegistrationActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".ResetPasswordActivity"
