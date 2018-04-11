@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient"
-    tools:context=".RegistrateActivity">
+    tools:context=".RegistrationActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -113,7 +113,8 @@
                 android:textStyle="bold"
                 android:textAllCaps="true"
                 android:padding="16dp"
-                android:layout_marginTop="32dp" />
+                android:layout_marginTop="32dp"
+                android:onClick="onClickSignUpBtn"/>
 
             <TextView
                 android:id="@+id/link_login"
@@ -124,7 +125,8 @@
                 android:clickable="true"
                 android:layout_marginBottom="16dp"
                 android:focusable="true"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:onClick="onClickLoginLink"/>
         </LinearLayout>
     </ScrollView>
 

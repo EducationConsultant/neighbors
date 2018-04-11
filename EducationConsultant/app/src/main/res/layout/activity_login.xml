@@ -78,7 +78,8 @@
                 android:padding="16dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:layout_marginTop="32dp"/>
+                android:layout_marginTop="32dp"
+                android:onClick="onClickLogin"/>
 
             <Button
                 android:id="@+id/btn_signup"
@@ -91,7 +92,8 @@
                 android:padding="16dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="16dp"
+                android:onClick="onClickSignUp"/>
 
             <TextView
                 android:id="@+id/link_forgot_pass"
@@ -103,6 +105,7 @@
                 android:focusable="true"
                 android:layout_marginBottom="16dp"
                 android:textColor="@color/black"
+                android:onClick="onClickResetPassword"
                 />
 
         </LinearLayout>
