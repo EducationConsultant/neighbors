@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity{
                     progressBar.setVisibility(View.VISIBLE);
 
                     // Start the Main activity
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
                     startActivity(intent);
                     finish();
 
