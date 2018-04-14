@@ -22,16 +22,10 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/genre"
+        android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/title" />
 
-    <TextView
-        android:id="@+id/year"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:textColor="@color/year" />
 
 </RelativeLayout>

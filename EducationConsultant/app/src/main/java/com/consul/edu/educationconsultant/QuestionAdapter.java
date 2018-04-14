@@ -16,53 +16,54 @@ import java.util.List;
  * Created by Svetlana on 4/14/2018.
  */
 
-public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHolder> {
+public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.MyViewHolder> {
 
-    private List<Movie> moviesList;
+    private List<Question> questionList;
     private Context mContext;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, year, genre;
+        public TextView title, username;
         RelativeLayout parentLayout;
 
         public MyViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.title);
-            genre = (TextView) view.findViewById(R.id.genre);
-            year = (TextView) view.findViewById(R.id.year);
+            username = (TextView) view.findViewById(R.id.username);
+
             parentLayout = view.findViewById(R.id.parent_layout);
         }
     }
 
 
-    public MoviesAdapter(Context context, List<Movie> moviesList) {
-        this.moviesList = moviesList;
+    public QuestionAdapter(Context context, List<Question> questionList) {
+        this.questionList = questionList;
         mContext = context;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.movie_list_row, parent, false);
+                .inflate(R.layout.question_list, parent, false);
 
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        Movie movie = moviesList.get(position);
-        holder.title.setText(movie.getTitle());
-        holder.genre.setText(movie.getGenre());
-        holder.year.setText(movie.getYear());
+        Question question = questionList.get(position);
+        holder.title.setText(question.getTitle());
+        holder.username.setText(question.getUsername());
+
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(mContext, "Clicked", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(mContext, DetailsActivity.class);
-                intent.putExtra("title", moviesList.get(position).getTitle());
-                intent.putExtra("genre", moviesList.get(position).getTitle());
-                intent.putExtra("year", moviesList.get(position).getYear());
+                intent.putExtra("title", questionList.get(position).getTitle());
+                intent.putExtra("username", questionList.get(position).getUsername());
+                intent.putExtra("description", questionList.get(position).getDescription());
+                intent.putExtra("category", questionList.get(position).getCategory());
 
                 mContext.startActivity(intent);
             }
@@ -71,6 +72,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
 
     @Override
     public int getItemCount() {
-        return moviesList.size();
+        return questionList.size();
     }
 }
