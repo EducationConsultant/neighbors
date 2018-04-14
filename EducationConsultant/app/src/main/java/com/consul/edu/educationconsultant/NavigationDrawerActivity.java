@@ -95,17 +95,19 @@ public class NavigationDrawerActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
-        Fragment fragment = null;
+        Intent intent = null;
 
         if (id == R.id.nav_home) {
 
         } else if (id == R.id.nav_archive) {
 
         } else if (id == R.id.nav_profile) {
-            // fragment = new EditProfileFragment();
+            intent = new Intent(NavigationDrawerActivity.this,ProfileActivity.class);
         } else if (id == R.id.nav_logout) {
 
         }
+
+        startActivity(intent);
 
 
         // Display the appropriate fragment
