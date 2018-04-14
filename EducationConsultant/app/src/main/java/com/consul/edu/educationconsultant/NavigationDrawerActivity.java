@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -84,21 +86,33 @@ public class NavigationDrawerActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+
+    /**
+     * This method gets called whenever an item in the drawer is clicked.
+     *
+     * @param item Clicked item.
+     * */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-
         int id = item.getItemId();
+        Fragment fragment = null;
 
         if (id == R.id.nav_home) {
 
         } else if (id == R.id.nav_archive) {
 
         } else if (id == R.id.nav_profile) {
-
+            // fragment = new EditProfileFragment();
         } else if (id == R.id.nav_logout) {
 
         }
+
+
+        // Display the appropriate fragment
+       /* FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.content,fragment);
+        ft.commit();*/
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

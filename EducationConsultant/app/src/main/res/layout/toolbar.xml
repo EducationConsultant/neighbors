@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- android.support.v7.widget.Toolbar : This is the full path of the Toolbar class in the Support Library -->
+    <!-- ?attr/actionBarSize : The ?attr prefix means that we want to use an attribute from the current theme. -->
+    <!-- ?attr/colorPrimary : Make the toolbar's background the same color as the app bar we had previously  -->
+    <!-- ThemeOverlay : Toolbar will look like app bar from theme Theme.AppCompat.Light -->
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+
+</android.support.constraint.ConstraintLayout>
