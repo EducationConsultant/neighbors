@@ -65,7 +65,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         // RecycleView
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mAdapter = new MoviesAdapter(movieList);
+        mAdapter = new MoviesAdapter(this, movieList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
