@@ -107,14 +107,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         }
 
+        // Display the appropriate activity
         startActivity(intent);
-
-
-        // Display the appropriate fragment
-       /* FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.content,fragment);
-        ft.commit();*/
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
