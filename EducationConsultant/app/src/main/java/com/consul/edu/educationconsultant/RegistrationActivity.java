@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +27,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText inputEmail;
     private EditText inputPassword;
 
-    private ProgressBar progressBar;
+    private FrameLayout frameProgressBar;
     private FirebaseAuth auth;
 
     @Override
@@ -34,7 +35,7 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        frameProgressBar = (FrameLayout) findViewById(R.id.frame_progress_bar);
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
@@ -88,7 +89,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 return;
             }
 
-            progressBar.setVisibility(View.VISIBLE);
+            frameProgressBar.setVisibility(View.VISIBLE);
 
             // create user
             auth.createUserWithEmailAndPassword(email, password)
@@ -96,7 +97,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             Toast.makeText(RegistrationActivity.this, "createUserWithEmail: " + task.isSuccessful(), Toast.LENGTH_SHORT).show();
-                            progressBar.setVisibility(View.GONE);
+                            frameProgressBar.setVisibility(View.GONE);
                             // If sign in fails, display a message to the user. If sign in succeeds
                             // the auth state listener will be notified and logic to handle the
                             // signed in user can be handled in the listener.
@@ -135,6 +136,6 @@ public class RegistrationActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        progressBar.setVisibility(View.GONE);
+        frameProgressBar.setVisibility(View.GONE);
     }
 }

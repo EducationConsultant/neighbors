@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -142,7 +143,19 @@ public class NavigationDrawerActivity extends AppCompatActivity
         } else if (id == R.id.nav_profile) {
             intent = new Intent(NavigationDrawerActivity.this,ProfileActivity.class);
         } else if (id == R.id.nav_logout) {
+            intent = new Intent(NavigationDrawerActivity.this, LoginActivity.class);
 
+            // TODO: Uncomment this part when development is finished
+            /*
+            auth.signOut();
+
+            FirebaseUser user = auth.getCurrentUser();
+            if (user == null) {
+                // user auth state is changed - user is null
+                // launch login activity
+                startActivity(new Intent(NavigationDrawerActivity.this, LoginActivity.class));
+                finish();
+            }*/
         }
 
         // Display the appropriate activity

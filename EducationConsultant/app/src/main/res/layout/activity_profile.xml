@@ -44,7 +44,7 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="30dp"
-                android:src="@drawable/user"
+                android:src="@mipmap/ic_user_profile"
                 android:paddingTop="50dp"/>
 
             <EditText

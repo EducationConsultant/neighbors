@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -18,7 +19,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     private EditText inputEmail;
     private Button btnResetPassword;
-    private ProgressBar progressBar;
+    private FrameLayout frameProgressBar;
     private FirebaseAuth auth;
 
 
@@ -27,7 +28,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
 
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        frameProgressBar = (FrameLayout) findViewById(R.id.frame_progress_bar);
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
@@ -51,7 +52,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 return;
             }
 
-            progressBar.setVisibility(View.VISIBLE);
+            frameProgressBar.setVisibility(View.VISIBLE);
 
             auth.sendPasswordResetEmail(email)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -63,7 +64,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                                 Toast.makeText(ResetPasswordActivity.this, R.string.msg_failed_send, Toast.LENGTH_LONG).show();
                             }
 
-                            progressBar.setVisibility(View.GONE);
+                            frameProgressBar.setVisibility(View.GONE);
                         }
                     });
 

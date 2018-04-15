@@ -1,6 +1,7 @@
 package com.consul.edu.educationconsultant;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +26,7 @@ public class LoginActivity extends AppCompatActivity{
     private EditText inputEmail;
     private EditText inputPassword;
 
-    private ProgressBar progressBar;
+    private FrameLayout frameProgressBar;
     private FirebaseAuth auth;
 
     @Override
@@ -46,7 +47,7 @@ public class LoginActivity extends AppCompatActivity{
 
         setContentView(R.layout.activity_login);
 
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        frameProgressBar = (FrameLayout) findViewById(R.id.frame_progress_bar);
     }
 
     /**
@@ -56,6 +57,7 @@ public class LoginActivity extends AppCompatActivity{
      *
      * */
     public void onClickLogin(View view){
+
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
 
@@ -63,6 +65,10 @@ public class LoginActivity extends AppCompatActivity{
         if (btnLogin != null) {
             btnLogin.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+                    frameProgressBar.setVisibility(View.VISIBLE);
+                    //progressBar.setVisibility(View.VISIBLE);
+
+
                     String email = inputEmail.getEditableText().toString().trim();
                     final String password = inputPassword.getEditableText().toString().trim();
 
@@ -78,8 +84,6 @@ public class LoginActivity extends AppCompatActivity{
                         return;
                     }
 
-                    progressBar.setVisibility(View.VISIBLE);
-
                     // Start the Main activity
                     Intent intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
                     startActivity(intent);
@@ -94,7 +98,7 @@ public class LoginActivity extends AppCompatActivity{
                                             // If sign in fails, display a message to the user. If sign in succeeds
                                             // the auth state listener will be notified and logic to handle the
                                             // signed in user can be handled in the listener.
-                                            progressBar.setVisibility(View.GONE);
+                                            frameProgressBar.setVisibility(View.GONE);
                                             if (!task.isSuccessful()) {
                                                 // there was an error
                                                 Toast.makeText(LoginActivity.this, getString(R.string.msg_authentication_failed), Toast.LENGTH_LONG).show();
