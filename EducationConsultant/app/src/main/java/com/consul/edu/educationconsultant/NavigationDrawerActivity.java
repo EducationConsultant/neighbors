@@ -50,8 +50,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Danilo, replace with your own action for new question", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent addQuestion = new Intent(NavigationDrawerActivity.this, AddQuestionActivity.class);
+                startActivity(addQuestion);
             }
         });
 
@@ -166,18 +166,18 @@ public class NavigationDrawerActivity extends AppCompatActivity
         return true;
     }
     private void prepareQuestionData() {
-        Question question = new Question("Question 1", "User 1", "Description description description", "math", "a1", "a2" ,"a3", "a4");
+        Question question = new Question("Question 1", "User 1", "Description description description", "math", "a1", "a2" ,"a3", "a4", "Mathematics");
         questionList.add(question);
 
-        question = new Question("Question 2", "User 2", "Description description description", "english", "a1", "a2" ,"a3", "a4");
+        question = new Question("Question 2", "User 2", "Description description description", "english", "a1", "a2" ,"a3", "a4", "Sport");
         questionList.add(question);
 
-        question = new Question("Question 3", "User 3", "Description description description", "programming",  "a1", "a2" ,"a3", "a4");
+        question = new Question("Question 3", "User 3", "Description description description", "programming",  "a1", "a2" ,"a3", "a4", "English");
         questionList.add(question);
 
-        question = new Question("Question 4", "User 4", "Description description description", "math",  "a1", "a2" ,"a3", "a4");
+        question = new Question("Question 4", "User 4", "Description description description", "math",  "a1", "a2" ,"a3", "a4", "Biology");
 
-        question = new Question("Question 5", "User 5", "Description description description", "chemistry",  "a1", "a2" ,"a3", "a4");
+        question = new Question("Question 5", "User 5", "Description description description", "chemistry",  "a1", "a2" ,"a3", "a4", "Mathematics");
         questionList.add(question);
 
         mAdapter.notifyDataSetChanged();

@@ -14,44 +14,36 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!-- icon: This attribute assigns an icon to the app. -->
-    <!-- label: This attribute describes a user-friendly label that gets displayed in the app bar.
-                It’s used in the <application> tag to apply a label to the entire app.  -->
+    <!--
+ label: This attribute describes a user-friendly label that gets displayed in the app bar.
+                It’s used in the <application> tag to apply a label to the entire app.
+    -->
     <!-- theme: Using this attribute in the <application> element applies the theme, using a style, to the entire app. -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_logo"
-        android:roundIcon="@mipmap/ic_logo_round"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".LoginActivity">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".RegistrationActivity" />
-
-        <activity
-            android:name=".ResetPasswordActivity" />
-
+        <activity android:name=".RegistrationActivity" />
+        <activity android:name=".ResetPasswordActivity" />
         <activity android:name=".MainActivity" />
-
-        <activity android:name=".ProfileActivity"
-            android:label="@string/edit_profile"/>
-
+        <activity
+            android:name=".ProfileActivity"
+            android:label="@string/edit_profile" />
         <activity
             android:name=".NavigationDrawerActivity"
-
             android:label="@string/title_activity_navigation_drawer" />
-
-
-        <activity android:name=".DetailsActivity"></activity>
-
+        <activity android:name=".DetailsActivity" />
+        <activity android:name=".AddQuestionActivity"></activity>
     </application>
 
 </manifest>

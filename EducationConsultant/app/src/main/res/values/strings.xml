@@ -42,4 +42,24 @@
     <string name="archive">Archive</string>
     <string name="home">Home</string>
 
+    <!-- Education Levels -->
+    <string-array
+        name="edu_levels_arr">
+        <item>Elementary School</item>
+        <item>Middle School</item>
+        <item>High School</item>
+        <item>Collage</item>
+        <item>Master's</item>
+        <item>Doctor's</item>
+    </string-array>
+
+    <!-- Categories -->
+    <string-array
+        name="categories_arr">
+        <item>Mathematics</item>
+        <item>Sport</item>
+        <item>English</item>
+        <item>Other</item>
+    </string-array>
+
 </resources>
