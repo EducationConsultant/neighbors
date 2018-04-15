@@ -16,16 +16,26 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
+import java.util.List;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.widget.Toast;
 
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Button btnLogout;
     private FirebaseAuth auth;
+
+    private List<Question> questionList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private QuestionAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +62,34 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // RecycleView
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        mAdapter = new QuestionAdapter(this, questionList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
+        prepareQuestionData();
+
+        // separator
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+
+        // set the adapter
+        recyclerView.setAdapter(mAdapter);
+
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Question question = questionList.get(position);
+                Toast.makeText(getApplicationContext(), question.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
     }
 
     @Override
@@ -113,5 +151,22 @@ public class NavigationDrawerActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    private void prepareQuestionData() {
+        Question question = new Question("Question 1", "User 1", "Description description description", "math", "a1", "a2" ,"a3", "a4");
+        questionList.add(question);
+
+        question = new Question("Question 2", "User 2", "Description description description", "english", "a1", "a2" ,"a3", "a4");
+        questionList.add(question);
+
+        question = new Question("Question 3", "User 3", "Description description description", "programming",  "a1", "a2" ,"a3", "a4");
+        questionList.add(question);
+
+        question = new Question("Question 4", "User 4", "Description description description", "math",  "a1", "a2" ,"a3", "a4");
+
+        question = new Question("Question 5", "User 5", "Description description description", "chemistry",  "a1", "a2" ,"a3", "a4");
+        questionList.add(question);
+
+        mAdapter.notifyDataSetChanged();
     }
 }
