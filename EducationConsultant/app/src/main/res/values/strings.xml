@@ -35,8 +35,6 @@
     <string name="action_settings">Settings</string>
 
     <string name="edit_profile">Edit Profile</string>
-    <string name="msg_profile_edited">Profile updated.</string>
-
 
     <!--Navigation bar-->
     <string name="logout">Log out</string>
