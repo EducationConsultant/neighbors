@@ -44,6 +44,4 @@
     <string name="archive">Archive</string>
     <string name="home">Home</string>
 
-    <!-- Fragments -->
-    <string name="edit_profile_fragment">Edit profile</string>
 </resources>

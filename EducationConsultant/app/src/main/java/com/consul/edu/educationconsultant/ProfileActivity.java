@@ -2,18 +2,22 @@ package com.consul.edu.educationconsultant;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 /**
  * The AppCompatActivity class is a subclass of Activity.
  * It lives in the AppCompat Support Library, and it’s designed to work with the AppCompat themes.
  * */
 public class ProfileActivity extends AppCompatActivity {
+    FloatingActionButton fbtnEditProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
