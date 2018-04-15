@@ -65,10 +65,6 @@ public class LoginActivity extends AppCompatActivity{
         if (btnLogin != null) {
             btnLogin.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    frameProgressBar.setVisibility(View.VISIBLE);
-                    //progressBar.setVisibility(View.VISIBLE);
-
-
                     String email = inputEmail.getEditableText().toString().trim();
                     final String password = inputPassword.getEditableText().toString().trim();
 
@@ -83,6 +79,8 @@ public class LoginActivity extends AppCompatActivity{
                         Toast.makeText(getApplicationContext(), R.string.msg_enter_password, Toast.LENGTH_LONG).show();
                         return;
                     }
+
+                    frameProgressBar.setVisibility(View.VISIBLE);
 
                     // Start the Main activity
                     Intent intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
