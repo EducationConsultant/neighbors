@@ -2,25 +2,16 @@ package com.consul.edu.educationconsultant;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
-import android.support.design.widget.NavigationView;
 
 /**
  * Created by Svetlana on 4/14/2018.
  */
 
+// TODO 101: NAVIGATIONBAR
+// TODO 102: TOOLBAR
 
 // in AndroidManifest.xml ---- noActionBar
 // implements NavigationView.OnNavigationItemSelectedListener
@@ -58,12 +49,16 @@ public class DetailsActivity extends AppCompatActivity  {
             String description = getIntent().getStringExtra("description");
             String username = getIntent().getStringExtra("username");
             String category = getIntent().getStringExtra("category");
+            String answer1 = getIntent().getStringExtra("answer1");
+            String answer2 = getIntent().getStringExtra("answer2");
+            String answer3 = getIntent().getStringExtra("answer3");
+            String answer4 = getIntent().getStringExtra("answer4");
 
-            setMovie(title, description, username, category);
+            setQuestion(title, description, username, category, answer1, answer2, answer3, answer4);
         }
     }
 
-    private void setMovie(String title, String description, String username, String category) {
+    private void setQuestion(String title, String description, String username, String category, String answer1, String answer2, String answer3, String answer4) {
         TextView titleView = findViewById(R.id.title);
         TextView descriptionView  = findViewById(R.id.description);
         TextView usernameView = findViewById(R.id.username);

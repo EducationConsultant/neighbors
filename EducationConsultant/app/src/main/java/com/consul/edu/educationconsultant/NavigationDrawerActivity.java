@@ -142,19 +142,18 @@ public class NavigationDrawerActivity extends AppCompatActivity
         return true;
     }
     private void prepareQuestionData() {
-        Question question = new Question("Question 1", "User 1", "Description description description", "math");
+        Question question = new Question("Question 1", "User 1", "Description description description", "math", "a1", "a2" ,"a3", "a4");
         questionList.add(question);
 
-        question = new Question("Question 2", "User 2", "Description description description", "english");
+        question = new Question("Question 2", "User 2", "Description description description", "english", "a1", "a2" ,"a3", "a4");
         questionList.add(question);
 
-        question = new Question("Question 3", "User 3", "Description description description", "programming");
+        question = new Question("Question 3", "User 3", "Description description description", "programming",  "a1", "a2" ,"a3", "a4");
         questionList.add(question);
 
-        question = new Question("Question 4", "User 4", "Description description description", "math");
-        questionList.add(question);
+        question = new Question("Question 4", "User 4", "Description description description", "math",  "a1", "a2" ,"a3", "a4");
 
-        question = new Question("Question 5", "User 5", "Description description description", "chemistry");
+        question = new Question("Question 5", "User 5", "Description description description", "chemistry",  "a1", "a2" ,"a3", "a4");
         questionList.add(question);
 
         mAdapter.notifyDataSetChanged();
