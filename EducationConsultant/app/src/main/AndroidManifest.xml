@@ -43,7 +43,16 @@
             android:name=".NavigationDrawerActivity"
             android:label="@string/title_activity_navigation_drawer" />
         <activity android:name=".DetailsActivity" />
-        <activity android:name=".AddQuestionActivity"></activity>
+        <activity android:name=".AddQuestionActivity" />
+
+        <activity android:name=".SettingsActivity"
+            android:label="@string/action_settings"/>
+        <activity android:name=".SettingsEducationLevelsActivity"
+            android:label="@string/education_levels_title"
+            android:parentActivityName=".SettingsActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SettingsActivity"/>
+        </activity>
     </application>
 
 </manifest>
