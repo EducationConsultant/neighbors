@@ -27,10 +27,76 @@
     </android.support.design.widget.AppBarLayout>
 
     <Switch
+        android:id="@+id/elementary_school"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:defaultValue="true"
         android:key="elementary_school_key"
-        android:text="@string/elementary_school_title"/>
+        android:text="@string/elementary_school_title"
+        android:textOn="@string/on"
+        android:textOff="@string/off"
+        android:textSize="18dp"
+        android:padding="12dp"
+        android:onClick="onClickSwitch"/>
+
+    <Switch
+        android:id="@+id/middle_school"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:key="middle_school_key"
+        android:text="@string/middle_school_title"
+        android:textOn="@string/on"
+        android:textOff="@string/off"
+        android:textSize="18dp"
+        android:padding="12dp"
+        android:onClick="onClickSwitch"/>
+
+    <Switch
+        android:id="@+id/high_school"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:key="high_school_key"
+        android:text="@string/high_school_title"
+        android:textOn="@string/on"
+        android:textOff="@string/off"
+        android:textSize="18dp"
+        android:padding="12dp"
+        android:onClick="onClickSwitch"/>
+
+    <Switch
+        android:id="@+id/collage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:key="collage_key"
+        android:text="@string/collage_title"
+        android:textOn="@string/on"
+        android:textOff="@string/off"
+        android:textSize="18dp"
+        android:padding="12dp"
+        android:onClick="onClickSwitch"/>
+
+    <Switch
+        android:id="@+id/masters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:key="masters_key"
+        android:text="@string/masters_title"
+        android:textOn="@string/on"
+        android:textOff="@string/off"
+        android:textSize="18dp"
+        android:padding="12dp"
+        android:onClick="onClickSwitch"/>
+
+    <Switch
+        android:id="@+id/doctors"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:key="doctors_key"
+        android:text="@string/doctors_title"
+        android:textOn="@string/on"
+        android:textOff="@string/off"
+        android:textSize="18dp"
+        android:padding="12dp"
+        android:onClick="onClickSwitch"/>
+
 
 </LinearLayout>
