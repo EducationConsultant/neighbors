@@ -137,9 +137,10 @@ public class NavigationDrawerActivity extends AppCompatActivity
         Intent intent = null;
 
         if (id == R.id.nav_home) {
-
+            intent = new Intent(NavigationDrawerActivity.this,NavigationDrawerActivity.class);
         } else if (id == R.id.nav_archive) {
-
+            // Danilo, put your acitivity here
+            intent = new Intent(NavigationDrawerActivity.this,NavigationDrawerActivity.class);
         } else if (id == R.id.nav_profile) {
             intent = new Intent(NavigationDrawerActivity.this,ProfileActivity.class);
         } else if (id == R.id.nav_logout) {

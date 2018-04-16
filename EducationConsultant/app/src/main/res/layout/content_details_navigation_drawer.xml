@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="100"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.consul.edu.educationconsultant.DetailsActivity"
+    tools:showIn="@layout/details_navigation_drawer"
+    >
+
+    <!--<include-->
+        <!--layout="@layout/activity_navigation_drawer"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/category"
+        android:layout_below="@id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Category"
+        android:textSize="10dp"
+        android:textColor="@color/colorPrimary"/>
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Username"
+        android:textSize="10dp"
+        android:layout_below="@+id/category"
+        android:textColor="@color/colorAccent"/>
+
+
+
+    <TextView
+    android:id="@+id/description"
+    android:layout_below="@+id/title"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:textSize="15dp"
+    android:text="Description"
+    android:textColor="@color/black"/>
+
+    <RadioGroup
+        android:id="@+id/r_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/category"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="20dp">
+        <RadioButton
+            android:id="@+id/answer1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="answer1"/>
+        <RadioButton
+            android:id="@+id/answer21"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="answer2"/>
+        <RadioButton
+            android:id="@+id/answer3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="answer3"/>
+        <RadioButton
+            android:id="@+id/answer4"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="answer4"/>
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/comments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/r_group"
+        android:textSize="18dp"
+        android:layout_marginTop="20dp"
+        android:text="Comments"/>
+
+    <TextView
+        android:id="@+id/user1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/comments"
+        android:layout_marginTop="5dp"
+        android:text="User1"/>
+    <TextView
+        android:id="@+id/comment1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user1"
+        android:textColor="@color/black"
+        android:text="Comment 1"/>
+
+
+    <TextView
+        android:id="@+id/user2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/comment1"
+        android:layout_marginTop="5dp"
+        android:text="User2"/>
+    <TextView
+        android:id="@+id/comment2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user2"
+        android:textColor="@color/black"
+        android:text="Comment 2"/>
+
+</RelativeLayout>
