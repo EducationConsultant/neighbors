@@ -66,21 +66,32 @@ public class DetailsActivity extends AppCompatActivity
             String answer2 = getIntent().getStringExtra("answer2");
             String answer3 = getIntent().getStringExtra("answer3");
             String answer4 = getIntent().getStringExtra("answer4");
+            String eduLevel = getIntent().getStringExtra("eduLevel");
 
-            setQuestion(title, description, username, category, answer1, answer2, answer3, answer4);
+            setQuestion(title, description, username, category, answer1, answer2, answer3, answer4, eduLevel);
         }
     }
 
-    private void setQuestion(String title, String description, String username, String category, String answer1, String answer2, String answer3, String answer4) {
+    private void setQuestion(String title, String description, String username, String category, String answer1, String answer2, String answer3, String answer4, String eduLevel) {
         TextView titleView = findViewById(R.id.title);
         TextView descriptionView  = findViewById(R.id.description);
         TextView usernameView = findViewById(R.id.username);
         TextView categoryView = findViewById(R.id.category);
+        TextView answer1View = findViewById(R.id.answer1);
+        TextView answer2View = findViewById(R.id.answer2);
+        TextView answer3View = findViewById(R.id.answer3);
+        TextView answer4View = findViewById(R.id.answer4);
+        TextView eduLevelView = findViewById(R.id.eduLevel);
 
         titleView.setText(title);
         descriptionView.setText(description);
         usernameView.setText(username);
         categoryView.setText(category);
+        answer1View.setText(answer1);
+        answer2View.setText(answer2);
+        answer3View.setText(answer3);
+        answer4View.setText(answer4);
+        eduLevelView.setText(eduLevel);
     }
 
 
@@ -128,7 +139,7 @@ public class DetailsActivity extends AppCompatActivity
         Intent intent = null;
 
         if (id == R.id.nav_home) {
-            intent = new Intent(DetailsActivity.this, DetailsActivity.class);
+            intent = new Intent(DetailsActivity.this, NavigationDrawerActivity.class);
         } else if (id == R.id.nav_archive) {
             // Danilo, put your acitivity here
             intent = new Intent(DetailsActivity.this, DetailsActivity.class);

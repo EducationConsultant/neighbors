@@ -29,7 +29,6 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.MyView
             super(view);
             title = (TextView) view.findViewById(R.id.title);
             username = (TextView) view.findViewById(R.id.username);
-
             parentLayout = view.findViewById(R.id.parent_layout);
         }
     }
@@ -54,6 +53,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.MyView
         holder.title.setText(question.getTitle());
         holder.username.setText(question.getUsername());
 
+
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,6 +68,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.MyView
                 intent.putExtra("answer2", questionList.get(position).getAnswer2());
                 intent.putExtra("answer3", questionList.get(position).getAnswer3());
                 intent.putExtra("answer4", questionList.get(position).getAnswer4());
+                intent.putExtra("eduLevel", questionList.get(position).getEduLevel());
 
                 mContext.startActivity(intent);
             }
