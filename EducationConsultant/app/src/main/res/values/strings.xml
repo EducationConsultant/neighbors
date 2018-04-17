@@ -50,6 +50,8 @@
     <string name="sport_title">Sport</string>
     <string name="english_title">English</string>
     <string name="other_title">Other</string>
+    <!-- Location Filter -->
+    <string name="location_label">Location</string>
 
     <string name="edit_profile">Edit Profile</string>
 

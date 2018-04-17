@@ -44,7 +44,6 @@
             android:label="@string/title_activity_navigation_drawer" />
         <activity android:name=".DetailsActivity" />
         <activity android:name=".AddQuestionActivity" />
-
         <activity
             android:name=".SettingsActivity"
             android:label="@string/action_settings"
@@ -66,14 +65,29 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".SettingsActivity" />
         </activity>
-        <activity android:name=".SettingsCategoryActivity"
+        <activity
+            android:name=".SettingsCategoryActivity"
             android:label="Category filter"
             android:parentActivityName=".SettingsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".SettingsActivity" />
         </activity>
-        <activity android:name=".ArchiveActivity"/>
+        <activity
+            android:name=".ArchiveActivity"
+            android:label="Category filter"
+            android:parentActivityName=".NavigationDrawerActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".NavigationDrawerActivity" />
+        </activity>
+        <activity android:name=".SettingsLocationActivity"
+            android:label="location_label"
+            android:parentActivityName=".SettingsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SettingsActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -22,7 +22,9 @@ public class ArchiveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_archive);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_archive);
+        setSupportActionBar(toolbar);
+        // To get the toolbar to behave like an app bar. Parameter: the toolbar you want to set as the activity’s app bar
         setSupportActionBar(toolbar);
 
         recyclerView = (RecyclerView) findViewById(R.id.archive_view);

@@ -35,4 +35,9 @@ public class SettingsActivity extends AppCompatActivity {
         Intent intent = new Intent(SettingsActivity.this, SettingsCategoryActivity.class);
         startActivity(intent);
     }
+
+    public void onClickLocationFilter(View view) {
+        Intent intent = new Intent(SettingsActivity.this, SettingsLocationActivity.class);
+        startActivity(intent);
+    }
 }
