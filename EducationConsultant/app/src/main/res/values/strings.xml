@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">EduConsult</string>
+    <string name="app_name">Education Consultant</string>
 
     <!-- Signup/Login -->
     <string name="first_name">First name</string>
@@ -32,7 +32,24 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <!-- Settings -->
     <string name="action_settings">Settings</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <!-- Education levels -->
+    <string name="education_levels_title">Education levels</string>
+    <string name="elementary_school_title">Elementary school</string>
+    <string name="middle_school_title">Middle school</string>
+    <string name="high_school_title">High school</string>
+    <string name="collage_title">Collage</string>
+    <string name="masters_title">Master</string>
+    <string name="doctors_title">Doctor</string>
+    <!-- Category-->
+    <string name="category_title">Categories</string>
+    <string name="mathematics_title">Mathematics</string>
+    <string name="sport_title">Sport</string>
+    <string name="english_title">English</string>
+    <string name="other_title">Other</string>
 
     <string name="edit_profile">Edit Profile</string>
 
