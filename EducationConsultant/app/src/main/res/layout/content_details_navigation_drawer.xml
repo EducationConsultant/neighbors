@@ -19,7 +19,7 @@
         android:layout_marginRight="45dp"
         android:layout_marginTop="70dp"
         android:shrinkColumns="*"
-        android:background="#CCC"
+        android:background="@color/black"
         android:paddingTop="1dp"
         android:stretchColumns="0" >
 
@@ -30,7 +30,7 @@
             android:background="#CCC"
             android:paddingBottom="1dp"
             android:paddingRight="1dp">
-             <TextView
+            <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
                 android:textColor="#000000"
                 android:textStyle="bold|italic"
                 android:gravity="center"
-                android:background="#FFF"
+                android:background="#CCC"
                 android:layout_marginLeft="1dp"/>
         </TableRow>
         <TableRow
@@ -50,25 +50,23 @@
             android:background="#CCC"
             android:paddingBottom="1dp"
             android:paddingRight="1dp">
-            <TextView
+            <RadioGroup
+                android:gravity="center_horizontal"
+                android:background="#FFF">
+            <RadioButton
                 android:id="@+id/answer1"
                 android:text="ans1"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:textColor="#000000"
                 android:padding="20dip"
                 android:gravity="center"
                 android:background="#FFF"
                 android:layout_marginLeft="1dp"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:gravity="center_horizontal"
-            android:background="#CCC"
-            android:paddingBottom="1dp"
-            android:paddingRight="1dp">
-            <TextView
+            <RadioButton
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
                 android:id="@+id/answer2"
                 android:text="ans2"
                 android:layout_weight="1"
@@ -77,17 +75,9 @@
                 android:gravity="center"
                 android:background="#FFF"
                 android:layout_marginLeft="1dp"/>
-        </TableRow>
-
-
-        <TableRow
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:gravity="center_horizontal"
-            android:background="#CCC"
-            android:paddingBottom="1dp"
-            android:paddingRight="1dp">
-            <TextView
+            <RadioButton
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
                 android:id="@+id/answer3"
                 android:text="ans3"
                 android:layout_weight="1"
@@ -96,17 +86,9 @@
                 android:gravity="center"
                 android:background="#FFF"
                 android:layout_marginLeft="1dp"/>
-        </TableRow>
-
-
-        <TableRow
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:gravity="center_horizontal"
-            android:background="#CCC"
-            android:paddingBottom="1dp"
-            android:paddingRight="1dp">
-            <TextView
+            <RadioButton
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
                 android:id="@+id/answer4"
                 android:text="ans4"
                 android:layout_weight="1"
@@ -115,20 +97,22 @@
                 android:gravity="center"
                 android:background="#FFF"
                 android:layout_marginLeft="1dp"/>
+
+            </RadioGroup>
         </TableRow>
     </TableLayout>
 
 
     <TextView
-    android:id="@+id/category"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:textSize="14dp"
-    android:text="category"
-    android:textStyle="bold"
-    android:layout_marginLeft="20dp"
-    android:background="@color/colorAccent"
-    android:layout_marginTop="10dp"/>
+        android:id="@+id/category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:text="category"
+        android:textStyle="bold"
+        android:layout_marginLeft="20dp"
+        android:background="@color/colorAccent"
+        android:layout_marginTop="10dp"/>
 
     <TextView
         android:id="@+id/eduLevel"
@@ -164,87 +148,86 @@
         android:layout_below="@id/eduLevel"/>
 
 
-    <TextView
-        android:id="@+id/comments"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Comments:"
-        android:layout_marginLeft="14dp"
-        android:textStyle="bold"
-        android:layout_below="@+id/answers_table"/>
+    <!--<TextView-->
+        <!--android:id="@+id/comments"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Comments:"-->
+        <!--android:layout_marginLeft="14dp"-->
+        <!--android:textStyle="bold"-->
+        <!--android:layout_below="@+id/answers_table"/>-->
 
 
-    <TableLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/comments_table"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="14dp"
-        android:layout_marginBottom="25dp"
-        android:layout_marginRight="45dp"
-        android:shrinkColumns="*"
-        android:background="#CCC"
-        android:paddingTop="1dp"
-        android:stretchColumns="0"
-        android:layout_below="@id/comments">
+    <!--<TableLayout-->
+        <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--android:id="@+id/comments_table"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="14dp"-->
+        <!--android:layout_marginBottom="25dp"-->
+        <!--android:layout_marginRight="45dp"-->
+        <!--android:shrinkColumns="*"-->
+        <!--android:background="#CCC"-->
+        <!--android:paddingTop="1dp"-->
+        <!--android:stretchColumns="0"-->
+        <!--android:layout_below="@id/comments">-->
 
-    <TableRow
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:gravity="center_horizontal"
-        android:background="#CCC"
-        android:paddingBottom="1dp"
-        android:paddingRight="1dp">
-        <TextView
-        android:id="@+id/text1_comment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18dp"
-        android:text="This is my first comment."
-        android:textColor="#000000"
-        android:textStyle="italic"
-        android:background="#FFF"
-        android:layout_marginLeft="1dp"/>
-        <TextView
-            android:id="@+id/username1_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:text="User 4"
-            android:textColor="#000000"
-            android:textStyle="italic|bold"
-            android:background="#FFF"
-            android:layout_marginLeft="1dp"/>
-    </TableRow>
-        <TableRow
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:gravity="center_horizontal"
-            android:background="#CCC"
-            android:paddingBottom="1dp"
-            android:paddingRight="1dp">
-            <TextView
-                android:id="@+id/text2_comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:text="This is my second comment."
-                android:textColor="#000000"
-                android:textStyle="italic"
-                android:background="#FFF"
-                android:layout_marginLeft="1dp"/>
-            <TextView
-                android:id="@+id/username2_comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15dp"
-                android:text="User 2"
-                android:textColor="#000000"
-                android:textStyle="italic|bold"
-                android:background="#FFF"
-                android:layout_marginLeft="1dp"/>
-        </TableRow>
-
-    </TableLayout>
+        <!--<TableRow-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:background="#CCC"-->
+            <!--android:paddingBottom="1dp"-->
+            <!--android:paddingRight="1dp">-->
+            <!--<TextView-->
+                <!--android:id="@+id/text1_comment"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textSize="18dp"-->
+                <!--android:text="This is my first comment."-->
+                <!--android:textColor="#000000"-->
+                <!--android:textStyle="italic"-->
+                <!--android:background="#FFF"-->
+                <!--android:layout_marginLeft="1dp"/>-->
+            <!--<TextView-->
+                <!--android:id="@+id/username1_comment"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textSize="15dp"-->
+                <!--android:text="User 4"-->
+                <!--android:textColor="#000000"-->
+                <!--android:textStyle="italic|bold"-->
+                <!--android:background="#FFF"-->
+                <!--android:layout_marginLeft="1dp"/>-->
+        <!--</TableRow>-->
+        <!--<TableRow-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:background="#CCC"-->
+            <!--android:paddingBottom="1dp"-->
+            <!--android:paddingRight="1dp">-->
+            <!--<TextView-->
+                <!--android:id="@+id/text2_comment"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textSize="18dp"-->
+                <!--android:text="This is my second comment."-->
+                <!--android:textColor="#000000"-->
+                <!--android:textStyle="italic"-->
+                <!--android:background="#FFF"-->
+                <!--android:layout_marginLeft="1dp"/>-->
+            <!--<TextView-->
+                <!--android:id="@+id/username2_comment"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textSize="15dp"-->
+                <!--android:text="User 2"-->
+                <!--android:textColor="#000000"-->
+                <!--android:textStyle="italic|bold"-->
+                <!--android:background="#FFF"-->
+                <!--android:layout_marginLeft="1dp"/>-->
+        <!--</TableRow>-->
+    <!--</TableLayout>-->
 
 </RelativeLayout>

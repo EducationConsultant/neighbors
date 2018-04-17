@@ -14,16 +14,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-
+import android.widget.RadioButton;
 
 /**
  * Created by Svetlana on 4/14/2018.
  */
 
-// TODO 101: NAVIGATIONBAR
-// TODO 102: TOOLBAR
-
-// in AndroidManifest.xml ---- noActionBar
 
 public class DetailsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -77,20 +73,20 @@ public class DetailsActivity extends AppCompatActivity
         TextView descriptionView  = findViewById(R.id.description);
         TextView usernameView = findViewById(R.id.username);
         TextView categoryView = findViewById(R.id.category);
-        TextView answer1View = findViewById(R.id.answer1);
-        TextView answer2View = findViewById(R.id.answer2);
-        TextView answer3View = findViewById(R.id.answer3);
-        TextView answer4View = findViewById(R.id.answer4);
+        RadioButton rb1 = findViewById(R.id.answer1);
+        RadioButton rb2 = findViewById(R.id.answer2);
+        RadioButton rb3 = findViewById(R.id.answer3);
+        RadioButton rb4 = findViewById(R.id.answer4);
         TextView eduLevelView = findViewById(R.id.eduLevel);
 
         titleView.setText(title);
         descriptionView.setText(description);
         usernameView.setText(username);
         categoryView.setText(category);
-        answer1View.setText(answer1);
-        answer2View.setText(answer2);
-        answer3View.setText(answer3);
-        answer4View.setText(answer4);
+        rb1.setText(answer1);
+        rb2.setText(answer2);
+        rb3.setText(answer3);
+        rb4.setText(answer4);
         eduLevelView.setText(eduLevel);
     }
 
