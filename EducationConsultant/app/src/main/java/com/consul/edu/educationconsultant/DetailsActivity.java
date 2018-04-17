@@ -13,8 +13,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 /**
  * Created by Svetlana on 4/14/2018.
@@ -163,5 +165,9 @@ public class DetailsActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.details_drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void submit_answer(View view) {
+        Toast.makeText(this, "You resolved question :) ", Toast.LENGTH_SHORT).show();
     }
 }
