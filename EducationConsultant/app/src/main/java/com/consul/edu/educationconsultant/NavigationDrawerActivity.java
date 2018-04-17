@@ -140,7 +140,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
             intent = new Intent(NavigationDrawerActivity.this,NavigationDrawerActivity.class);
         } else if (id == R.id.nav_archive) {
             // Danilo, put your acitivity here
-            intent = new Intent(NavigationDrawerActivity.this,NavigationDrawerActivity.class);
+            intent = new Intent(NavigationDrawerActivity.this,ArchiveActivity.class);
         } else if (id == R.id.nav_profile) {
             intent = new Intent(NavigationDrawerActivity.this,ProfileActivity.class);
         } else if (id == R.id.nav_logout) {
@@ -167,18 +167,19 @@ public class NavigationDrawerActivity extends AppCompatActivity
         return true;
     }
     private void prepareQuestionData() {
-        Question question = new Question("Question 1", "User 1", "This is my first question", "Mathematics", "a1", "a2" ,"a3", "a4", "Elementary School");
+        Question question = new Question("Question 1", "User 1", "This is my first question", "Mathematics", "a1", "a2" ,"a3", "a4", "Elementary School", "a1", "");
         questionList.add(question);
 
-        question = new Question("Question 2", "User 2", "This is my second question", "Sport", "a1", "a2" ,"a3", "a4", "Middle School");
+        question = new Question("Question 2", "User 2", "This is my second question", "Sport", "a1", "a2" ,"a3", "a4", "Middle School","a1", "");
         questionList.add(question);
 
-        question = new Question("Question 3", "User 3", "This is my third question", "Mathematics",  "a1", "a2" ,"a3", "a4", "High School");
+        question = new Question("Question 3", "User 3", "This is my third question", "Mathematics",  "a1", "a2" ,"a3", "a4", "High School","a1", "");
         questionList.add(question);
 
-        question = new Question("Question 4", "User 4", "This is my fourth question", "English",  "a1", "a2" ,"a3", "a4", "Master's");
+        question = new Question("Question 4", "User 4", "This is my fourth question", "English",  "a1", "a2" ,"a3", "a4", "Master's","a1", "");
+        questionList.add(question);
 
-        question = new Question("Question 5", "User 5", "This is my fifth question", "Other",  "a1", "a2" ,"a3", "a4", "Doctor's");
+        question = new Question("Question 5", "User 5", "This is my fifth question", "Other",  "a1", "a2" ,"a3", "a4", "Doctor's","a1", "");
         questionList.add(question);
 
         mAdapter.notifyDataSetChanged();

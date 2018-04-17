@@ -47,7 +47,7 @@
                 android:id="@+id/ans_one_label"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:text="Answer One:"
+                android:text="Answer One (correct answer):"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 

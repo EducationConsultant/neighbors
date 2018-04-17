@@ -43,8 +43,7 @@
     <string name="home">Home</string>
 
     <!-- Education Levels -->
-    <string-array
-        name="edu_levels_arr">
+    <string-array name="edu_levels_arr">
         <item>Elementary School</item>
         <item>Middle School</item>
         <item>High School</item>
@@ -54,8 +53,7 @@
     </string-array>
 
     <!-- Categories -->
-    <string-array
-        name="categories_arr">
+    <string-array name="categories_arr">
         <item>Mathematics</item>
         <item>Sport</item>
         <item>English</item>

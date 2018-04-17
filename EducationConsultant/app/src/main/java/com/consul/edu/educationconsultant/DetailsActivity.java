@@ -140,7 +140,7 @@ public class DetailsActivity extends AppCompatActivity
             intent = new Intent(DetailsActivity.this, NavigationDrawerActivity.class);
         } else if (id == R.id.nav_archive) {
             // Danilo, put your acitivity here
-            intent = new Intent(DetailsActivity.this, DetailsActivity.class);
+            intent = new Intent(DetailsActivity.this, ArchiveActivity.class);
         } else if (id == R.id.nav_profile) {
             intent = new Intent(DetailsActivity.this,ProfileActivity.class);
         } else if (id == R.id.nav_logout) {

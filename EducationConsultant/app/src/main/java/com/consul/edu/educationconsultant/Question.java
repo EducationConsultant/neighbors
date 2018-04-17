@@ -8,13 +8,13 @@ package com.consul.edu.educationconsultant;
 
 // TODO 100: ADD COMMENTS
 public class Question {
-    private String title, username, description, category, answer1, answer2, answer3, answer4, eduLevel;
+    private String title, username, description, category, answer1, answer2, answer3, answer4, eduLevel, correctAns, answered;
 
 
     public Question() {
     }
 
-    public Question(String title, String username, String description, String category, String answer1, String answer2, String answer3, String answer4, String eduLevel) {
+    public Question(String title, String username, String description, String category, String answer1, String answer2, String answer3, String answer4, String eduLevel, String correctAns, String answered) {
         this.title = title;
         this.username = username;
         this.description = description;
@@ -24,6 +24,8 @@ public class Question {
         this.answer3 = answer3;
         this.answer4 = answer4;
         this.eduLevel = eduLevel;
+        this.correctAns = correctAns;
+        this.answered = answered;
     }
 
     public String getTitle() {
@@ -93,4 +95,12 @@ public class Question {
     public String getEduLevel() { return eduLevel; }
 
     public void setEduLevel(String eduLevel) { this.eduLevel = eduLevel; }
+
+    public String getCorrectAns() { return correctAns; }
+
+    public void setCorrectAns(String correctAns) { this.correctAns = correctAns; }
+
+    public String getAnswered() { return answered; }
+
+    public void setAnswered(String answered) { this.answered = answered; }
 }

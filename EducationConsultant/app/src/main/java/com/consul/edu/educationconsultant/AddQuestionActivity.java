@@ -128,6 +128,8 @@ public class AddQuestionActivity extends AppCompatActivity {
             newQuestion.setAnswer4(ansFourStr);
             newQuestion.setEduLevel(eduLevelStr);
             newQuestion.setCategory(categoryStr);
+            newQuestion.setCorrectAns(ansOneStr);
+            newQuestion.setAnswered("");
 
             /*
             * TODO

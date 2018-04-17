@@ -69,6 +69,9 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.MyView
                 intent.putExtra("answer3", questionList.get(position).getAnswer3());
                 intent.putExtra("answer4", questionList.get(position).getAnswer4());
                 intent.putExtra("eduLevel", questionList.get(position).getEduLevel());
+                intent.putExtra("correctAns", questionList.get(position).getCorrectAns());
+                intent.putExtra("answered", questionList.get(position).getAnswered());
+
 
                 mContext.startActivity(intent);
             }
