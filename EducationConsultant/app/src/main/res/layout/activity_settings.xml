@@ -41,6 +41,22 @@
         android:layout_height="1dp"
         android:background="@color/colorPrimaryDark"/>
 
+
+    <TextView android:id="@+id/category_filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/category_title"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onClickCategoryFilter"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryDark"/>
+
     <!-- TODO: Add other filters -->
 
 </LinearLayout>

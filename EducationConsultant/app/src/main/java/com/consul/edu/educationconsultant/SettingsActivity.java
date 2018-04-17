@@ -30,4 +30,9 @@ public class SettingsActivity extends AppCompatActivity {
         Intent intent = new Intent(SettingsActivity.this, SettingsEducationLevelsActivity.class);
         startActivity(intent);
     }
+
+    public void onClickCategoryFilter(View view) {
+        Intent intent = new Intent(SettingsActivity.this, SettingsCategoryActivity.class);
+        startActivity(intent);
+    }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">EduConsult</string>
+    <string name="app_name">Education Consultant</string>
 
     <!-- Signup/Login -->
     <string name="first_name">First name</string>
@@ -44,7 +44,12 @@
     <string name="collage_title">Collage</string>
     <string name="masters_title">Master</string>
     <string name="doctors_title">Doctor</string>
-
+    <!-- Category-->
+    <string name="category_title">Categories</string>
+    <string name="mathematics_title">Mathematics</string>
+    <string name="sport_title">Sport</string>
+    <string name="english_title">English</string>
+    <string name="other_title">Other</string>
 
     <string name="edit_profile">Edit Profile</string>
 

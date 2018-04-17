@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.consul.edu.educationconsultant.SettingsCategoryActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+           <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_category"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/AppTheme.PopupOverlay" />
+    </android.support.design.widget.AppBarLayout>
+
+    <Switch
+        android:id="@+id/mathematics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:key="doctors_key"
+        android:text="@string/mathematics_title"
+        android:textOn="@string/on"
+        android:textOff="@string/off"
+        android:textSize="18dp"
+        android:padding="12dp"
+        android:onClick="onClickSwitchCategory"/>
+    <Switch
+        android:id="@+id/sport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:key="doctors_key"
+        android:text="@string/sport_title"
+        android:textOn="@string/on"
+        android:textOff="@string/off"
+        android:textSize="18dp"
+        android:padding="12dp"
+        android:onClick="onClickSwitchCategory"/>
+    <Switch
+        android:id="@+id/english"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:key="doctors_key"
+        android:text="@string/english_title"
+        android:textOn="@string/on"
+        android:textOff="@string/off"
+        android:textSize="18dp"
+        android:padding="12dp"
+        android:onClick="onClickSwitchCategory"/>
+
+    <Switch
+        android:id="@+id/other"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:key="doctors_key"
+        android:text="@string/other_title"
+        android:textOn="@string/on"
+        android:textOff="@string/off"
+        android:textSize="18dp"
+        android:padding="12dp"
+        android:onClick="onClickSwitchCategory"/>
+
+</LinearLayout>
