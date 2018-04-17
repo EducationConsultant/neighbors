@@ -1,5 +1,6 @@
 package com.consul.edu.educationconsultant;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -86,8 +87,8 @@ public class AddQuestionActivity extends AppCompatActivity {
             String ansTwoStr = ansTwo.getText().toString().trim();
             String ansThreeStr = ansThree.getText().toString().trim();
             String ansFourStr = ansFour.getText().toString().trim();
-            String eduLevelStr = ""; //eduLevel.getText().toString().trim();
-            String categoryStr = "";//category.getText().toString().trim();
+            String eduLevelStr = "foo"; //eduLevel.getText().toString().trim();
+            String categoryStr = "bar";//category.getText().toString().trim();
 
             /*
              * check if all fields are field out
@@ -132,6 +133,10 @@ public class AddQuestionActivity extends AppCompatActivity {
             * TODO
             * Here should go sending the data to server and storing it
             */
+
+            // go back to home
+            Intent questionList = new Intent(AddQuestionActivity.this, NavigationDrawerActivity.class);
+            startActivity(questionList);
         }
     }
 

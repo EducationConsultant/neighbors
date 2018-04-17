@@ -13,17 +13,15 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
-
+import android.widget.RadioButton;
+import android.widget.Toast;
 
 /**
  * Created by Svetlana on 4/14/2018.
  */
 
-// TODO 101: NAVIGATIONBAR
-// TODO 102: TOOLBAR
-
-// in AndroidManifest.xml ---- noActionBar
 
 public class DetailsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -66,21 +64,32 @@ public class DetailsActivity extends AppCompatActivity
             String answer2 = getIntent().getStringExtra("answer2");
             String answer3 = getIntent().getStringExtra("answer3");
             String answer4 = getIntent().getStringExtra("answer4");
+            String eduLevel = getIntent().getStringExtra("eduLevel");
 
-            setQuestion(title, description, username, category, answer1, answer2, answer3, answer4);
+            setQuestion(title, description, username, category, answer1, answer2, answer3, answer4, eduLevel);
         }
     }
 
-    private void setQuestion(String title, String description, String username, String category, String answer1, String answer2, String answer3, String answer4) {
+    private void setQuestion(String title, String description, String username, String category, String answer1, String answer2, String answer3, String answer4, String eduLevel) {
         TextView titleView = findViewById(R.id.title);
         TextView descriptionView  = findViewById(R.id.description);
         TextView usernameView = findViewById(R.id.username);
         TextView categoryView = findViewById(R.id.category);
+        RadioButton rb1 = findViewById(R.id.answer1);
+        RadioButton rb2 = findViewById(R.id.answer2);
+        RadioButton rb3 = findViewById(R.id.answer3);
+        RadioButton rb4 = findViewById(R.id.answer4);
+        TextView eduLevelView = findViewById(R.id.eduLevel);
 
         titleView.setText(title);
         descriptionView.setText(description);
         usernameView.setText(username);
         categoryView.setText(category);
+        rb1.setText(answer1);
+        rb2.setText(answer2);
+        rb3.setText(answer3);
+        rb4.setText(answer4);
+        eduLevelView.setText(eduLevel);
     }
 
 
@@ -130,7 +139,7 @@ public class DetailsActivity extends AppCompatActivity
         Intent intent = null;
 
         if (id == R.id.nav_home) {
-            intent = new Intent(DetailsActivity.this, DetailsActivity.class);
+            intent = new Intent(DetailsActivity.this, NavigationDrawerActivity.class);
         } else if (id == R.id.nav_archive) {
             // Danilo, put your acitivity here
             intent = new Intent(DetailsActivity.this, DetailsActivity.class);
@@ -158,5 +167,9 @@ public class DetailsActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.details_drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void submit_answer(View view) {
+        Toast.makeText(this, "You resolved question :) ", Toast.LENGTH_SHORT).show();
     }
 }

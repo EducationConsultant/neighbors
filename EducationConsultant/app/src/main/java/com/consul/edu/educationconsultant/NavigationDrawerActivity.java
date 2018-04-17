@@ -169,18 +169,18 @@ public class NavigationDrawerActivity extends AppCompatActivity
         return true;
     }
     private void prepareQuestionData() {
-        Question question = new Question("Question 1", "User 1", "Description description description", "math", "a1", "a2" ,"a3", "a4", "Mathematics");
+        Question question = new Question("Question 1", "User 1", "This is my first question", "Mathematics", "a1", "a2" ,"a3", "a4", "Elementary School");
         questionList.add(question);
 
-        question = new Question("Question 2", "User 2", "Description description description", "english", "a1", "a2" ,"a3", "a4", "Sport");
+        question = new Question("Question 2", "User 2", "This is my second question", "Sport", "a1", "a2" ,"a3", "a4", "Middle School");
         questionList.add(question);
 
-        question = new Question("Question 3", "User 3", "Description description description", "programming",  "a1", "a2" ,"a3", "a4", "English");
+        question = new Question("Question 3", "User 3", "This is my third question", "Mathematics",  "a1", "a2" ,"a3", "a4", "High School");
         questionList.add(question);
 
-        question = new Question("Question 4", "User 4", "Description description description", "math",  "a1", "a2" ,"a3", "a4", "Biology");
+        question = new Question("Question 4", "User 4", "This is my fourth question", "English",  "a1", "a2" ,"a3", "a4", "Master's");
 
-        question = new Question("Question 5", "User 5", "Description description description", "chemistry",  "a1", "a2" ,"a3", "a4", "Mathematics");
+        question = new Question("Question 5", "User 5", "This is my fifth question", "Other",  "a1", "a2" ,"a3", "a4", "Doctor's");
         questionList.add(question);
 
         mAdapter.notifyDataSetChanged();
