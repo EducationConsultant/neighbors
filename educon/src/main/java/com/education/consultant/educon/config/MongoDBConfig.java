@@ -14,7 +14,7 @@ public class MongoDBConfig {
     @Bean
     CommandLineRunner commandLineRunner(QuestionRepository questionRepository) {
         return args -> questionRepository.save(
-                new Question(1, "naslov", "cicko",
+                new Question(1, "naslov", "user",
                         "opis","kat", "ans1", "ans2", "ans3",
                         "ans4", "nivo", "tacan", "odg"));
     }
