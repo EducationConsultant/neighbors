@@ -19,11 +19,27 @@ public class QuestionController {
     private QuestionService questionService;
 
 
-    // http://localhost:8095/educon/question
+    // find all
+    // localhost:8095/educon/question
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Question>> getQuestions() {
         List<Question> questions = questionService.find();
         return new ResponseEntity<List<Question>>(questions, HttpStatus.OK);
+    }
+
+    // find by title
+    // localhost:8095/educon/question/title?title=naslov
+    @RequestMapping(value = "/title", method = RequestMethod.GET)
+    public ResponseEntity<Question> findByTitle(@RequestParam(value = "title") String title) {
+        Question questions = questionService.findByTitle(title);
+        return new ResponseEntity<Question>(questions, HttpStatus.OK);
+    }
+
+    // insert
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Question> insertQuestion(@RequestBody Question question) {
+        Question savedQuestion = questionService.save(question);
+        return new ResponseEntity<Question>(savedQuestion, HttpStatus.CREATED);
     }
 
 

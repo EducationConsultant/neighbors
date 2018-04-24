@@ -19,4 +19,16 @@ public class QuestionServiceImpl implements QuestionService {
     public List<Question> find() {
         return repository.findAll();
     }
+
+    @Override
+    public Question findByTitle(String title) {
+        return repository.findByTitle(title);
+    }
+
+    @Override
+    public Question save(Question question) {
+        return repository.save(question);
+    }
+
+
 }
