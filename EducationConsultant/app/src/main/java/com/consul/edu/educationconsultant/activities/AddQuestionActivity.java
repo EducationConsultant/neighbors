@@ -10,11 +10,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.consul.edu.educationconsultant.R;
+import com.consul.edu.educationconsultant.database.DatabaseHelper;
 import com.consul.edu.educationconsultant.model.Question;
 
 public class AddQuestionActivity extends AppCompatActivity {
+
+    DatabaseHelper questionDB;
 
     private Button btnAdd;
     private EditText question;
@@ -60,6 +64,10 @@ public class AddQuestionActivity extends AppCompatActivity {
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         category.setAdapter(categoryAdapter);
+
+        questionDB = new DatabaseHelper(this);
+
+
     }
 
     /**
@@ -138,6 +146,17 @@ public class AddQuestionActivity extends AppCompatActivity {
             * TODO
             * Here should go sending the data to server and storing it
             */
+
+
+            // insert into database
+            boolean insertData = questionDB.addData("Title", "user", questionStr, categoryStr,ansOneStr,ansTwoStr,ansThreeStr,ansFourStr,eduLevelStr,ansOneStr,"");
+
+            if (insertData == true) {
+                Toast.makeText(AddQuestionActivity.this, "Data Successfully Inserted!", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(AddQuestionActivity.this, "Something went wrong :(.", Toast.LENGTH_LONG).show();
+            }
+
 
             // go back to home
             Intent questionList = new Intent(AddQuestionActivity.this, NavigationDrawerActivity.class);
