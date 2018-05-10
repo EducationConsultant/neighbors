@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.consul.edu.educationconsultant.LoginActivity;
 import com.consul.edu.educationconsultant.R;
 
 /**

@@ -1,4 +1,4 @@
-package com.consul.edu.educationconsultant.activities;
+package com.consul.edu.educationconsultant;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +11,9 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.consul.edu.educationconsultant.R;
+import com.consul.edu.educationconsultant.activities.NavigationDrawerActivity;
+import com.consul.edu.educationconsultant.activities.RegistrationActivity;
+import com.consul.edu.educationconsultant.activities.ResetPasswordActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity{

@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.consul.edu.educationconsultant.LoginActivity;
 import com.consul.edu.educationconsultant.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -105,7 +106,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "Authentication failed. " + task.getException(),
                                         Toast.LENGTH_LONG).show();
                             } else {
-                                Intent i = new Intent(RegistrationActivity.this, MainActivity.class);
+                                Intent i = new Intent(RegistrationActivity.this, NavigationDrawerActivity.class);
                                 startActivity(i);
                                 finish();
                             }
