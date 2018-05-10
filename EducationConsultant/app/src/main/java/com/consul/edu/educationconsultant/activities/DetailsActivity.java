@@ -1,8 +1,7 @@
-package com.consul.edu.educationconsultant;
+package com.consul.edu.educationconsultant.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,6 +16,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.RadioButton;
 import android.widget.Toast;
+
+import com.consul.edu.educationconsultant.R;
 
 /**
  * Created by Svetlana on 4/14/2018.

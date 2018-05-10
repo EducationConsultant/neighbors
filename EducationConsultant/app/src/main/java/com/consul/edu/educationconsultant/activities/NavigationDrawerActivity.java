@@ -1,11 +1,8 @@
-package com.consul.edu.educationconsultant;
+package com.consul.edu.educationconsultant.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,8 +14,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import com.consul.edu.educationconsultant.adapters.QuestionAdapter;
+import com.consul.edu.educationconsultant.R;
+import com.consul.edu.educationconsultant.listeners.RecyclerTouchListener;
+import com.consul.edu.educationconsultant.model.Question;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;

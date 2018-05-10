@@ -1,4 +1,4 @@
-package com.consul.edu.educationconsultant;
+package com.consul.edu.educationconsultant.model;
 
 /**
  * Created by Svetlana on 4/14/2018.

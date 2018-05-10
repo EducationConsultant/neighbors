@@ -1,60 +1,82 @@
-package com.consul.edu.educationconsultant;
+package com.consul.edu.educationconsultant.adapters;
 
-import android.content.Intent;
+import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.content.Context;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
+import android.widget.TextView;
+
+import com.consul.edu.educationconsultant.R;
+import com.consul.edu.educationconsultant.model.Question;
 
 import java.util.List;
 
 /**
- * Created by Svetlana on 4/14/2018.
+ * Created by Danilo
+ * Adapter for Archive view of questions
  */
 
-public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.MyViewHolder> {
+public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.MyViewHolder> {
 
     private List<Question> questionList;
     private Context mContext;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, username;
+        public TextView title, answered, correctAns;
         RelativeLayout parentLayout;
 
         public MyViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.title);
-            username = (TextView) view.findViewById(R.id.username);
-            parentLayout = view.findViewById(R.id.parent_layout);
+            answered = (TextView) view.findViewById(R.id.answered);
+            correctAns = (TextView) view.findViewById(R.id.correct_ans);
+            parentLayout = view.findViewById(R.id.archive_layout);
+
+            /*String ansStr = answered.getText().toString();//.trim();
+            String corrStr = correctAns.getText().toString();//.trim();
+
+            Log.d("CORR", ansStr + " ans");
+            Log.d("CORR", corrStr + " corr");
+            // if question answered correctly make it green, else red
+            if (ansStr.equals(corrStr)){
+                view.setBackgroundColor(Color.parseColor("#64bc72")); // green
+            } else {
+                view.setBackgroundColor(Color.parseColor("#ce6767")); // red
+            }*/
         }
     }
 
 
-    public QuestionAdapter(Context context, List<Question> questionList) {
+    public ArchiveAdapter(Context context, List<Question> questionList) {
         this.questionList = questionList;
         mContext = context;
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ArchiveAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.question_list, parent, false);
+                .inflate(R.layout.archive_row, parent, false);
 
-        return new MyViewHolder(itemView);
+        return new ArchiveAdapter.MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(ArchiveAdapter.MyViewHolder holder, final int position) {
         Question question = questionList.get(position);
         holder.title.setText(question.getTitle());
-        holder.username.setText(question.getUsername());
+        holder.answered.setText(question.getAnswered());
+        holder.correctAns.setText(question.getCorrectAns());
 
+        if (question.getAnswered().equals(question.getCorrectAns())){
+            holder.answered.setBackgroundColor(Color.parseColor("#64bc72")); // green
+        } else {
+            holder.answered.setBackgroundColor(Color.parseColor("#ce6767")); // red
+        }
 
-        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
+        /*holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(mContext, "Clicked", Toast.LENGTH_SHORT).show();
@@ -72,14 +94,15 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.MyView
                 intent.putExtra("correctAns", questionList.get(position).getCorrectAns());
                 intent.putExtra("answered", questionList.get(position).getAnswered());
 
-
                 mContext.startActivity(intent);
             }
-        });
+        });*/
     }
 
     @Override
     public int getItemCount() {
         return questionList.size();
     }
+
 }
+

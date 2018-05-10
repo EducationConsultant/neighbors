@@ -1,7 +1,9 @@
-package com.consul.edu.educationconsultant;
+package com.consul.edu.educationconsultant.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+
+import com.consul.edu.educationconsultant.R;
 
 public class MainActivity extends Activity {
     @Override

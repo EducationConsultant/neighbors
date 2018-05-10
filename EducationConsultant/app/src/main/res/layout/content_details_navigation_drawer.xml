@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:weightSum="100"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.consul.edu.educationconsultant.DetailsActivity"
+    tools:context="com.consul.edu.educationconsultant.activities.DetailsActivity"
     tools:showIn="@layout/details_navigation_drawer">
 
     <ScrollView

@@ -26,31 +26,31 @@
         android:roundIcon="@mipmap/ic_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegistrationActivity" />
-        <activity android:name=".ResetPasswordActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".activities.RegistrationActivity" />
+        <activity android:name=".activities.ResetPasswordActivity" />
+        <activity android:name=".activities.MainActivity" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".activities.ProfileActivity"
             android:label="@string/edit_profile" />
         <activity
-            android:name=".NavigationDrawerActivity"
+            android:name=".activities.NavigationDrawerActivity"
             android:label="@string/title_activity_navigation_drawer" />
-        <activity android:name=".DetailsActivity" />
-        <activity android:name=".AddQuestionActivity" />
+        <activity android:name=".activities.DetailsActivity" />
+        <activity android:name=".activities.AddQuestionActivity" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".activities.SettingsActivity"
             android:label="@string/action_settings"
-            android:parentActivityName=".NavigationDrawerActivity">
+            android:parentActivityName=".activities.NavigationDrawerActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".NavigationDrawerActivity" />
+                android:value=".activities.NavigationDrawerActivity" />
         </activity>
 
         <!--
@@ -58,35 +58,35 @@
                         For older versions of Android - need to include a <meta-data> element that includes the name of the parent activity
         -->
         <activity
-            android:name=".SettingsEducationLevelsActivity"
+            android:name=".activities.SettingsEducationLevelsActivity"
             android:label="@string/education_levels_title"
-            android:parentActivityName=".SettingsActivity">
+            android:parentActivityName=".activities.SettingsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".SettingsActivity" />
+                android:value=".activities.SettingsActivity" />
         </activity>
         <activity
-            android:name=".SettingsCategoryActivity"
+            android:name=".activities.SettingsCategoryActivity"
             android:label="Category filter"
-            android:parentActivityName=".SettingsActivity">
+            android:parentActivityName=".activities.SettingsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".SettingsActivity" />
+                android:value=".activities.SettingsActivity" />
         </activity>
         <activity
-            android:name=".ArchiveActivity"
+            android:name=".activities.ArchiveActivity"
             android:label="Category filter"
-            android:parentActivityName=".NavigationDrawerActivity">
+            android:parentActivityName=".activities.NavigationDrawerActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".NavigationDrawerActivity" />
+                android:value=".activities.NavigationDrawerActivity" />
         </activity>
-        <activity android:name=".SettingsLocationActivity"
+        <activity android:name=".activities.SettingsLocationActivity"
             android:label="location_label"
-            android:parentActivityName=".SettingsActivity">
+            android:parentActivityName=".activities.SettingsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".SettingsActivity" />
+                android:value=".activities.SettingsActivity" />
         </activity>
     </application>
 

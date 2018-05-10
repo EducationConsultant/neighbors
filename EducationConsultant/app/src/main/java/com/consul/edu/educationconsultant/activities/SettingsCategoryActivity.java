@@ -1,4 +1,4 @@
-package com.consul.edu.educationconsultant;
+package com.consul.edu.educationconsultant.activities;
 
 import android.graphics.Color;
 import android.support.v7.app.ActionBar;
@@ -6,13 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.consul.edu.educationconsultant.R;
 
 public class SettingsCategoryActivity extends AppCompatActivity {
 
