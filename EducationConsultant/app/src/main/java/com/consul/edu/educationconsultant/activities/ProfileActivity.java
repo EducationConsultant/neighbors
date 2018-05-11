@@ -1,6 +1,10 @@
 package com.consul.edu.educationconsultant.activities;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -8,8 +12,10 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.consul.edu.educationconsultant.R;
+import com.consul.edu.educationconsultant.databaseHelpers.UserDatabaseHelper;
 
 /**
  * The AppCompatActivity class is a subclass of Activity.
@@ -17,6 +23,9 @@ import com.consul.edu.educationconsultant.R;
  * */
 public class ProfileActivity extends AppCompatActivity {
     FloatingActionButton fbtnEditProfile;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

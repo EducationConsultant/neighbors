@@ -79,4 +79,7 @@
         <item>Other</item>
     </string-array>
 
+    <!-- Database -->
+    <string name="db_unavailable">Database unavailable</string>
+
 </resources>
