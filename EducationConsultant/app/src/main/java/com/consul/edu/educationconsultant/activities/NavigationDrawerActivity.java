@@ -2,6 +2,7 @@ package com.consul.edu.educationconsultant.activities;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -36,6 +37,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private DatabaseHelper questionDB;
+    private SQLiteDatabase db;
+    private Cursor data;
 
     private Button btnLogout;
     private FirebaseAuth auth;
@@ -99,7 +102,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
             }
         }));
-
 
     }
 
@@ -178,7 +180,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         return true;
     }
     private void prepareQuestionData() {
-        Cursor data = questionDB.showData();
+        data = questionDB.showData(db);
         if(data.getCount() == 0) {
             display("Error", "No data found");
             return;
@@ -198,5 +200,18 @@ public class NavigationDrawerActivity extends AppCompatActivity
         builder.setTitle(title);
         builder.setMessage(message);
         builder.show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        questionDB = new DatabaseHelper(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        data.close();
+        db.close();
     }
 }

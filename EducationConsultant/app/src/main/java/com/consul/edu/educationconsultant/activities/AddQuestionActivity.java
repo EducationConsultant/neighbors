@@ -70,12 +70,12 @@ public class AddQuestionActivity extends AppCompatActivity {
         // Apply the adapter to the spinner
         category.setAdapter(categoryAdapter);
 
-        questionDB = new DatabaseHelper(this);
 
 
     }
 
-    /**
+
+/**
      * TODO
      * Spinner choice made listener
      */
@@ -194,6 +194,7 @@ public class AddQuestionActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
+        questionDB = new DatabaseHelper(this);
         progressBar.setVisibility(View.GONE);
     }
 
