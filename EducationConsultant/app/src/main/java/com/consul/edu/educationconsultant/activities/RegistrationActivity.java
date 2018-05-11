@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.consul.edu.educationconsultant.LoginActivity;
 import com.consul.edu.educationconsultant.R;
 import com.consul.edu.educationconsultant.databaseHelpers.UserDatabaseHelper;
+import com.consul.edu.educationconsultant.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -39,6 +40,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private SQLiteOpenHelper userDatabaseHelper;
     private SQLiteDatabase db;
+    private Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,18 @@ public class RegistrationActivity extends AppCompatActivity {
 
         // Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
+
+        // Get a reference to the SQLite helper
+        userDatabaseHelper = new UserDatabaseHelper(this);
+
+        // If Android can’t get a reference to the database and a SQLiteException is thrown, we’ll use a Toast to tell the user that the database is unavailable
+        try {
+            // Get a reference to the database
+            db = userDatabaseHelper.getWritableDatabase();
+        }catch(SQLiteException e){
+            Toast toast = Toast.makeText(this,R.string.db_unavailable,Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
     /**
@@ -65,36 +79,62 @@ public class RegistrationActivity extends AppCompatActivity {
 
         btnSignup = (Button) findViewById(R.id.btn_signup);
         if(btnSignup != null) {
-            String firstname = inputFirstname.getText().toString().trim();
-            String lastname = inputLastname.getText().toString().trim();
-            String email = inputEmail.getText().toString().trim();
-            String password = inputPassword.getText().toString().trim();
+            String firstNameStr = inputFirstname.getText().toString().trim();
+            String lastNameStr = inputLastname.getText().toString().trim();
+            String emailStr = inputEmail.getText().toString().trim();
+            String passwordStr = inputPassword.getText().toString().trim();
 
             // Check if the first name field is empty
-            if (TextUtils.isEmpty(firstname)) {
+            if (TextUtils.isEmpty(firstNameStr)) {
                 Toast.makeText(getApplicationContext(), R.string.msg_enter_firstname, Toast.LENGTH_LONG).show();
                 return;
             }
 
             // Check if the last name field is empty
-            if (TextUtils.isEmpty(lastname)) {
+            if (TextUtils.isEmpty(lastNameStr)) {
                 Toast.makeText(getApplicationContext(), R.string.msg_enter_lastname, Toast.LENGTH_LONG).show();
                 return;
             }
 
             // Check if the email field is empty
-            if (TextUtils.isEmpty(email)) {
+            if (TextUtils.isEmpty(emailStr)) {
                 Toast.makeText(getApplicationContext(), R.string.msg_enter_email, Toast.LENGTH_LONG).show();
                 return;
             }
 
+            // Check if the email is unique
+            /**
+             * Cursor lets you read from and write to the database.
+             *
+             * First parameter: Name of the table.
+             * Second parameter: We want to return the values of this columns.
+             * Third parameter: Specifies the column in the condition. We want the value in the EMAIL column to be equal to some value, and the ? symbol is a placeholder for this value.
+             * Fourth parameter: An array of Strings that specifies what the value of the condition should be.
+             *
+             */
+            cursor = db.query("USER",
+                    new String[]{"EMAIL"},
+                    "EMAIL = ?",
+                    new String[] {emailStr},
+                    null,null,null);
+
+            /**
+             * To go to the first record in a cursor.
+             * This method returns a value of true if it finds a record, and false if the cursor hasn’t returned any records.
+             * */
+            if(cursor.moveToFirst()){
+                Toast toast = Toast.makeText(this,R.string.msg_email_unique,Toast.LENGTH_SHORT);
+                toast.show();
+                return;
+            }
+
             // Check if the password field is empty
-            if (TextUtils.isEmpty(password)) {
+            if (TextUtils.isEmpty(passwordStr)) {
                 Toast.makeText(getApplicationContext(), R.string.msg_enter_password, Toast.LENGTH_LONG).show();
                 return;
             }
 
-            if (password.length() < 6) {
+            if (passwordStr.length() < 6) {
                 Toast.makeText(getApplicationContext(), R.string.msg_password_length, Toast.LENGTH_LONG).show();
                 return;
             }
@@ -102,23 +142,11 @@ public class RegistrationActivity extends AppCompatActivity {
             frameProgressBar.setVisibility(View.VISIBLE);
 
             // create user in database
-            // Get a reference to the SQLite helper
-            userDatabaseHelper = new UserDatabaseHelper(this);
+            insertUser(db,firstNameStr,lastNameStr,emailStr,passwordStr);
 
-            // If Android can’t get a reference to the database and a SQLiteException is thrown, we’ll use a Toast to tell the user that the database is unavailable
-            try {
-                // Get a reference to the database
-                db = userDatabaseHelper.getWritableDatabase();
-                insertUser(db,firstname,lastname,email,password);
-                Toast toast = Toast.makeText(this,"User created",Toast.LENGTH_SHORT);
-                toast.show();
-            }catch(SQLiteException e){
-                Toast toast = Toast.makeText(this,R.string.db_unavailable,Toast.LENGTH_SHORT);
-                toast.show();
-            }
-
+            // Firebase auth
             // create user
-            auth.createUserWithEmailAndPassword(email, password)
+            auth.createUserWithEmailAndPassword(emailStr, passwordStr)
                     .addOnCompleteListener(RegistrationActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -128,7 +156,7 @@ public class RegistrationActivity extends AppCompatActivity {
                             // the auth state listener will be notified and logic to handle the
                             // signed in user can be handled in the listener.
                             if (!task.isSuccessful()) {
-                                Toast.makeText(getApplicationContext(), "Authentication failed. " + task.getException(),
+                                Toast.makeText(getApplicationContext(), "Authentication failed." + task.getException(),
                                         Toast.LENGTH_LONG).show();
                             } else {
                                 Intent i = new Intent(RegistrationActivity.this, NavigationDrawerActivity.class);
@@ -169,7 +197,7 @@ public class RegistrationActivity extends AppCompatActivity {
         db.close();
     }
 
-    private static void insertUser(SQLiteDatabase db, String firstName, String lastName, String email, String password){
+    private void insertUser(SQLiteDatabase db, String firstName, String lastName, String email, String password){
         // ContentValues object describes a set of data.
         // You usually create a new ContentValues object for each row of data you want to create.
         ContentValues userValues = new ContentValues();

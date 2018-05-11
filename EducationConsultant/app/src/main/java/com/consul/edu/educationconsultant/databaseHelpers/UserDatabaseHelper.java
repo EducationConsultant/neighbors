@@ -25,10 +25,9 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
                     + "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "FIRST_NAME TEXT, "
                     + "LAST_NAME TEXT, "
-                    + "EMAIL TEXT, "
+                    + "EMAIL TEXT UNIQUE, "
                     + "PASSWORD TEXT);");
-        //insertUser(db,"Petar","Miric","pera@gmail.com","pera123");
-      // db.execSQL("DROP TABLE USER;");
+       // db.execSQL("DROP TABLE USER;");
     }
 
     /**
@@ -38,7 +37,9 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
      * @param newVersion The new version described in the SQLite helper code
      * */
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
+
+
 }

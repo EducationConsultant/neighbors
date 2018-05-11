@@ -22,6 +22,7 @@
     <string name="msg_enter_lastname">Enter last name.</string>
     <string name="msg_enter_email">Enter email address.</string>
     <string name="msg_invalid_email">Invalid email address.</string>
+    <string name="msg_email_unique">Email address already exists.</string>
     <string name="msg_enter_password">Enter password.</string>
     <string name="msg_password_length">Password too short, enter minimum 6 characters.</string>
     <string name="msg_authentication_failed">Authentication failed.</string>
@@ -81,5 +82,6 @@
 
     <!-- Database -->
     <string name="db_unavailable">Database unavailable</string>
+
 
 </resources>
