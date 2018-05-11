@@ -1,15 +1,10 @@
 package com.consul.edu.educationconsultant;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,7 +15,9 @@ import android.widget.Toast;
 import com.consul.edu.educationconsultant.activities.NavigationDrawerActivity;
 import com.consul.edu.educationconsultant.activities.RegistrationActivity;
 import com.consul.edu.educationconsultant.activities.ResetPasswordActivity;
-import com.consul.edu.educationconsultant.databaseHelpers.UserDatabaseHelper;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity{
@@ -43,12 +40,12 @@ public class LoginActivity extends AppCompatActivity{
 
         // Check if a user is logged in
         // TODO: Uncomment this part when development is finished
-        /*if (auth.getCurrentUser() != null) {
+        if (auth.getCurrentUser() != null) {
             // User is logged in
-            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+            Intent i = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
             startActivity(i);
             finish();
-        }*/
+        }
 
         setContentView(R.layout.activity_login);
 
@@ -93,7 +90,7 @@ public class LoginActivity extends AppCompatActivity{
 
             // Authenticate user
             // TODO: Uncomment this part when development is finished
-            /*auth.signInWithEmailAndPassword(email, password)
+            auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -107,12 +104,12 @@ public class LoginActivity extends AppCompatActivity{
 
                                     } else {
                                         // Start the Main activity
-                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        Intent intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
                                         startActivity(intent);
                                         finish();
                                     }
                                 }
-                            });*/
+                            });
         }
     }
 

@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,7 +20,6 @@ import android.widget.Toast;
 import com.consul.edu.educationconsultant.LoginActivity;
 import com.consul.edu.educationconsultant.R;
 import com.consul.edu.educationconsultant.databaseHelpers.UserDatabaseHelper;
-import com.consul.edu.educationconsultant.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -30,8 +28,8 @@ import com.google.firebase.auth.FirebaseAuth;
 public class RegistrationActivity extends AppCompatActivity {
     private Button btnSignup;
     private TextView linkLogin;
-    private EditText inputFirstname;
-    private EditText inputLastname;
+    private EditText inputFirstName;
+    private EditText inputLastName;
     private EditText inputEmail;
     private EditText inputPassword;
 
@@ -72,15 +70,15 @@ public class RegistrationActivity extends AppCompatActivity {
      *
      * */
     public void onClickSignUpBtn(View view){
-        inputFirstname = (EditText) findViewById(R.id.firstname);
-        inputLastname = (EditText) findViewById(R.id.lastname);
+        inputFirstName = (EditText) findViewById(R.id.firstname);
+        inputLastName = (EditText) findViewById(R.id.lastname);
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
 
         btnSignup = (Button) findViewById(R.id.btn_signup);
         if(btnSignup != null) {
-            String firstNameStr = inputFirstname.getText().toString().trim();
-            String lastNameStr = inputLastname.getText().toString().trim();
+            String firstNameStr = inputFirstName.getText().toString().trim();
+            String lastNameStr = inputLastName.getText().toString().trim();
             String emailStr = inputEmail.getText().toString().trim();
             String passwordStr = inputPassword.getText().toString().trim();
 
