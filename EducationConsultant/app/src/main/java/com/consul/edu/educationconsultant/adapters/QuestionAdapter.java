@@ -26,12 +26,12 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.MyView
     private Context mContext;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, username;
+        public TextView description, username;
         RelativeLayout parentLayout;
 
         public MyViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.title);
+            description = (TextView) view.findViewById(R.id.description);
             username = (TextView) view.findViewById(R.id.username);
             parentLayout = view.findViewById(R.id.parent_layout);
         }
@@ -54,7 +54,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.MyView
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         Question question = questionList.get(position);
-        holder.title.setText(question.getTitle());
+        holder.description.setText(question.getDescription());
         holder.username.setText(question.getUsername());
 
 

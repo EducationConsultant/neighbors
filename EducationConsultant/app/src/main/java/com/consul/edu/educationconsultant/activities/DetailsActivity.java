@@ -48,7 +48,7 @@ public class DetailsActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_details);
         navigationView.setNavigationItemSelectedListener(this);
-        
+
     }
 
     private void getIncomingIntent() {
