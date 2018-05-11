@@ -3,7 +3,9 @@ package com.consul.edu.educationconsultant.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import java.sql.SQLInput;
 
@@ -46,8 +48,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         onCreate(db);
     }
 
-    public boolean addData(String title, String username, String description, String category, String answer1, String answer2, String answer3, String answer4, String eduLevel, String correctAns, String answered) {
-        SQLiteDatabase db = this.getWritableDatabase();
+    public boolean addData(SQLiteDatabase db, String title, String username, String description, String category, String answer1, String answer2, String answer3, String answer4, String eduLevel, String correctAns, String answered) {
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL2, title);
         contentValues.put(COL3, username);

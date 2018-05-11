@@ -1,6 +1,9 @@
 package com.consul.edu.educationconsultant.activities;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,7 +21,9 @@ import com.consul.edu.educationconsultant.model.Question;
 
 public class AddQuestionActivity extends AppCompatActivity {
 
-    DatabaseHelper questionDB;
+    private DatabaseHelper questionDB;
+    private SQLiteDatabase db;
+    private Cursor cursor;
 
     private Button btnAdd;
     private EditText question;
@@ -149,13 +154,35 @@ public class AddQuestionActivity extends AppCompatActivity {
 
 
             // insert into database
-            boolean insertData = questionDB.addData("Title", "user", questionStr, categoryStr,ansOneStr,ansTwoStr,ansThreeStr,ansFourStr,eduLevelStr,ansOneStr,"");
+            try {
+                db = questionDB.getWritableDatabase();
+                boolean insertData = questionDB.addData(db, "Title", "user", questionStr, categoryStr,ansOneStr,ansTwoStr,ansThreeStr,ansFourStr,eduLevelStr,ansOneStr,"");
 
-            if (insertData == true) {
-                Toast.makeText(AddQuestionActivity.this, "Data Successfully Inserted!", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(AddQuestionActivity.this, "Something went wrong :(.", Toast.LENGTH_LONG).show();
+//                if (insertData == true) {
+//                    Toast.makeText(AddQuestionActivity.this, "Data Successfully Inserted!", Toast.LENGTH_LONG).show();
+//                } else {
+//                    Toast.makeText(AddQuestionActivity.this, "Something went wrong :(.", Toast.LENGTH_LONG).show();
+//                }
             }
+            catch(SQLiteException e) {
+                Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT).show();
+            }
+
+            // check data with cursor -- for test
+            cursor = db.query("question_table",
+                    new String[]{"DESCRIPTION"},
+                    "DESCRIPTION = ?",
+                    new String[] {questionStr},
+                    null,null,null);
+
+            if(cursor.moveToFirst()){
+                do{
+                    String description = cursor.getString(cursor.getColumnIndex("DESCRIPTION"));
+                    Toast toast = Toast.makeText(this,description,Toast.LENGTH_SHORT);
+                    toast.show();
+                }while (cursor.moveToNext());
+            }
+
 
 
             // go back to home
@@ -168,5 +195,12 @@ public class AddQuestionActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        cursor.close();
+        db.close();
     }
 }
