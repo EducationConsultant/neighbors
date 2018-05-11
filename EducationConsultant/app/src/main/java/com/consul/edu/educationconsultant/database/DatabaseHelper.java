@@ -2,6 +2,7 @@ package com.consul.edu.educationconsultant.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -49,7 +50,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     public boolean addData(SQLiteDatabase db, String title, String username, String description, String category, String answer1, String answer2, String answer3, String answer4, String eduLevel, String correctAns, String answered) {
-
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL2, title);
         contentValues.put(COL3, username);
@@ -59,9 +59,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         contentValues.put(COL7, answer2);
         contentValues.put(COL8, answer3);
         contentValues.put(COL9, answer4);
-        contentValues.put(COL9, eduLevel);
-        contentValues.put(COL10, correctAns);
-        contentValues.put(COL11, answered);
+        contentValues.put(COL10, eduLevel);
+        contentValues.put(COL11, correctAns);
+        contentValues.put(COL12, answered);
 
         long result = db.insert(TABLE_NAME, null, contentValues);
 
@@ -72,6 +72,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         }
     }
 
+
+    public Cursor showData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        return data;
+    }
 
 
 }

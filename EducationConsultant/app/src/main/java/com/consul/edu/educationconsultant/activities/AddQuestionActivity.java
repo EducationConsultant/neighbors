@@ -163,7 +163,7 @@ public class AddQuestionActivity extends AppCompatActivity {
 //                } else {
 //                    Toast.makeText(AddQuestionActivity.this, "Something went wrong :(.", Toast.LENGTH_LONG).show();
 //                }
-            }
+        }
             catch(SQLiteException e) {
                 Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT).show();
             }

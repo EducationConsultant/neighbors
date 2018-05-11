@@ -1,8 +1,10 @@
 package com.consul.edu.educationconsultant.activities;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,6 +19,7 @@ import android.widget.Button;
 import com.consul.edu.educationconsultant.LoginActivity;
 import com.consul.edu.educationconsultant.adapters.QuestionAdapter;
 import com.consul.edu.educationconsultant.R;
+import com.consul.edu.educationconsultant.database.DatabaseHelper;
 import com.consul.edu.educationconsultant.listeners.RecyclerTouchListener;
 import com.consul.edu.educationconsultant.model.Question;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,6 +34,8 @@ import android.widget.Toast;
 
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private DatabaseHelper questionDB;
 
     private Button btnLogout;
     private FirebaseAuth auth;
@@ -72,6 +77,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+
+        questionDB = new DatabaseHelper(this);
         prepareQuestionData();
 
         // separator
@@ -92,6 +99,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
             }
         }));
+
+
     }
 
     @Override
@@ -142,7 +151,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             intent = new Intent(NavigationDrawerActivity.this,NavigationDrawerActivity.class);
         } else if (id == R.id.nav_archive) {
-            // Danilo, put your acitivity here
             intent = new Intent(NavigationDrawerActivity.this,ArchiveActivity.class);
         } else if (id == R.id.nav_profile) {
             intent = new Intent(NavigationDrawerActivity.this,ProfileActivity.class);
@@ -170,21 +178,25 @@ public class NavigationDrawerActivity extends AppCompatActivity
         return true;
     }
     private void prepareQuestionData() {
-        Question question = new Question("Question 1", "User 1", "This is my first question", "Mathematics", "a1", "a2" ,"a3", "a4", "Elementary School", "a1", "");
-        questionList.add(question);
-
-        question = new Question("Question 2", "User 2", "This is my second question", "Sport", "a1", "a2" ,"a3", "a4", "Middle School","a1", "");
-        questionList.add(question);
-
-        question = new Question("Question 3", "User 3", "This is my third question", "Mathematics",  "a1", "a2" ,"a3", "a4", "High School","a1", "");
-        questionList.add(question);
-
-        question = new Question("Question 4", "User 4", "This is my fourth question", "English",  "a1", "a2" ,"a3", "a4", "Master's","a1", "");
-        questionList.add(question);
-
-        question = new Question("Question 5", "User 5", "This is my fifth question", "Other",  "a1", "a2" ,"a3", "a4", "Doctor's","a1", "");
-        questionList.add(question);
-
+        Cursor data = questionDB.showData();
+        if(data.getCount() == 0) {
+            display("Error", "No data found");
+            return;
+        }
+        while(data.moveToNext()) {
+            Question question = new Question(data.getString(1),
+                    data.getString(2),data.getString(3),data.getString(4),data.getString(5),data.getString(6),data.getString(7),data.getString(8),data.getString(9),
+                    data.getString(10), data.getString(11));
+            questionList.add(question);
+        }
         mAdapter.notifyDataSetChanged();
+    }
+
+    public void display(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.show();
     }
 }
