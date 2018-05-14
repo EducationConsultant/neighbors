@@ -20,7 +20,7 @@ import android.widget.Button;
 import com.consul.edu.educationconsultant.LoginActivity;
 import com.consul.edu.educationconsultant.adapters.QuestionAdapter;
 import com.consul.edu.educationconsultant.R;
-import com.consul.edu.educationconsultant.database.DatabaseHelper;
+import com.consul.edu.educationconsultant.database.QuestionDatabaseHelper;
 import com.consul.edu.educationconsultant.listeners.RecyclerTouchListener;
 import com.consul.edu.educationconsultant.model.Question;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,7 +36,7 @@ import android.widget.Toast;
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private DatabaseHelper questionDB;
+    private QuestionDatabaseHelper questionDB;
     private SQLiteDatabase db;
     private Cursor data;
 
@@ -81,7 +81,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
-        questionDB = new DatabaseHelper(this);
+        questionDB = new QuestionDatabaseHelper(this);
         prepareQuestionData();
 
         // separator
@@ -205,7 +205,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        questionDB = new DatabaseHelper(this);
+        questionDB = new QuestionDatabaseHelper(this);
     }
 
     @Override

@@ -16,12 +16,12 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.consul.edu.educationconsultant.R;
-import com.consul.edu.educationconsultant.database.DatabaseHelper;
+import com.consul.edu.educationconsultant.database.QuestionDatabaseHelper;
 import com.consul.edu.educationconsultant.model.Question;
 
 public class AddQuestionActivity extends AppCompatActivity {
 
-    private DatabaseHelper questionDB;
+    private QuestionDatabaseHelper questionDB;
     private SQLiteDatabase db;
     private Cursor cursor;
 
@@ -194,7 +194,7 @@ public class AddQuestionActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        questionDB = new DatabaseHelper(this);
+        questionDB = new QuestionDatabaseHelper(this);
         progressBar.setVisibility(View.GONE);
     }
 

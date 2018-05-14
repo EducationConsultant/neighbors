@@ -14,7 +14,7 @@ import java.sql.SQLInput;
  * Created by Svetlana on 5/10/2018.
  */
 
-public class DatabaseHelper extends SQLiteOpenHelper{
+public class QuestionDatabaseHelper extends SQLiteOpenHelper{
 
     public static final String DATABASE_NAME="educon.db";
     public static final String TABLE_NAME="question_table";
@@ -32,7 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public static final String COL12 = "ANSWERED";
 
 
-    public DatabaseHelper(Context context) {
+    public QuestionDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
 
