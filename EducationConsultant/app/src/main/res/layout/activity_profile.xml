@@ -47,6 +47,13 @@
                 android:src="@mipmap/ic_user_profile"
                 android:paddingTop="50dp"/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/lbl_user_information"
+                android:layout_marginTop="20dp"
+                android:textSize="16dp"/>
+
             <EditText
                 android:id="@+id/firstname_edit"
                 android:layout_width="match_parent"
@@ -102,26 +109,29 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/colorPrimaryDark"/>
+                android:background="@color/colorPrimaryDark" />
 
-            <EditText
-                android:id="@+id/password_edit"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:ems="10"
-                android:background="@android:color/transparent"
-                android:drawablePadding="12dp"
-                android:padding="8dp"
-                android:hint="@string/password"
-                android:maxLines="1"
-                android:drawableLeft="@drawable/ic_lock"
-                android:layout_marginTop="4dp"/>
+                android:text="@string/lbl_reset_password"
+                android:layout_marginTop="20dp"
+                android:textSize="16dp"/>
 
-            <View
+            <Button
+                android:id="@+id/btn_reset_pass"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorPrimaryDark"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:padding="16dp"
+                android:background="@color/colorPrimary"
+                android:text="@string/btn_reset_password"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:textColor="#ffffff"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="onClickResetPassword"/>
 
         </LinearLayout>
     </ScrollView>
