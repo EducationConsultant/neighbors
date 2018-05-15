@@ -24,6 +24,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class RegistrationActivity extends AppCompatActivity {
     private Button btnSignup;
@@ -35,6 +37,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private FrameLayout frameProgressBar;
     private FirebaseAuth auth;
+    private FirebaseUser firebaseUser;
 
     private SQLiteOpenHelper userDatabaseHelper;
     private SQLiteDatabase db;
@@ -111,8 +114,8 @@ public class RegistrationActivity extends AppCompatActivity {
      * */
     public void onClickSignUpBtn(View view){
         if(btnSignup != null) {
-            String firstNameStr = inputFirstName.getText().toString().trim();
-            String lastNameStr = inputLastName.getText().toString().trim();
+            final String firstNameStr = inputFirstName.getText().toString().trim();
+            final String lastNameStr = inputLastName.getText().toString().trim();
             String emailStr = inputEmail.getText().toString().trim();
             String passwordStr = inputPassword.getText().toString().trim();
 
@@ -191,6 +194,12 @@ public class RegistrationActivity extends AppCompatActivity {
                                 Toast.makeText(RegistrationActivity.this, "Authentication failed." + task.getException(),
                                         Toast.LENGTH_LONG).show();
                             } else {
+                                firebaseUser = auth.getCurrentUser();
+                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(firstNameStr + " " + lastNameStr)
+                                        .build();
+                                firebaseUser.updateProfile(profileUpdates);
+
                                 Intent i = new Intent(RegistrationActivity.this, NavigationDrawerActivity.class);
                                 startActivity(i);
                                 finish();

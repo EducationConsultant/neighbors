@@ -93,9 +93,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
             }
         }));
-
-        //Get Firebase auth instance
-        auth = FirebaseAuth.getInstance();
     }
 
     @Override

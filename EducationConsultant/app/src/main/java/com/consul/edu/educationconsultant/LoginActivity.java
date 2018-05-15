@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity{
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
         btnLogin = (Button) findViewById(R.id.btn_login);
+        btnSignup = (Button) findViewById(R.id.btn_signup);
 
         // Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
@@ -131,7 +132,6 @@ public class LoginActivity extends AppCompatActivity{
      *
      * */
     public void onClickSignUp(View view){
-        btnSignup = (Button) findViewById(R.id.btn_signup);
         if (btnSignup != null) {
             // Start the Registration activity
             Intent i = new Intent(LoginActivity.this, RegistrationActivity.class);
