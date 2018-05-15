@@ -27,7 +27,7 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
                     + "LAST_NAME TEXT, "
                     + "EMAIL TEXT UNIQUE, "
                     + "PASSWORD TEXT);");
-       // db.execSQL("DROP TABLE USER;");
+       //db.execSQL("DROP TABLE USER;");
     }
 
     /**

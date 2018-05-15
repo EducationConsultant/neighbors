@@ -1,25 +1,30 @@
 package com.consul.edu.educationconsultant.activities;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.consul.edu.educationconsultant.R;
 import com.consul.edu.educationconsultant.databaseHelpers.UserDatabaseHelper;
 import com.consul.edu.educationconsultant.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 /**
  * The AppCompatActivity class is a subclass of Activity.
@@ -31,10 +36,8 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText inputEmail;
     private EditText inputPassword;
 
-    private FloatingActionButton fbtnEditProfile;
-
     private FirebaseAuth auth;
-    private User user;
+    private FirebaseUser firebaseUser;
 
     private SQLiteOpenHelper userDatabaseHelper;
     private SQLiteDatabase db;
@@ -62,6 +65,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
+        firebaseUser = auth.getCurrentUser();
 
         // Get a reference to the SQLite helper
         userDatabaseHelper = new UserDatabaseHelper(this);
@@ -84,22 +88,18 @@ public class ProfileActivity extends AppCompatActivity {
             cursor = db.query("USER",
                     new String[]{"FIRST_NAME","LAST_NAME","EMAIL","PASSWORD"},
                     "EMAIL = ?",
-                    new String[] {auth.getCurrentUser().getEmail()},
+                    new String[] {firebaseUser.getEmail()},
                     null,null,null);
-
+            
             /**
              * To go to the first record in a cursor.
              * This method returns a value of true if it finds a record, and false if the cursor hasn’t returned any records.
              * */
-            // TODO:Ne pronadje user-a!!!!!
             if(cursor.moveToFirst()){
-                user = new User();
-                user.setFirstName(cursor.getString(cursor.getColumnIndex("FIRST_NAME")));
-
-                inputFirstName.setText(user.getFirstName());
-
-                Toast toast = Toast.makeText(this,"FirstName: " + user.getFirstName(),Toast.LENGTH_SHORT);
-                toast.show();
+                inputFirstName.setText(cursor.getString(cursor.getColumnIndex("FIRST_NAME")));
+                inputLastName.setText(cursor.getString(cursor.getColumnIndex("LAST_NAME")));
+                inputEmail.setText(cursor.getString(cursor.getColumnIndex("EMAIL")));
+                inputPassword.setText(cursor.getString(cursor.getColumnIndex("PASSWORD")));
             }
         }catch(SQLiteException e){
             Toast toast = Toast.makeText(this,R.string.db_unavailable,Toast.LENGTH_SHORT);
@@ -128,7 +128,26 @@ public class ProfileActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_edit_profile:
-                // TODO: Implement Edit Profile
+                updateUser(db,firebaseUser.getEmail(),inputFirstName.getText().toString(),inputLastName.getText().toString(),inputEmail.getText().toString(),inputPassword.getText().toString());
+
+                // Update a user's basic profile information
+                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                        .setDisplayName(inputFirstName.getText().toString() + " " + inputLastName.getText().toString())
+                        .build();
+                firebaseUser.updateProfile(profileUpdates);
+                firebaseUser.updateEmail(inputEmail.getText().toString());
+                firebaseUser.updatePassword(inputPassword.getText().toString());
+
+                // Re-authenticate a user
+                // Get auth credentials from the user for re-authentication.
+                AuthCredential credential = EmailAuthProvider
+                        .getCredential(inputEmail.getText().toString(), inputPassword.getText().toString());
+                // Prompt the user to re-provide their sign-in credentials
+                firebaseUser.reauthenticate(credential);
+
+                Toast toast = Toast.makeText(this,R.string.msg_profile_updated,Toast.LENGTH_SHORT);
+                toast.show();
+
                 Intent intent = new Intent(ProfileActivity.this, NavigationDrawerActivity.class);
                 startActivity(intent);
                 // Returning true tells Android you're dealt with the item being clicked
@@ -144,4 +163,31 @@ public class ProfileActivity extends AppCompatActivity {
         cursor.close();
         db.close();
     }
+
+    private void updateUser(SQLiteDatabase db, String oldEmail, String firstName, String lastName, String email, String password){
+        // ContentValues object describes a set of data.
+        // ContentValues object that specifies what you want to update values to
+        ContentValues userValues = new ContentValues();
+
+        // Change the value of the FIRST_NAME column to firstName value
+        userValues.put("FIRST_NAME", firstName);
+        userValues.put("LAST_NAME", lastName);
+        userValues.put("EMAIL", email);
+        userValues.put("PASSWORD", password);
+
+        /**
+         * This method updates records in the database, and returns the number of records it’s updated.
+         *
+         * The first parameter is the name of the table you want to update.
+         * The second parameter is the ContentValues object that describes the values you want to update.
+         * The last two parameters specify which records you want to update by describing conditions for the update. Together, they form the WHERE clause of a SQL statement.
+         *
+         * The third parameter specifies the name of the column in the condition.
+         * "EMAIL = ?"; it means that we want the value in the EMAIL column to be equal to some value. The ? symbol is a placeholder for this value.
+         *
+         * The last parameter is an array of Strings that says what the value of the condition should be.
+         * */
+        db.update("USER", userValues, "EMAIL = ?", new String[]{oldEmail});
+    }
+
 }

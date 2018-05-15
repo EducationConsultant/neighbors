@@ -20,6 +20,7 @@ import com.consul.edu.educationconsultant.R;
 import com.consul.edu.educationconsultant.listeners.RecyclerTouchListener;
 import com.consul.edu.educationconsultant.model.Question;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,6 +93,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
             }
         }));
+
+        //Get Firebase auth instance
+        auth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -150,7 +154,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
             intent = new Intent(NavigationDrawerActivity.this, LoginActivity.class);
 
             // TODO: Uncomment this part when development is finished
-            /*
+
             auth.signOut();
 
             FirebaseUser user = auth.getCurrentUser();
@@ -159,7 +163,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 // launch login activity
                 startActivity(new Intent(NavigationDrawerActivity.this, LoginActivity.class));
                 finish();
-            }*/
+            }
         }
 
         // Display the appropriate activity
