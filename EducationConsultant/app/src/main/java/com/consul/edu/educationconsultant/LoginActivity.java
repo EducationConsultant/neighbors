@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity{
 
@@ -30,26 +31,48 @@ public class LoginActivity extends AppCompatActivity{
 
     private FrameLayout frameProgressBar;
     private FirebaseAuth auth;
+    private FirebaseUser firebaseUser;
 
+    /**
+     * This method gets called immediately after your activity is launched.
+     * This method is where you do all your normal activity setup such as calling setContentView().
+     *
+     * You should always override this method. If you don’t override it, you won’t be able to tell Android what layout your activity should use.
+     * At this point, the activity isn’t yet visible.
+     * */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
 
-        //Get Firebase auth instance
+        // Get views
+        frameProgressBar = (FrameLayout) findViewById(R.id.frame_progress_bar);
+        inputEmail = (EditText) findViewById(R.id.email);
+        inputPassword = (EditText) findViewById(R.id.password);
+        btnLogin = (Button) findViewById(R.id.btn_login);
+
+        // Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
+    }
+
+    /**
+     * This method gets called when the activity is about to become visible.
+     * After the onStart() method has run, the user can see the activity on the screen.
+     * */
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        firebaseUser = auth.getCurrentUser();
 
         // Check if a user is logged in
         // TODO: Uncomment this part when development is finished
-        if (auth.getCurrentUser() != null) {
+        if (firebaseUser != null) {
             // User is logged in
             Intent i = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
             startActivity(i);
             finish();
         }
-
-        setContentView(R.layout.activity_login);
-
-        frameProgressBar = (FrameLayout) findViewById(R.id.frame_progress_bar);
     }
 
     /**
@@ -59,49 +82,37 @@ public class LoginActivity extends AppCompatActivity{
      *
      * */
     public void onClickLogin(View view){
-
-        inputEmail = (EditText) findViewById(R.id.email);
-        inputPassword = (EditText) findViewById(R.id.password);
-
-        btnLogin = (Button) findViewById(R.id.btn_login);
         if (btnLogin != null) {
-            String email = inputEmail.getEditableText().toString().trim();
-            final String password = inputPassword.getEditableText().toString().trim();
+            String emailStr = inputEmail.getEditableText().toString().trim();
+            final String passwordStr = inputPassword.getEditableText().toString().trim();
 
             // Check if the email field is empty
-            if (TextUtils.isEmpty(email)) {
+            if (TextUtils.isEmpty(emailStr)) {
                 Toast.makeText(getApplicationContext(), R.string.msg_enter_email, Toast.LENGTH_LONG).show();
                 return;
             }
 
-            // Check if the password field is empty
-            if (TextUtils.isEmpty(password)) {
+            // Check if the passwordStr field is empty
+            if (TextUtils.isEmpty(passwordStr)) {
                 Toast.makeText(getApplicationContext(), R.string.msg_enter_password, Toast.LENGTH_LONG).show();
                 return;
             }
 
             frameProgressBar.setVisibility(View.VISIBLE);
 
-            // Start the Main activity
-
-            Intent intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
-            startActivity(intent);
-            finish();
-
             // Authenticate user
             // TODO: Uncomment this part when development is finished
-            auth.signInWithEmailAndPassword(email, password)
+            auth.signInWithEmailAndPassword(emailStr, passwordStr)
                     .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
+                                    frameProgressBar.setVisibility(View.GONE);
                                     // If sign in fails, display a message to the user. If sign in succeeds
                                     // the auth state listener will be notified and logic to handle the
                                     // signed in user can be handled in the listener.
-                                    frameProgressBar.setVisibility(View.GONE);
                                     if (!task.isSuccessful()) {
                                         // there was an error
                                         Toast.makeText(LoginActivity.this, getString(R.string.msg_authentication_failed), Toast.LENGTH_LONG).show();
-
                                     } else {
                                         // Start the Main activity
                                         Intent intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
@@ -143,8 +154,5 @@ public class LoginActivity extends AppCompatActivity{
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
+
 }

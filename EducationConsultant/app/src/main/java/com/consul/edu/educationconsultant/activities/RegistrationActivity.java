@@ -40,15 +40,43 @@ public class RegistrationActivity extends AppCompatActivity {
     private SQLiteDatabase db;
     private Cursor cursor;
 
+    /**
+     *
+     * This method gets called immediately after your activity is launched.
+     * This method is where you do all your normal activity setup such as calling setContentView().
+     *
+     * You should always override this method. If you don’t override it, you won’t be able to tell Android what layout your activity should use.
+     * At this point, the activity isn’t yet visible.
+     *
+     * */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
+        // Get views
         frameProgressBar = (FrameLayout) findViewById(R.id.frame_progress_bar);
+        inputFirstName = (EditText) findViewById(R.id.firstname);
+        inputLastName = (EditText) findViewById(R.id.lastname);
+        inputEmail = (EditText) findViewById(R.id.email);
+        inputPassword = (EditText) findViewById(R.id.password);
+        btnSignup = (Button) findViewById(R.id.btn_signup);
+        linkLogin = (TextView) findViewById(R.id.link_login);
 
         // Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
+    }
+
+    /**
+     *
+     * This method gets called when the activity is started or resumed.
+     * After the onResume() method has run, the activity has the focus and the user can interact with it.
+     *
+     * */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        frameProgressBar.setVisibility(View.GONE);
 
         // Get a reference to the SQLite helper
         userDatabaseHelper = new UserDatabaseHelper(this);
@@ -64,18 +92,24 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     /**
+     *
+     * This method is the final call you get before the activity is destroyed.
+     * For example, if it’s been told to finish, if the activity is being recreated due to a change in device configuration, or if Android has decided to destroy the activity in order to save space.
+     *
+     * */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        db.close();
+    }
+
+    /**
      * Called when a signup button has been clicked.
      *
      * @param view The view (in this case a button) that was clicked.
      *
      * */
     public void onClickSignUpBtn(View view){
-        inputFirstName = (EditText) findViewById(R.id.firstname);
-        inputLastName = (EditText) findViewById(R.id.lastname);
-        inputEmail = (EditText) findViewById(R.id.email);
-        inputPassword = (EditText) findViewById(R.id.password);
-
-        btnSignup = (Button) findViewById(R.id.btn_signup);
         if(btnSignup != null) {
             String firstNameStr = inputFirstName.getText().toString().trim();
             String lastNameStr = inputLastName.getText().toString().trim();
@@ -123,6 +157,7 @@ public class RegistrationActivity extends AppCompatActivity {
             if(cursor.moveToFirst()){
                 Toast toast = Toast.makeText(this,R.string.msg_email_unique,Toast.LENGTH_SHORT);
                 toast.show();
+                cursor.close();
                 return;
             }
 
@@ -148,13 +183,12 @@ public class RegistrationActivity extends AppCompatActivity {
                     .addOnCompleteListener(RegistrationActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            Toast.makeText(RegistrationActivity.this, "createUserWithEmail: " + task.isSuccessful(), Toast.LENGTH_SHORT).show();
                             frameProgressBar.setVisibility(View.GONE);
                             // If sign in fails, display a message to the user. If sign in succeeds
                             // the auth state listener will be notified and logic to handle the
                             // signed in user can be handled in the listener.
                             if (!task.isSuccessful()) {
-                                Toast.makeText(getApplicationContext(), "Authentication failed." + task.getException(),
+                                Toast.makeText(RegistrationActivity.this, "Authentication failed." + task.getException(),
                                         Toast.LENGTH_LONG).show();
                             } else {
                                 Intent i = new Intent(RegistrationActivity.this, NavigationDrawerActivity.class);
@@ -174,25 +208,11 @@ public class RegistrationActivity extends AppCompatActivity {
      *
      * */
     public void onClickLoginLink(View view){
-        linkLogin = (TextView) findViewById(R.id.link_login);
         if (linkLogin != null ){
             // Start the Login activity
             Intent i = new Intent(RegistrationActivity.this, LoginActivity.class);
             startActivity(i);
-
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        frameProgressBar.setVisibility(View.GONE);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        db.close();
     }
 
     private void insertUser(SQLiteDatabase db, String firstName, String lastName, String email, String password){

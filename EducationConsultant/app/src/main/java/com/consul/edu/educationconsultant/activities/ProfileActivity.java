@@ -43,6 +43,15 @@ public class ProfileActivity extends AppCompatActivity {
     private SQLiteDatabase db;
     private Cursor cursor;
 
+    /**
+     *
+     * This method gets called immediately after your activity is launched.
+     * This method is where you do all your normal activity setup such as calling setContentView().
+     *
+     * You should always override this method. If you don’t override it, you won’t be able to tell Android what layout your activity should use.
+     * At this point, the activity isn’t yet visible.
+     *
+     * */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,15 +66,33 @@ public class ProfileActivity extends AppCompatActivity {
         inputLastName = (EditText) findViewById(R.id.lastname_edit);
         inputEmail = (EditText) findViewById(R.id.email_edit);
         inputPassword = (EditText) findViewById(R.id.password_edit);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
+    }
+
+    /**
+     *
+     * This method gets called when the activity is about to become visible.
+     * After the onStart() method has run, the user can see the activity on the screen.
+     *
+     * */
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         firebaseUser = auth.getCurrentUser();
+    }
+
+    /**
+     *
+     * This method gets called when the activity is started or resumed.
+     * After the onResume() method has run, the activity has the focus and the user can interact with it.
+     *
+     * */
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         // Get a reference to the SQLite helper
         userDatabaseHelper = new UserDatabaseHelper(this);
@@ -90,7 +117,7 @@ public class ProfileActivity extends AppCompatActivity {
                     "EMAIL = ?",
                     new String[] {firebaseUser.getEmail()},
                     null,null,null);
-            
+
             /**
              * To go to the first record in a cursor.
              * This method returns a value of true if it finds a record, and false if the cursor hasn’t returned any records.
@@ -105,6 +132,19 @@ public class ProfileActivity extends AppCompatActivity {
             Toast toast = Toast.makeText(this,R.string.db_unavailable,Toast.LENGTH_SHORT);
             toast.show();
         }
+    }
+
+    /**
+     *
+     * This method is the final call you get before the activity is destroyed.
+     * For example, if it’s been told to finish, if the activity is being recreated due to a change in device configuration, or if Android has decided to destroy the activity in order to save space.
+     *
+     * */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        cursor.close();
+        db.close();
     }
 
     /**
@@ -150,18 +190,12 @@ public class ProfileActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(ProfileActivity.this, NavigationDrawerActivity.class);
                 startActivity(intent);
+                finish();
                 // Returning true tells Android you're dealt with the item being clicked
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        cursor.close();
-        db.close();
     }
 
     private void updateUser(SQLiteDatabase db, String oldEmail, String firstName, String lastName, String email, String password){

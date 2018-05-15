@@ -23,12 +23,23 @@ public class ResetPasswordActivity extends AppCompatActivity {
     private FirebaseAuth auth;
 
 
+    /**
+     *
+     * This method gets called immediately after your activity is launched.
+     * This method is where you do all your normal activity setup such as calling setContentView().
+     *
+     * You should always override this method. If you don’t override it, you won’t be able to tell Android what layout your activity should use.
+     * At this point, the activity isn’t yet visible.
+     *
+     * */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
 
         frameProgressBar = (FrameLayout) findViewById(R.id.frame_progress_bar);
+        btnResetPassword = (Button) findViewById(R.id.btn_reset_password);
+        inputEmail = (EditText) findViewById(R.id.email);
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
@@ -41,9 +52,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
      *
      * */
     public void onClickResetPassword(View view){
-        btnResetPassword = (Button) findViewById(R.id.btn_reset_password);
         if (btnResetPassword != null) {
-            inputEmail = (EditText) findViewById(R.id.email);
             String email = inputEmail.getText().toString().trim();
 
             // Check if the email field is empty
