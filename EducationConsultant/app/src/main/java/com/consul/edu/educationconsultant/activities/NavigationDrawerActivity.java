@@ -94,7 +94,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
             @Override
             public void onClick(View view, int position) {
                 Question question = questionList.get(position);
-                Toast.makeText(getApplicationContext(), question.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), question.getDescription() + " is selected!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
