@@ -16,7 +16,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.consul.edu.educationconsultant.R;
-import com.consul.edu.educationconsultant.database.QuestionDatabaseHelper;
+import com.consul.edu.educationconsultant.databaseHelpers.QuestionDatabaseHelper;
 import com.consul.edu.educationconsultant.model.Question;
 
 public class AddQuestionActivity extends AppCompatActivity {

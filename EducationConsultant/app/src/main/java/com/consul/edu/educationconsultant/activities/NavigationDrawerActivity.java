@@ -3,6 +3,7 @@ package com.consul.edu.educationconsultant.activities;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -20,7 +21,7 @@ import android.widget.Button;
 import com.consul.edu.educationconsultant.LoginActivity;
 import com.consul.edu.educationconsultant.adapters.QuestionAdapter;
 import com.consul.edu.educationconsultant.R;
-import com.consul.edu.educationconsultant.database.QuestionDatabaseHelper;
+import com.consul.edu.educationconsultant.databaseHelpers.QuestionDatabaseHelper;
 import com.consul.edu.educationconsultant.listeners.RecyclerTouchListener;
 import com.consul.edu.educationconsultant.model.Question;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,7 +38,7 @@ import android.widget.Toast;
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private QuestionDatabaseHelper questionDB;
+    private QuestionDatabaseHelper questionDatabaseHelper;
     private SQLiteDatabase db;
     private Cursor data;
 
@@ -84,8 +85,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
-        questionDB = new QuestionDatabaseHelper(this);
-        prepareQuestionData();
+       // questionDB = new QuestionDatabaseHelper(this);
+
 
         // separator
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
@@ -191,7 +192,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         return true;
     }
     private void prepareQuestionData() {
-        data = questionDB.showData(db);
+        data = questionDatabaseHelper.showData(db);
         if(data.getCount() == 0) {
             display("Error", "No data found");
             return;
@@ -216,7 +217,16 @@ public class NavigationDrawerActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        questionDB = new QuestionDatabaseHelper(this);
+        questionDatabaseHelper = new QuestionDatabaseHelper(this);
+        // If Android can’t get a reference to the database and a SQLiteException is thrown, we’ll use a Toast to tell the user that the database is unavailable
+        try {
+            // Get a reference to the database
+            db = questionDatabaseHelper.getWritableDatabase();
+            prepareQuestionData();
+        }catch(SQLiteException e){
+            Toast toast = Toast.makeText(this,R.string.db_unavailable,Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
     @Override

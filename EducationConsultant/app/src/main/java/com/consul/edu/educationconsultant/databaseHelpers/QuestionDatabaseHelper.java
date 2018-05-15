@@ -1,4 +1,4 @@
-package com.consul.edu.educationconsultant.database;
+package com.consul.edu.educationconsultant.databaseHelpers;
 
 import android.content.ContentValues;
 import android.content.Context;
