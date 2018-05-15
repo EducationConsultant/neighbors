@@ -34,7 +34,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Button btnLogout;
+
     private FirebaseAuth auth;
+    private FirebaseUser firebaseUser;
 
     private List<Question> questionList = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -93,6 +95,16 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
             }
         }));
+
+        //Get Firebase auth instance
+        auth = FirebaseAuth.getInstance();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        firebaseUser = auth.getCurrentUser();
     }
 
     @Override
@@ -148,18 +160,17 @@ public class NavigationDrawerActivity extends AppCompatActivity
         } else if (id == R.id.nav_profile) {
             intent = new Intent(NavigationDrawerActivity.this,ProfileActivity.class);
         } else if (id == R.id.nav_logout) {
-            intent = new Intent(NavigationDrawerActivity.this, LoginActivity.class);
-
             // TODO: Uncomment this part when development is finished
-
             auth.signOut();
+            firebaseUser = auth.getCurrentUser();
 
-            FirebaseUser user = auth.getCurrentUser();
-            if (user == null) {
+            if (firebaseUser == null) {
                 // user auth state is changed - user is null
                 // launch login activity
-                startActivity(new Intent(NavigationDrawerActivity.this, LoginActivity.class));
+                intent = new Intent(NavigationDrawerActivity.this, LoginActivity.class);
+                startActivity(intent);
                 finish();
+                return true;
             }
         }
 
