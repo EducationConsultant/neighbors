@@ -8,6 +8,6 @@ import java.util.List;
 public interface QuestionService {
 
     public List<Question> find();
-    public Question findByTitle(String title);
+    //public Question findByTitle(String title);
     public Question save(Question question);
 }

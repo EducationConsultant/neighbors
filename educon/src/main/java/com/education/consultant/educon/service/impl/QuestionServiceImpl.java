@@ -20,10 +20,10 @@ public class QuestionServiceImpl implements QuestionService {
         return repository.findAll();
     }
 
-    @Override
-    public Question findByTitle(String title) {
-        return repository.findByTitle(title);
-    }
+//    @Override
+//    public Question findByTitle(String title) {
+//        return repository.findByTitle(title);
+//    }
 
     @Override
     public Question save(Question question) {

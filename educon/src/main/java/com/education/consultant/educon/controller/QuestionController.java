@@ -29,11 +29,11 @@ public class QuestionController {
 
     // find by title
     // localhost:8095/educon/question/title?title=naslov
-    @RequestMapping(value = "/title", method = RequestMethod.GET)
-    public ResponseEntity<Question> findByTitle(@RequestParam(value = "title") String title) {
-        Question questions = questionService.findByTitle(title);
-        return new ResponseEntity<Question>(questions, HttpStatus.OK);
-    }
+//    @RequestMapping(value = "/title", method = RequestMethod.GET)
+//    public ResponseEntity<Question> findByTitle(@RequestParam(value = "title") String title) {
+//        Question questions = questionService.findByTitle(title);
+//        return new ResponseEntity<Question>(questions, HttpStatus.OK);
+//    }
 
     // insert
     @RequestMapping(method = RequestMethod.POST)
