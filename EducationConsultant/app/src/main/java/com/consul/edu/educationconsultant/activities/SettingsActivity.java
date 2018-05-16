@@ -26,6 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         // This enables the Up button
         actionBar.setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back);
     }
 
     public void onClickEducationLevels(View view){

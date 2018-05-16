@@ -45,6 +45,7 @@
     <string name="on">On</string>
     <string name="off">Off</string>
     <!-- Education levels -->
+    <string name="msg_settings_edu_levels">Choose education levels</string>
     <string name="education_levels_title">Education levels</string>
     <string name="elementary_school_title">Elementary school</string>
     <string name="middle_school_title">Middle school</string>

@@ -1,5 +1,6 @@
 package com.consul.edu.educationconsultant.activities;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -19,20 +20,28 @@ public class SettingsEducationLevelsActivity extends AppCompatActivity {
     private Switch masters;
     private Switch doctors;
 
+    private Toolbar toolbar;
+    private ActionBar actionBar;
+
+    private SharedPreferences sharedPreferences;
+
+    /**
+     *
+     * This method gets called immediately after your activity is launched.
+     * This method is where you do all your normal activity setup such as calling setContentView().
+     *
+     * You should always override this method. If you don’t override it, you won’t be able to tell Android what layout your activity should use.
+     * At this point, the activity isn’t yet visible.
+     *
+     * @param  savedInstanceState If the activity’s being created from scratch, this parameter will be null.
+     *                            If the activity’s being recreated and there’s been a prior call to onSaveInstanceState(), the Bundle object used by onSaveInstanceState() will get passed to the activity.
+     * */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_education_levels);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_edu_level);
-        toolbar.setTitleTextColor(Color.WHITE);
-        // To get the toolbar to behave like an app bar. Parameter: the toolbar you want to set as the activity’s app bar
-        setSupportActionBar(toolbar);
-
-        // getSupportActionBar: using the toolbar from the Support Library
-        ActionBar actionBar = getSupportActionBar();
-        // This enables the Up button
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        sharedPreferences = getSharedPreferences("SettingsEduLevels",MODE_PRIVATE);
 
         elementarySchool = (Switch) findViewById(R.id.elementary_school);
         middleSchool = (Switch) findViewById(R.id.middle_school);
@@ -41,13 +50,23 @@ public class SettingsEducationLevelsActivity extends AppCompatActivity {
         masters = (Switch) findViewById(R.id.masters);
         doctors = (Switch)findViewById(R.id.doctors);
 
-        elementarySchool.setChecked(true);
-        middleSchool.setChecked(true);
-        highSchool.setChecked(true);
-        collage.setChecked(true);
-        masters.setChecked(true);
-        doctors.setChecked(true);
+        elementarySchool.setChecked(sharedPreferences.getBoolean("elementary_sp", true));
+        middleSchool.setChecked(sharedPreferences.getBoolean("middle_sp", true));
+        highSchool.setChecked(sharedPreferences.getBoolean("high_sp", true));
+        collage.setChecked(sharedPreferences.getBoolean("collage_sp", true));
+        masters.setChecked(sharedPreferences.getBoolean("masters_sp", true));
+        doctors.setChecked(sharedPreferences.getBoolean("doctors_sp", true));
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar_edu_level);
+        toolbar.setTitleTextColor(Color.WHITE);
+        // To get the toolbar to behave like an app bar. Parameter: the toolbar you want to set as the activity’s app bar
+        setSupportActionBar(toolbar);
+
+        // getSupportActionBar: using the toolbar from the Support Library
+        actionBar = getSupportActionBar();
+        // This enables the Up button
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back);
     }
 
     /**
@@ -58,60 +77,32 @@ public class SettingsEducationLevelsActivity extends AppCompatActivity {
     public void onClickSwitch(View view){
         boolean checked = ((Switch) view).isChecked();
 
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
         switch (view.getId()){
             case R.id.elementary_school:
-
-                if(checked){
-                    elementarySchool.setChecked(true);
-                    Toast.makeText(SettingsEducationLevelsActivity.this, "Elementary checked", Toast.LENGTH_SHORT).show();
-                }else{
-                    elementarySchool.setChecked(false);
-                }
+                editor.putBoolean("elementary_sp",checked);
+                editor.apply();
                 break;
             case R.id.middle_school:
-
-                if(checked){
-                    middleSchool.setChecked(true);
-                    Toast.makeText(SettingsEducationLevelsActivity.this, "Middle checked", Toast.LENGTH_SHORT).show();
-                }else{
-                    middleSchool.setChecked(false);
-                }
+                editor.putBoolean("middle_sp",checked);
+                editor.apply();
                 break;
             case R.id.high_school:
-
-                if(checked){
-                    highSchool.setChecked(true);
-                    Toast.makeText(SettingsEducationLevelsActivity.this, "High checked", Toast.LENGTH_SHORT).show();
-                }else{
-                    highSchool.setChecked(false);
-                }
+                editor.putBoolean("high_sp",checked);
+                editor.apply();
                 break;
             case R.id.collage:
-
-                if(checked){
-                    collage.setChecked(true);
-                    Toast.makeText(SettingsEducationLevelsActivity.this, "Collage checked", Toast.LENGTH_SHORT).show();
-                }else{
-                    collage.setChecked(false);
-                }
+                editor.putBoolean("collage_sp",checked);
+                editor.apply();
                 break;
             case R.id.masters:
-
-                if(checked){
-                    masters.setChecked(true);
-                    Toast.makeText(SettingsEducationLevelsActivity.this, "Master's checked", Toast.LENGTH_SHORT).show();
-                }else{
-                    masters.setChecked(false);
-                }
+                editor.putBoolean("masters_sp",checked);
+                editor.apply();
                 break;
             case R.id.doctors:
-
-                if(checked){
-                    doctors.setChecked(true);
-                    Toast.makeText(SettingsEducationLevelsActivity.this, "Doctor's checked", Toast.LENGTH_SHORT).show();
-                }else{
-                    doctors.setChecked(false);
-                }
+                editor.putBoolean("doctors_sp",checked);
+                editor.apply();
                 break;
             default:
                 Toast.makeText(SettingsEducationLevelsActivity.this, "Default statement", Toast.LENGTH_SHORT).show();

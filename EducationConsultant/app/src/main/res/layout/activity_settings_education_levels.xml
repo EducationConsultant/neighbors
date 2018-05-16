@@ -26,6 +26,13 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:text="@string/msg_settings_edu_levels"
+        android:textSize="20dp" />
+
     <Switch
         android:id="@+id/elementary_school"
         android:layout_width="match_parent"

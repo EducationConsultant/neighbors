@@ -25,6 +25,7 @@ public class SettingsCategoryActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back);
 
         // TODO: Send these values to layout
         String[] categories_arr = getResources().getStringArray(R.array.categories_arr);
