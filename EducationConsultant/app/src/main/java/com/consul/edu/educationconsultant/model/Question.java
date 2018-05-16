@@ -1,14 +1,61 @@
 package com.consul.edu.educationconsultant.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Svetlana on 4/14/2018.
  */
 
 
 
-// TODO 100: ADD COMMENTS
+// TODO : ADD COMMENTS
 public class Question {
-    private String title, username, description, category, answer1, answer2, answer3, answer4, eduLevel, correctAns, answered;
+
+
+    @SerializedName("title")
+    @Expose
+    private String title;
+
+    @SerializedName("username")
+    @Expose
+    private String username;
+
+    @SerializedName("description")
+    @Expose
+    private String description;
+
+    @SerializedName("category")
+    @Expose
+    private String category;
+
+    @SerializedName("answer1")
+    @Expose
+    private String answer1;
+
+    @SerializedName("answer2")
+    @Expose
+    private String answer2;
+
+    @SerializedName("answer3")
+    @Expose
+    private String answer3;
+
+    @SerializedName("answer4")
+    @Expose
+    private String answer4;
+
+    @SerializedName("eduLevel")
+    @Expose
+    private String eduLevel;
+
+    @SerializedName("correctAns")
+    @Expose
+    private String correctAns;
+
+    @SerializedName("answered")
+    @Expose
+    private String answered;
 
 
     public Question() {
@@ -103,4 +150,13 @@ public class Question {
     public String getAnswered() { return answered; }
 
     public void setAnswered(String answered) { this.answered = answered; }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "title='" + title + '\'' +
+                ", username='" + username + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

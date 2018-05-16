@@ -15,11 +15,11 @@ import retrofit2.http.Path;
 
 public interface RedditAPI {
     // call ipconfig
-    String BASE_URL = "http://192.168.43.98:8095/educon";
+    String BASE_URL = "http://192.168.43.98:8095/educon/";
 
     @Headers("Content-Type: application/json")
-    @GET("/question")
-    Call<Question> getData();
+    @GET("question")
+    Call<List<Question>> getData();
 }
 
 
