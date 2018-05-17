@@ -9,13 +9,12 @@ public class Question {
     @Id
     private Integer id;
 
-    private String title, username, description, category, answer1, answer2, answer3, answer4, eduLevel, correctAns, answered;
+    private String username, description, category, answer1, answer2, answer3, answer4, eduLevel, correctAns, answered;
 
     public Question() {}
     
-    public Question(Integer id, String title, String username, String description, String category, String answer1, String answer2, String answer3, String answer4, String eduLevel, String correctAns, String answered) {
+    public Question(Integer id, String username, String description, String category, String answer1, String answer2, String answer3, String answer4, String eduLevel, String correctAns, String answered) {
         this.id = id;
-        this.title = title;
         this.username = username;
         this.description = description;
         this.category = category;
@@ -36,13 +35,6 @@ public class Question {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public String getUsername() {
         return username;

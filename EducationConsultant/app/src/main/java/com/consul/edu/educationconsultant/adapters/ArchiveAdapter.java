@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,12 +26,12 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.MyViewHo
     private Context mContext;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, answered, correctAns;
-        RelativeLayout parentLayout;
+        public TextView description, answered, correctAns;
+        LinearLayout parentLayout;
 
         public MyViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.title);
+            description = (TextView) view.findViewById(R.id.description);
             answered = (TextView) view.findViewById(R.id.answered);
             correctAns = (TextView) view.findViewById(R.id.correct_ans);
             parentLayout = view.findViewById(R.id.archive_layout);
@@ -66,7 +67,7 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.MyViewHo
     @Override
     public void onBindViewHolder(ArchiveAdapter.MyViewHolder holder, final int position) {
         Question question = questionList.get(position);
-        holder.title.setText(question.getTitle());
+        holder.description.setText(question.getDescription());
         holder.answered.setText(question.getAnswered());
         holder.correctAns.setText(question.getCorrectAns());
 
@@ -82,7 +83,7 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.MyViewHo
                 Toast.makeText(mContext, "Clicked", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(mContext, DetailsActivity.class);
-                intent.putExtra("title", questionList.get(position).getTitle());
+
                 intent.putExtra("username", questionList.get(position).getUsername());
                 intent.putExtra("description", questionList.get(position).getDescription());
                 intent.putExtra("category", questionList.get(position).getCategory());

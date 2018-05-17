@@ -1,13 +1,13 @@
 package com.consul.edu.educationconsultant.activities;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
+
+
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
+
+import android.util.Log;
+
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,9 +22,11 @@ import android.widget.Button;
 import com.consul.edu.educationconsultant.LoginActivity;
 import com.consul.edu.educationconsultant.adapters.QuestionAdapter;
 import com.consul.edu.educationconsultant.R;
-import com.consul.edu.educationconsultant.databaseHelpers.QuestionDatabaseHelper;
+
+
 import com.consul.edu.educationconsultant.listeners.RecyclerTouchListener;
 import com.consul.edu.educationconsultant.model.Question;
+import com.consul.edu.educationconsultant.retrofit.RedditAPI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -37,12 +39,22 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+
+// TODO : baza ---> asinhroni zadaci ---> onResume()
+
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private QuestionDatabaseHelper questionDatabaseHelper;
-    private SQLiteDatabase db;
-    private Cursor data;
+
+    private static final String TAG = "NavigationDrawrActivity";
+    private static final String BASE_URL = "http://192.168.1.6:8095/educon/";
+
 
     private Button btnLogout;
     private TextView txtUserFirstLastName;
@@ -102,7 +114,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
-       // questionDB = new QuestionDatabaseHelper(this);
+
+        //prepareQuestionData();
 
 
         // separator
@@ -115,7 +128,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
             @Override
             public void onClick(View view, int position) {
                 Question question = questionList.get(position);
-                Toast.makeText(getApplicationContext(), question.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), question.getDescription() + " is selected!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -197,32 +210,61 @@ public class NavigationDrawerActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     private void prepareQuestionData() {
-        data = questionDatabaseHelper.showData(db);
-        if(data.getCount() == 0) {
-            display("Error", "No data found");
-            return;
-        }
-        while(data.moveToNext()) {
-            Question question = new Question(data.getString(1),
-                    data.getString(2),data.getString(3),data.getString(4),data.getString(5),data.getString(6),data.getString(7),data.getString(8),data.getString(9),
-                    data.getString(10), data.getString(11));
-            questionList.add(question);
-        }
-        mAdapter.notifyDataSetChanged();
+
+        Question question = new Question("Question A", "User 1", "This is my first question", "Mathematics", "a1", "a2" ,"a3", "a4", "Elementary School", "a1", "a1");
+        questionList.add(question);
+
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        RedditAPI redditAPI = retrofit.create(RedditAPI.class);
+
+        Call<List<Question>> call = redditAPI.getData();
+        call.enqueue(new Callback<List<Question>>() {
+            @Override
+            public void onResponse(Call<List<Question>> call, Response<List<Question>> response) {
+                Log.d(TAG, "onResponse: Server Response:" + response.toString());
+                Log.d(TAG, "onResponse: received information" + response.body().toString());
+                List<Question> questionListResponse = response.body();
+
+                for(int i = 0; i < questionListResponse.size(); i++) {
+                    String title = questionListResponse.get(i).getTitle();
+                    String username  = questionListResponse.get(i).getUsername();
+                    String description  = questionListResponse.get(i).getDescription();
+                    String category  = questionListResponse.get(i).getCategory();
+                    String answer1  = questionListResponse.get(i).getAnswer1();
+                    String answer2  = questionListResponse.get(i).getAnswer2();
+                    String answer3  = questionListResponse.get(i).getAnswer3();
+                    String answer4  = questionListResponse.get(i).getAnswer4();
+                    String eduLevel  = questionListResponse.get(i).getEduLevel();
+                    String correctAns  = questionListResponse.get(i).getCorrectAns();
+                    String answered  = questionListResponse.get(i).getAnswered();
+                    Question q = new Question(title, username, description, category, answer1, answer2, answer3, answer4, eduLevel,correctAns,answered);
+                    questionList.add(q);
+                    Toast.makeText(NavigationDrawerActivity.this, "Broj pitanja dodatih u questionList: " + questionList.size(), Toast.LENGTH_SHORT).show();
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Question>> call, Throwable t) {
+                Log.e(TAG, "onFailure:Something went wrong " + t.getMessage());
+                Toast.makeText(NavigationDrawerActivity.this, "Something went wrong" , Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
-    public void display(String title, String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(true);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.show();
-    }
 
     @Override
     protected void onResume() {
         super.onResume();
+
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
@@ -231,22 +273,13 @@ public class NavigationDrawerActivity extends AppCompatActivity
         txtUserFirstLastName.setText(firebaseUser.getDisplayName());
         txtEmail.setText(firebaseUser.getEmail());
 
-        questionDatabaseHelper = new QuestionDatabaseHelper(this);
-        // If Android can’t get a reference to the database and a SQLiteException is thrown, we’ll use a Toast to tell the user that the database is unavailable
-        try {
-            // Get a reference to the database
-            db = questionDatabaseHelper.getWritableDatabase();
-            prepareQuestionData();
-        }catch(SQLiteException e){
-            Toast toast = Toast.makeText(this,R.string.db_unavailable,Toast.LENGTH_SHORT);
-            toast.show();
-        }
+        prepareQuestionData();
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        data.close();
-        db.close();
+
     }
 }

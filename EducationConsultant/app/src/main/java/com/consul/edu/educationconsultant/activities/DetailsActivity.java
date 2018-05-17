@@ -89,7 +89,7 @@ public class DetailsActivity extends AppCompatActivity
 
     private void getIncomingIntent() {
         Log.d(TAG, "getIncomingIntent: checking for incoming intents");
-        if(getIntent().hasExtra("title") && getIntent().hasExtra("description") && getIntent().hasExtra("username") && getIntent().hasExtra("category") ) {
+        if(getIntent().hasExtra("description") && getIntent().hasExtra("username") && getIntent().hasExtra("category") ) {
             Log.d(TAG, "getIncomingIntent: found intent extras");
 
             String title = getIntent().getStringExtra("title");
@@ -103,12 +103,14 @@ public class DetailsActivity extends AppCompatActivity
             String eduLevel = getIntent().getStringExtra("eduLevel");
             String answered = getIntent().getStringExtra("answered");
 
+
             setQuestion(title, description, username, category, answer1, answer2, answer3, answer4, eduLevel,answered);
         }
     }
 
     private void setQuestion(String title, String description, String username, String category, String answer1, String answer2, String answer3, String answer4, String eduLevel, String answered) {
         TextView titleView = findViewById(R.id.title);
+
         TextView descriptionView  = findViewById(R.id.description);
         TextView usernameView = findViewById(R.id.username);
         TextView categoryView = findViewById(R.id.category);
@@ -118,7 +120,6 @@ public class DetailsActivity extends AppCompatActivity
         RadioButton rb4 = findViewById(R.id.answer4);
         TextView eduLevelView = findViewById(R.id.eduLevel);
 
-        titleView.setText(title);
         descriptionView.setText(description);
         usernameView.setText(username);
         categoryView.setText(category);

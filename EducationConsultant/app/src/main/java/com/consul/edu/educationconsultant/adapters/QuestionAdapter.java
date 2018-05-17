@@ -64,7 +64,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.MyView
                 Toast.makeText(mContext, "Clicked", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(mContext, DetailsActivity.class);
-                intent.putExtra("title", questionList.get(position).getTitle());
+//                intent.putExtra("title", questionList.get(position).getTitle());
                 intent.putExtra("username", questionList.get(position).getUsername());
                 intent.putExtra("description", questionList.get(position).getDescription());
                 intent.putExtra("category", questionList.get(position).getCategory());

@@ -67,6 +67,8 @@
                 android:background="@color/colorAccent"
                 android:layout_toRightOf="@id/category"
                 android:layout_marginTop="10dp"/>
+
+
         </LinearLayout>
 
         <!-- ANSWERS TABLE !-->

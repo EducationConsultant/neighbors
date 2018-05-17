@@ -1,11 +1,11 @@
 package com.consul.edu.educationconsultant.activities;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+
 import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
 import android.support.v7.app.ActionBar;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -21,17 +21,15 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.consul.edu.educationconsultant.R;
-import com.consul.edu.educationconsultant.databaseHelpers.QuestionDatabaseHelper;
+
 import com.consul.edu.educationconsultant.model.Question;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class AddQuestionActivity extends AppCompatActivity {
 
-    private QuestionDatabaseHelper questionDB;
-    private SQLiteDatabase db;
-    private Cursor cursor;
+
+    private Button btnAdd;
 
     private EditText question;
     private EditText ansOne;
@@ -113,16 +111,96 @@ public class AddQuestionActivity extends AppCompatActivity {
      * Spinner choice made listener
      */
 
+
+
+//    /**
+//     * When button add clicked
+//     */
+//    public void onClickAddQuestionBtn(View view){
+//        question = findViewById(R.id.question);
+//        ansOne = findViewById(R.id.ans_one);
+//        ansTwo = findViewById(R.id.ans_two);
+//        ansThree = findViewById(R.id.ans_three);
+//        ansFour = findViewById(R.id.ans_four);
+//        eduLevel = findViewById(R.id.edu_level);
+//        category = findViewById(R.id.category);
+//
+//        btnAdd = findViewById(R.id.btn_add);
+//
+//        if(btnAdd != null){
+//            Question newQuestion = new Question();
+//
+//            String questionStr = question.getText().toString().trim();
+//            String ansOneStr = ansOne.getText().toString().trim();
+//            String ansTwoStr = ansTwo.getText().toString().trim();
+//            String ansThreeStr = ansThree.getText().toString().trim();
+//            String ansFourStr = ansFour.getText().toString().trim();
+//            String eduLevelStr = "foo"; //eduLevel.getText().toString().trim();
+//            String categoryStr = "bar";//category.getText().toString().trim();
+//
+//            /*
+//             * check if all fields are field out
+//             */
+//            if (TextUtils.isEmpty(questionStr)){
+//                return;
+//            }
+//
+//            if (TextUtils.isEmpty(ansOneStr)){
+//                return;
+//            }
+//
+//            if (TextUtils.isEmpty(ansTwoStr)){
+//                return;
+//            }
+//
+//            if (TextUtils.isEmpty(ansThreeStr)){
+//                return;
+//            }
+//
+//            if (TextUtils.isEmpty(ansFourStr)){
+//                return;
+//            }
+//
+//            if (TextUtils.isEmpty(eduLevelStr)){
+//                return;
+//            }
+//
+//            if (TextUtils.isEmpty(categoryStr)){
+//                return;
+//            }
+//
+//            newQuestion.setDescription(questionStr);
+//            newQuestion.setAnswer1(ansOneStr);
+//            newQuestion.setAnswer2(ansTwoStr);
+//            newQuestion.setAnswer3(ansThreeStr);
+//            newQuestion.setAnswer4(ansFourStr);
+//            newQuestion.setEduLevel(eduLevelStr);
+//            newQuestion.setCategory(categoryStr);
+//            newQuestion.setCorrectAns(ansOneStr);
+//            newQuestion.setAnswered("");
+//
+//            /*
+//            * TODO
+//            * Here should go sending the data to server and storing it
+//            */
+//
+//            // go back to home
+//            Intent questionList = new Intent(AddQuestionActivity.this, NavigationDrawerActivity.class);
+//            startActivity(questionList);
+//        }
+//    }
+
+
     @Override
     protected void onResume(){
         super.onResume();
-        questionDB = new QuestionDatabaseHelper(this);
         progressBar.setVisibility(View.GONE);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
     }
 
     /**
@@ -210,34 +288,6 @@ public class AddQuestionActivity extends AppCompatActivity {
                  */
 
 
-                // insert into database
-                try {
-                    db = questionDB.getWritableDatabase();
-                    boolean insertData = questionDB.addData(db, "Title", firebaseUser.getEmail(), questionStr, categoryStr,ansOneStr,ansTwoStr,ansThreeStr,ansFourStr,eduLevelStr,ansOneStr,newQuestion.getAnswered());
-
-                }
-                catch(SQLiteException e) {
-                    Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT).show();
-                }
-
-                // check data with cursor -- for test
-                cursor = db.query("question_table",
-                        new String[]{"DESCRIPTION"},
-                        "DESCRIPTION = ?",
-                        new String[] {questionStr},
-                        null,null,null);
-
-                if(cursor.moveToFirst()){
-                    do{
-                        String description = cursor.getString(cursor.getColumnIndex("DESCRIPTION"));
-                        Toast toast = Toast.makeText(this,description,Toast.LENGTH_SHORT);
-                        toast.show();
-                    }while (cursor.moveToNext());
-                }
-
-                cursor.close();
-                db.close();
-
                 // go back to home
                 Intent questionList = new Intent(AddQuestionActivity.this, NavigationDrawerActivity.class);
                 startActivity(questionList);
@@ -248,5 +298,6 @@ public class AddQuestionActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+
     }
 }
