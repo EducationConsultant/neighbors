@@ -44,7 +44,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "NavigationDrawrActivity";
-    private static final String BASE_URL = "http://192.168.43.98:8095/educon/";
+    private static final String BASE_URL = "http://192.168.1.6:8095/educon/";
 
     private Button btnLogout;
     private FirebaseAuth auth;
@@ -87,6 +87,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
+
+        prepareQuestionData();
 
         // separator
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
@@ -220,7 +222,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                     Question q = new Question(title, username, description, category, answer1, answer2, answer3, answer4, eduLevel,correctAns,answered);
                     questionList.add(q);
                     Toast.makeText(NavigationDrawerActivity.this, "Broj pitanja dodatih u questionList: " + questionList.size(), Toast.LENGTH_SHORT).show();
-
+                    mAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -231,15 +233,15 @@ public class NavigationDrawerActivity extends AppCompatActivity
             }
         });
 
-        Toast.makeText(NavigationDrawerActivity.this, "Broj pitanja dodatih na kraju metode: " + questionList.size(), Toast.LENGTH_SHORT).show();
-        mAdapter.notifyDataSetChanged();
+//        Toast.makeText(NavigationDrawerActivity.this, "Broj pitanja dodatih na kraju metode: " + questionList.size(), Toast.LENGTH_SHORT).show();
+//        mAdapter.notifyDataSetChanged();
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        prepareQuestionData();
+
     }
 
     @Override
