@@ -4,9 +4,14 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.graphics.Color;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,6 +23,9 @@ import android.widget.Toast;
 import com.consul.edu.educationconsultant.R;
 import com.consul.edu.educationconsultant.databaseHelpers.QuestionDatabaseHelper;
 import com.consul.edu.educationconsultant.model.Question;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class AddQuestionActivity extends AppCompatActivity {
 
@@ -25,7 +33,6 @@ public class AddQuestionActivity extends AppCompatActivity {
     private SQLiteDatabase db;
     private Cursor cursor;
 
-    private Button btnAdd;
     private EditText question;
     private EditText ansOne;
     private EditText ansTwo;
@@ -36,8 +43,14 @@ public class AddQuestionActivity extends AppCompatActivity {
     private Spinner eduLevel;
     private Spinner category;
 
+    private Toolbar toolbar;
+    private ActionBar actionBar;
+
 
     private ProgressBar progressBar;
+
+    private FirebaseAuth auth;
+    private FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +83,28 @@ public class AddQuestionActivity extends AppCompatActivity {
         // Apply the adapter to the spinner
         category.setAdapter(categoryAdapter);
 
+        question = (EditText) findViewById(R.id.question);
+        ansOne = (EditText) findViewById(R.id.ans_one);
+        ansTwo = (EditText) findViewById(R.id.ans_two);
+        ansThree = (EditText) findViewById(R.id.ans_three);
+        ansFour = (EditText) findViewById(R.id.ans_four);
+        eduLevel = (Spinner) findViewById(R.id.edu_level);
+        category = (Spinner) findViewById(R.id.category);
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar_add_question);
+        toolbar.setTitleTextColor(Color.WHITE);
+        // To get the toolbar to behave like an app bar. Parameter: the toolbar you want to set as the activity’s app bar
+        setSupportActionBar(toolbar);
 
+        // getSupportActionBar: using the toolbar from the Support Library
+        actionBar = getSupportActionBar();
+        // This enables the Up button
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_action_close);
+
+        //Get Firebase auth instance
+        auth = FirebaseAuth.getInstance();
+        firebaseUser = auth.getCurrentUser();
     }
 
 
@@ -79,117 +112,6 @@ public class AddQuestionActivity extends AppCompatActivity {
      * TODO
      * Spinner choice made listener
      */
-
-
-    /**
-     * When button add clicked
-     */
-    public void onClickAddQuestionBtn(View view){
-        question = findViewById(R.id.question);
-        ansOne = findViewById(R.id.ans_one);
-        ansTwo = findViewById(R.id.ans_two);
-        ansThree = findViewById(R.id.ans_three);
-        ansFour = findViewById(R.id.ans_four);
-        eduLevel = findViewById(R.id.edu_level);
-        category = findViewById(R.id.category);
-
-        btnAdd = findViewById(R.id.btn_add);
-
-        if(btnAdd != null){
-            Question newQuestion = new Question();
-
-            String questionStr = question.getText().toString().trim();
-            String ansOneStr = ansOne.getText().toString().trim();
-            String ansTwoStr = ansTwo.getText().toString().trim();
-            String ansThreeStr = ansThree.getText().toString().trim();
-            String ansFourStr = ansFour.getText().toString().trim();
-            String eduLevelStr = "foo"; //eduLevel.getText().toString().trim();
-            String categoryStr = "bar";//category.getText().toString().trim();
-
-            /*
-             * check if all fields are field out
-             */
-            if (TextUtils.isEmpty(questionStr)){
-                return;
-            }
-
-            if (TextUtils.isEmpty(ansOneStr)){
-                return;
-            }
-
-            if (TextUtils.isEmpty(ansTwoStr)){
-                return;
-            }
-
-            if (TextUtils.isEmpty(ansThreeStr)){
-                return;
-            }
-
-            if (TextUtils.isEmpty(ansFourStr)){
-                return;
-            }
-
-            if (TextUtils.isEmpty(eduLevelStr)){
-                return;
-            }
-
-            if (TextUtils.isEmpty(categoryStr)){
-                return;
-            }
-
-            newQuestion.setDescription(questionStr);
-            newQuestion.setAnswer1(ansOneStr);
-            newQuestion.setAnswer2(ansTwoStr);
-            newQuestion.setAnswer3(ansThreeStr);
-            newQuestion.setAnswer4(ansFourStr);
-            newQuestion.setEduLevel(eduLevelStr);
-            newQuestion.setCategory(categoryStr);
-            newQuestion.setCorrectAns(ansOneStr);
-            newQuestion.setAnswered("");
-
-            /*
-            * TODO
-            * Here should go sending the data to server and storing it
-            */
-
-
-            // insert into database
-            try {
-                db = questionDB.getWritableDatabase();
-                boolean insertData = questionDB.addData(db, "Title", "user", questionStr, categoryStr,ansOneStr,ansTwoStr,ansThreeStr,ansFourStr,eduLevelStr,ansOneStr,"");
-
-//                if (insertData == true) {
-//                    Toast.makeText(AddQuestionActivity.this, "Data Successfully Inserted!", Toast.LENGTH_LONG).show();
-//                } else {
-//                    Toast.makeText(AddQuestionActivity.this, "Something went wrong :(.", Toast.LENGTH_LONG).show();
-//                }
-        }
-            catch(SQLiteException e) {
-                Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT).show();
-            }
-
-            // check data with cursor -- for test
-            cursor = db.query("question_table",
-                    new String[]{"DESCRIPTION"},
-                    "DESCRIPTION = ?",
-                    new String[] {questionStr},
-                    null,null,null);
-
-            if(cursor.moveToFirst()){
-                do{
-                    String description = cursor.getString(cursor.getColumnIndex("DESCRIPTION"));
-                    Toast toast = Toast.makeText(this,description,Toast.LENGTH_SHORT);
-                    toast.show();
-                }while (cursor.moveToNext());
-            }
-
-
-
-            // go back to home
-            Intent questionList = new Intent(AddQuestionActivity.this, NavigationDrawerActivity.class);
-            startActivity(questionList);
-        }
-    }
 
     @Override
     protected void onResume(){
@@ -201,7 +123,130 @@ public class AddQuestionActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        cursor.close();
-        db.close();
+    }
+
+    /**
+     * This method runs when the app bar’s menu gets created.
+     *
+     * @param menu Java representation of the menu resource file
+     * */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // This adds items to the app bar
+        getMenuInflater().inflate(R.menu.menu_add_question,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    /**
+     * Implementing this method makes activity react when an action in the app bar is clicked.
+     *
+     * @param item Represents the action on the app bar that was clicked
+     * */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_add_question:
+                Question newQuestion = new Question();
+
+                String questionStr = question.getText().toString().trim();
+                String ansOneStr = ansOne.getText().toString().trim();
+                String ansTwoStr = ansTwo.getText().toString().trim();
+                String ansThreeStr = ansThree.getText().toString().trim();
+                String ansFourStr = ansFour.getText().toString().trim();
+                String eduLevelStr = "foo"; //eduLevel.getText().toString().trim();
+                String categoryStr = "bar";//category.getText().toString().trim();
+
+                /*
+                 * check if all fields are field out
+                 *
+                 */
+                if (TextUtils.isEmpty(questionStr)){
+                    Toast.makeText(getApplicationContext(), R.string.msg_enter_question, Toast.LENGTH_LONG).show();
+                    return false;
+                }
+
+                if (TextUtils.isEmpty(ansOneStr)){
+                    Toast.makeText(getApplicationContext(), R.string.msg_enter_ans_one, Toast.LENGTH_LONG).show();
+                    return false;
+                }
+
+                if (TextUtils.isEmpty(ansTwoStr)){
+                    Toast.makeText(getApplicationContext(), R.string.msg_enter_ans_two, Toast.LENGTH_LONG).show();
+                    return false;
+                }
+
+                if (TextUtils.isEmpty(ansThreeStr)){
+                    Toast.makeText(getApplicationContext(), R.string.msg_enter_ans_three, Toast.LENGTH_LONG).show();
+                    return false;
+                }
+
+                if (TextUtils.isEmpty(ansFourStr)){
+                    Toast.makeText(getApplicationContext(), R.string.msg_enter_ans_four, Toast.LENGTH_LONG).show();
+                    return false;
+                }
+
+                if (TextUtils.isEmpty(eduLevelStr)){
+                    return false;
+                }
+
+                if (TextUtils.isEmpty(categoryStr)){
+                    return false;
+                }
+
+                newQuestion.setDescription(questionStr);
+                newQuestion.setAnswer1(ansOneStr);
+                newQuestion.setAnswer2(ansTwoStr);
+                newQuestion.setAnswer3(ansThreeStr);
+                newQuestion.setAnswer4(ansFourStr);
+                newQuestion.setEduLevel(eduLevelStr);
+                newQuestion.setCategory(categoryStr);
+                newQuestion.setCorrectAns(ansOneStr);
+                newQuestion.setUsername(firebaseUser.getEmail());
+                newQuestion.setAnswered("no");
+
+                /*
+                 * TODO
+                 * Here should go sending the data to server and storing it
+                 */
+
+
+                // insert into database
+                try {
+                    db = questionDB.getWritableDatabase();
+                    boolean insertData = questionDB.addData(db, "Title", firebaseUser.getEmail(), questionStr, categoryStr,ansOneStr,ansTwoStr,ansThreeStr,ansFourStr,eduLevelStr,ansOneStr,newQuestion.getAnswered());
+
+                }
+                catch(SQLiteException e) {
+                    Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT).show();
+                }
+
+                // check data with cursor -- for test
+                cursor = db.query("question_table",
+                        new String[]{"DESCRIPTION"},
+                        "DESCRIPTION = ?",
+                        new String[] {questionStr},
+                        null,null,null);
+
+                if(cursor.moveToFirst()){
+                    do{
+                        String description = cursor.getString(cursor.getColumnIndex("DESCRIPTION"));
+                        Toast toast = Toast.makeText(this,description,Toast.LENGTH_SHORT);
+                        toast.show();
+                    }while (cursor.moveToNext());
+                }
+
+                cursor.close();
+                db.close();
+
+                // go back to home
+                Intent questionList = new Intent(AddQuestionActivity.this, NavigationDrawerActivity.class);
+                startActivity(questionList);
+                finish();
+
+                // Returning true tells Android you're dealt with the item being clicked
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

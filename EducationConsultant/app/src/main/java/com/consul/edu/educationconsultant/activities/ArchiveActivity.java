@@ -1,5 +1,7 @@
 package com.consul.edu.educationconsultant.activities;
 
+import android.graphics.Color;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -16,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArchiveActivity extends AppCompatActivity {
+    private Toolbar toolbar;
+    private ActionBar actionBar;
 
     private List<Question> questionList = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -26,10 +30,16 @@ public class ArchiveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_archive);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_archive);
-        setSupportActionBar(toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_archive);
+        toolbar.setTitleTextColor(Color.WHITE);
         // To get the toolbar to behave like an app bar. Parameter: the toolbar you want to set as the activity’s app bar
         setSupportActionBar(toolbar);
+
+        // getSupportActionBar: using the toolbar from the Support Library
+        actionBar = getSupportActionBar();
+        // This enables the Up button
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back);
 
         recyclerView = (RecyclerView) findViewById(R.id.archive_view);
 

@@ -100,7 +100,11 @@ public class Question {
 
     public void setCorrectAns(String correctAns) { this.correctAns = correctAns; }
 
-    public String getAnswered() { return answered; }
+    public String getAnswered() {
+        return answered;
+    }
 
-    public void setAnswered(String answered) { this.answered = answered; }
+    public void setAnswered(String answered) {
+        this.answered = answered;
+    }
 }

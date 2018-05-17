@@ -2,7 +2,6 @@ package com.consul.edu.educationconsultant.activities;
 
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -41,7 +40,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private SQLiteOpenHelper userDatabaseHelper;
     private SQLiteDatabase db;
-    private Cursor cursor;
 
     /**
      *
@@ -134,33 +132,6 @@ public class RegistrationActivity extends AppCompatActivity {
             // Check if the email field is empty
             if (TextUtils.isEmpty(emailStr)) {
                 Toast.makeText(getApplicationContext(), R.string.msg_enter_email, Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            // Check if the email is unique
-            /**
-             * Cursor lets you read from and write to the database.
-             *
-             * First parameter: Name of the table.
-             * Second parameter: We want to return the values of this columns.
-             * Third parameter: Specifies the column in the condition. We want the value in the EMAIL column to be equal to some value, and the ? symbol is a placeholder for this value.
-             * Fourth parameter: An array of Strings that specifies what the value of the condition should be.
-             *
-             */
-            cursor = db.query("USER",
-                    new String[]{"EMAIL"},
-                    "EMAIL = ?",
-                    new String[] {emailStr},
-                    null,null,null);
-
-            /**
-             * To go to the first record in a cursor.
-             * This method returns a value of true if it finds a record, and false if the cursor hasn’t returned any records.
-             * */
-            if(cursor.moveToFirst()){
-                Toast toast = Toast.makeText(this,R.string.msg_email_unique,Toast.LENGTH_SHORT);
-                toast.show();
-                cursor.close();
                 return;
             }
 

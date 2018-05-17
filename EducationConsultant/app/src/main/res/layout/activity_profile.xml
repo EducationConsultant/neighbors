@@ -11,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
-
         <!-- android.support.v7.widget.Toolbar : This is the full path of the Toolbar class in the Support Library -->
         <!-- ?attr/actionBarSize : The ?attr prefix means that we want to use an attribute from the current theme. -->
         <!-- ?attr/colorPrimary : Make the toolbar's background the same color as the app bar we had previously  -->
@@ -22,7 +21,6 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:theme="@style/AppTheme.PopupOverlay" />
-
     </android.support.design.widget.AppBarLayout>
 
 
@@ -32,7 +30,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
@@ -45,7 +43,8 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="30dp"
                 android:src="@mipmap/ic_user_profile"
-                android:paddingTop="50dp"/>
+                android:paddingTop="50dp"
+                android:contentDescription="@string/edit_profile_name"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -58,15 +57,15 @@
                 android:id="@+id/firstname_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapWords"
-                android:ems="10"
-                android:background="@android:color/transparent"
+                android:layout_marginTop="10dp"
                 android:drawablePadding="12dp"
                 android:padding="8dp"
+                android:ems="10"
+                android:inputType="textCapWords"
+                android:background="@android:color/transparent"
                 android:hint="@string/first_name"
                 android:maxLines="1"
-                android:drawableLeft="@drawable/ic_person"
-                android:layout_marginTop="10dp"/>
+                android:drawableLeft="@drawable/ic_person" />
 
             <View
                 android:layout_width="match_parent"

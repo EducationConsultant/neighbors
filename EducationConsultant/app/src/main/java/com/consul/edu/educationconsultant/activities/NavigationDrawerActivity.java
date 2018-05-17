@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -33,6 +34,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class NavigationDrawerActivity extends AppCompatActivity
@@ -43,6 +45,12 @@ public class NavigationDrawerActivity extends AppCompatActivity
     private Cursor data;
 
     private Button btnLogout;
+    private TextView txtUserFirstLastName;
+    private TextView txtEmail;
+
+    private Toolbar toolbar;
+    private FloatingActionButton fab;
+    private DrawerLayout drawer;
 
     private FirebaseAuth auth;
     private FirebaseUser firebaseUser;
@@ -56,10 +64,10 @@ public class NavigationDrawerActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_drawer);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,7 +76,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -76,6 +84,15 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        txtUserFirstLastName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_first_last_name);
+        txtEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_email);
+
+        //Get Firebase auth instance
+        auth = FirebaseAuth.getInstance();
+        firebaseUser = auth.getCurrentUser();
+
+        txtUserFirstLastName.setText(firebaseUser.getDisplayName());
+        txtEmail.setText(firebaseUser.getEmail());
 
         // RecycleView
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -106,16 +123,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
             }
         }));
-
-        //Get Firebase auth instance
-        auth = FirebaseAuth.getInstance();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        firebaseUser = auth.getCurrentUser();
     }
 
     @Override
@@ -173,7 +180,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
             // TODO: Uncomment this part when development is finished
             auth.signOut();
             firebaseUser = auth.getCurrentUser();
-
             if (firebaseUser == null) {
                 // user auth state is changed - user is null
                 // launch login activity
@@ -217,6 +223,14 @@ public class NavigationDrawerActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+
+        //Get Firebase auth instance
+        auth = FirebaseAuth.getInstance();
+        firebaseUser = auth.getCurrentUser();
+
+        txtUserFirstLastName.setText(firebaseUser.getDisplayName());
+        txtEmail.setText(firebaseUser.getEmail());
+
         questionDatabaseHelper = new QuestionDatabaseHelper(this);
         // If Android can’t get a reference to the database and a SQLiteException is thrown, we’ll use a Toast to tell the user that the database is unavailable
         try {

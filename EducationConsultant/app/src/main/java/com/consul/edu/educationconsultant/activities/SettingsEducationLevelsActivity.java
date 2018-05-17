@@ -11,6 +11,8 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.consul.edu.educationconsultant.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SettingsEducationLevelsActivity extends AppCompatActivity {
     private Switch elementarySchool;
@@ -24,6 +26,10 @@ public class SettingsEducationLevelsActivity extends AppCompatActivity {
     private ActionBar actionBar;
 
     private SharedPreferences sharedPreferences;
+    private String sharedPrefName;
+
+    private FirebaseAuth auth;
+    private FirebaseUser firebaseUser;
 
     /**
      *
@@ -41,21 +47,12 @@ public class SettingsEducationLevelsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_education_levels);
 
-        sharedPreferences = getSharedPreferences("SettingsEduLevels",MODE_PRIVATE);
-
         elementarySchool = (Switch) findViewById(R.id.elementary_school);
         middleSchool = (Switch) findViewById(R.id.middle_school);
         highSchool = (Switch) findViewById(R.id.high_school);
         collage = (Switch) findViewById(R.id.collage);
         masters = (Switch) findViewById(R.id.masters);
         doctors = (Switch)findViewById(R.id.doctors);
-
-        elementarySchool.setChecked(sharedPreferences.getBoolean("elementary_sp", true));
-        middleSchool.setChecked(sharedPreferences.getBoolean("middle_sp", true));
-        highSchool.setChecked(sharedPreferences.getBoolean("high_sp", true));
-        collage.setChecked(sharedPreferences.getBoolean("collage_sp", true));
-        masters.setChecked(sharedPreferences.getBoolean("masters_sp", true));
-        doctors.setChecked(sharedPreferences.getBoolean("doctors_sp", true));
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_edu_level);
         toolbar.setTitleTextColor(Color.WHITE);
@@ -67,6 +64,43 @@ public class SettingsEducationLevelsActivity extends AppCompatActivity {
         // This enables the Up button
         actionBar.setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back);
+
+        //Get Firebase auth instance
+        auth = FirebaseAuth.getInstance();
+    }
+
+    /**
+     *
+     * This method gets called when the activity is about to become visible.
+     * After the onStart() method has run, the user can see the activity on the screen.
+     *
+     * */
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        firebaseUser = auth.getCurrentUser();
+        sharedPrefName = "SettingsEduLevels" + "_" + firebaseUser.getEmail();
+    }
+
+    /**
+     *
+     * This method gets called when the activity is started or resumed.
+     * After the onResume() method has run, the activity has the focus and the user can interact with it.
+     *
+     * */
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
+
+        elementarySchool.setChecked(sharedPreferences.getBoolean("elementary_sp", true));
+        middleSchool.setChecked(sharedPreferences.getBoolean("middle_sp", true));
+        highSchool.setChecked(sharedPreferences.getBoolean("high_sp", true));
+        collage.setChecked(sharedPreferences.getBoolean("collage_sp", true));
+        masters.setChecked(sharedPreferences.getBoolean("masters_sp", true));
+        doctors.setChecked(sharedPreferences.getBoolean("doctors_sp", true));
     }
 
     /**

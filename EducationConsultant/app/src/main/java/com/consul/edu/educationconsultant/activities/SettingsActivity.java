@@ -12,18 +12,21 @@ import com.consul.edu.educationconsultant.R;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    private Toolbar toolbar;
+    private ActionBar actionBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_settings);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_settings);
         toolbar.setTitleTextColor(Color.WHITE);
         // To get the toolbar to behave like an app bar. Parameter: the toolbar you want to set as the activity’s app bar
         setSupportActionBar(toolbar);
 
         // getSupportActionBar: using the toolbar from the Support Library
-        ActionBar actionBar = getSupportActionBar();
+        actionBar = getSupportActionBar();
         // This enables the Up button
         actionBar.setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back);

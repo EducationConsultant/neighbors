@@ -42,6 +42,9 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText inputEmail;
     private Button btnResetPassword;
 
+    private Toolbar toolbar;
+    private ActionBar actionBar;
+
     private FirebaseAuth auth;
     private FirebaseUser firebaseUser;
 
@@ -63,13 +66,13 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_profile);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_profile);
         toolbar.setTitleTextColor(Color.WHITE);
         // To get the toolbar to behave like an app bar. Parameter: the toolbar you want to set as the activity’s app bar
         setSupportActionBar(toolbar);
 
         // getSupportActionBar: using the toolbar from the Support Library
-        ActionBar actionBar = getSupportActionBar();
+        actionBar = getSupportActionBar();
         // This enables the Up button
         actionBar.setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_action_close);
