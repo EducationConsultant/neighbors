@@ -92,7 +92,7 @@ public class DetailsActivity extends AppCompatActivity
         if(getIntent().hasExtra("description") && getIntent().hasExtra("username") && getIntent().hasExtra("category") ) {
             Log.d(TAG, "getIncomingIntent: found intent extras");
 
-            String title = getIntent().getStringExtra("title");
+           // String title = getIntent().getStringExtra("title");
             String description = getIntent().getStringExtra("description");
             String username = getIntent().getStringExtra("username");
             String category = getIntent().getStringExtra("category");
@@ -104,11 +104,11 @@ public class DetailsActivity extends AppCompatActivity
             String answered = getIntent().getStringExtra("answered");
 
 
-            setQuestion(title, description, username, category, answer1, answer2, answer3, answer4, eduLevel,answered);
+            setQuestion( description, username, category, answer1, answer2, answer3, answer4, eduLevel,answered);
         }
     }
 
-    private void setQuestion(String title, String description, String username, String category, String answer1, String answer2, String answer3, String answer4, String eduLevel, String answered) {
+    private void setQuestion( String description, String username, String category, String answer1, String answer2, String answer3, String answer4, String eduLevel, String answered) {
         TextView titleView = findViewById(R.id.title);
 
         TextView descriptionView  = findViewById(R.id.description);
@@ -129,30 +129,30 @@ public class DetailsActivity extends AppCompatActivity
         rb4.setText(answer4);
         eduLevelView.setText(eduLevel);
 
-        question.setTitle(title);
-        question.setDescription(description);
-        question.setUsername(username);
-        question.setCategory(category);
-        question.setAnswer1(answer1);
-        question.setAnswer2(answer2);
-        question.setAnswer3(answer3);
-        question.setAnswer4(answer4);
-        question.setEduLevel(eduLevel);
-        question.setAnswered(answered);
 
-        if(answered.equals("no")){
-            rowAnswers.setVisibility(View.VISIBLE);
-            btnSubmitAnswer.setVisibility(View.VISIBLE);
-
-            commentsTable.setVisibility(View.GONE);
-            comments.setVisibility(View.GONE);
-        }else{
-            rowAnswers.setVisibility(View.GONE);
-            btnSubmitAnswer.setVisibility(View.GONE);
-
-            commentsTable.setVisibility(View.VISIBLE);
-            comments.setVisibility(View.VISIBLE);
-        }
+//        question.setDescription(description);
+//        question.setUsername(username);
+//        question.setCategory(category);
+//        question.setAnswer1(answer1);
+//        question.setAnswer2(answer2);
+//        question.setAnswer3(answer3);
+//        question.setAnswer4(answer4);
+//        question.setEduLevel(eduLevel);
+//        question.setAnswered(answered);
+//
+//        if(answered.equals("no")){
+//            rowAnswers.setVisibility(View.VISIBLE);
+//            btnSubmitAnswer.setVisibility(View.VISIBLE);
+//
+//            commentsTable.setVisibility(View.GONE);
+//            comments.setVisibility(View.GONE);
+//        }else{
+//            rowAnswers.setVisibility(View.GONE);
+//            btnSubmitAnswer.setVisibility(View.GONE);
+//
+//            commentsTable.setVisibility(View.VISIBLE);
+//            comments.setVisibility(View.VISIBLE);
+//        }
     }
 
 
