@@ -161,20 +161,14 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:id="@+id/picture1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_logo_round"
-                        android:contentDescription="@string/app_name"/>
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp">
 
                     <TextView
                         android:id="@+id/username1_comment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/picture1"
                         android:textStyle="bold"
                         android:text="User 4"/>
 
@@ -183,7 +177,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/username1_comment"
-                        android:layout_toRightOf="@id/picture1"
                         android:textSize="12sp"
                         android:textColor="@color/black"
                         android:text="This is my first comment." />
@@ -198,20 +191,19 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp">
 
-                    <ImageView
-                        android:id="@+id/picture2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_logo_round"
-                        android:contentDescription="@string/app_name"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorPrimaryDark"/>
 
                     <TextView
                         android:id="@+id/username32_comment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/picture2"
                         android:textStyle="bold"
                         android:text="User 2" />
 
@@ -220,7 +212,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/username32_comment"
-                        android:layout_toRightOf="@id/picture2"
                         android:textSize="12sp"
                         android:textColor="@color/black"
                         android:text="This is my second comment." />
@@ -235,20 +226,19 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp">
 
-                    <ImageView
-                        android:id="@+id/picture3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_logo_round"
-                        android:contentDescription="@string/app_name"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorPrimaryDark"/>
 
                     <TextView
                         android:id="@+id/username24_comment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/picture3"
                         android:textStyle="bold"
                         android:text="User 2" />
 
@@ -257,7 +247,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/username24_comment"
-                        android:layout_toRightOf="@id/picture3"
                         android:textSize="12sp"
                         android:textColor="@color/black"
                         android:text="This is my second comment." />
@@ -272,20 +261,19 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp">
 
-                    <ImageView
-                        android:id="@+id/picture4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_logo_round"
-                        android:contentDescription="@string/app_name"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorPrimaryDark"/>
 
                     <TextView
                         android:id="@+id/username232_comment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/picture4"
                         android:textStyle="bold"
                         android:text="User 2" />
 
@@ -294,11 +282,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/username232_comment"
-                        android:layout_toRightOf="@id/picture4"
                         android:textSize="12sp"
                         android:textColor="@color/black"
                         android:text="This is my second comment." />
-
                 </RelativeLayout>
             </TableRow>
 
@@ -311,6 +297,11 @@
                 <RelativeLayout
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorPrimaryDark"/>
 
                     <EditText
                         android:id="@+id/comment_message"
