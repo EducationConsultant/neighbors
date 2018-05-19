@@ -1,5 +1,6 @@
 package com.consul.edu.educationconsultant.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,8 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -41,27 +45,91 @@ public class DetailsActivity extends AppCompatActivity
     private FirebaseAuth auth;
     private FirebaseUser firebaseUser;
 
-    private TableRow rowAnswers;
     private Button btnSubmitAnswer;
-    private TextView comments;
+
+    private TextView questionTitle;
+    private TextView questionDescription;
+    private TextView questionCategory;
+    private TextView questionEduLevel;
+    private TextView questionUsername;
     private TableLayout commentsTable;
+    private EditText commentMessage;
+
+    private RadioGroup radioGroup;
+    private RadioButton rbAnswer1;
+    private RadioButton rbAnswer2;
+    private RadioButton rbAnswer3;
+    private RadioButton rbAnswer4;
 
     private Question question;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         Log.d(TAG, "onCreate: started.");
 
-        rowAnswers = (TableRow) findViewById(R.id.row_answers);
         btnSubmitAnswer = (Button) findViewById(R.id.submit_answer);
-        comments = (TextView) findViewById(R.id.comments);
+
+        questionTitle = findViewById(R.id.title);
+        questionDescription = (TextView) findViewById(R.id.description);
+        questionCategory = (TextView) findViewById(R.id.category);
+        questionEduLevel = (TextView) findViewById(R.id.eduLevel);
+        questionUsername = (TextView) findViewById(R.id.username);
+
+        radioGroup = (RadioGroup) findViewById(R.id.radio_group);
+        rbAnswer1 = (RadioButton)findViewById(R.id.answer1);
+        rbAnswer2 = (RadioButton)findViewById(R.id.answer2);
+        rbAnswer3 = (RadioButton)findViewById(R.id.answer3);
+        rbAnswer4 = (RadioButton)findViewById(R.id.answer4);
+
         commentsTable = (TableLayout) findViewById(R.id.comments_table);
+        commentMessage = (EditText) findViewById(R.id.comment_message);
 
         question = new Question();
 
         getIncomingIntent();
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton radioButton = (RadioButton) findViewById(checkedId);
+                switch(checkedId){
+                    case R.id.answer1:
+                        question.setAnswered(radioButton.getText().toString());
+                        break;
+                    case R.id.answer2:
+                        question.setAnswered(radioButton.getText().toString());
+                        break;
+                    case R.id.answer3:
+                        question.setAnswered(radioButton.getText().toString());
+                        break;
+                    case R.id.answer4:
+                        question.setAnswered(radioButton.getText().toString());
+                        break;
+                }
+            }
+        });
+
+        commentMessage.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                                final int DRAWABLE_LEFT = 0;
+                                final int DRAWABLE_TOP = 1;
+                                final int DRAWABLE_RIGHT = 2;
+                               final int DRAWABLE_BOTTOM = 3;
+
+                                       if(event.getAction() == MotionEvent.ACTION_UP) {
+                                        if(event.getRawX() >= (commentMessage.getRight() - commentMessage.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                                                // your action here
+                                                        Toast.makeText(DetailsActivity.this,"Send comment",Toast.LENGTH_LONG).show();
+                                                return true;
+                                            }
+                                    }
+                                return false;
+                           }
+        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.details_toolbar);
         setSupportActionBar(toolbar);
@@ -103,55 +171,33 @@ public class DetailsActivity extends AppCompatActivity
             String eduLevel = getIntent().getStringExtra("eduLevel");
             String answered = getIntent().getStringExtra("answered");
 
-
             setQuestion(title, description, username, category, answer1, answer2, answer3, answer4, eduLevel,answered);
         }
     }
 
     private void setQuestion(String title, String description, String username, String category, String answer1, String answer2, String answer3, String answer4, String eduLevel, String answered) {
-        TextView titleView = findViewById(R.id.title);
 
-        TextView descriptionView  = findViewById(R.id.description);
-        TextView usernameView = findViewById(R.id.username);
-        TextView categoryView = findViewById(R.id.category);
-        RadioButton rb1 = findViewById(R.id.answer1);
-        RadioButton rb2 = findViewById(R.id.answer2);
-        RadioButton rb3 = findViewById(R.id.answer3);
-        RadioButton rb4 = findViewById(R.id.answer4);
-        TextView eduLevelView = findViewById(R.id.eduLevel);
+        questionTitle.setText(title);
+        questionDescription.setText(description);
+        questionUsername.setText(username);
+        questionCategory.setText(category);
+        questionEduLevel.setText(eduLevel);
+        rbAnswer1.setText(answer1);
+        rbAnswer2.setText(answer2);
+        rbAnswer3.setText(answer3);
+        rbAnswer4.setText(answer4);
 
-        descriptionView.setText(description);
-        usernameView.setText(username);
-        categoryView.setText(category);
-        rb1.setText(answer1);
-        rb2.setText(answer2);
-        rb3.setText(answer3);
-        rb4.setText(answer4);
-        eduLevelView.setText(eduLevel);
-
-        question.setTitle(title);
-        question.setDescription(description);
-        question.setUsername(username);
-        question.setCategory(category);
-        question.setAnswer1(answer1);
-        question.setAnswer2(answer2);
-        question.setAnswer3(answer3);
-        question.setAnswer4(answer4);
-        question.setEduLevel(eduLevel);
-        question.setAnswered(answered);
-
-        if(answered.equals("no")){
-            rowAnswers.setVisibility(View.VISIBLE);
+        if(answered.equals("")){
             btnSubmitAnswer.setVisibility(View.VISIBLE);
+            radioGroup.setVisibility(View.VISIBLE);
 
             commentsTable.setVisibility(View.GONE);
-            comments.setVisibility(View.GONE);
         }else{
-            rowAnswers.setVisibility(View.GONE);
+            question.setAnswered(answered);
             btnSubmitAnswer.setVisibility(View.GONE);
+            radioGroup.setVisibility(View.GONE);
 
             commentsTable.setVisibility(View.VISIBLE);
-            comments.setVisibility(View.VISIBLE);
         }
     }
 
@@ -211,7 +257,6 @@ public class DetailsActivity extends AppCompatActivity
         } else if (id == R.id.nav_logout) {
             intent = new Intent(DetailsActivity.this, LoginActivity.class);
 
-            // TODO: Uncomment this part when development is finished
             auth.signOut();
 
             firebaseUser = auth.getCurrentUser();
@@ -234,14 +279,12 @@ public class DetailsActivity extends AppCompatActivity
 
     public void submit_answer(View view) {
         Toast.makeText(this, "You resolved question :) ", Toast.LENGTH_SHORT).show();
-        question.setAnswered("yes");
 
 
-        rowAnswers.setVisibility(View.GONE);
         btnSubmitAnswer.setVisibility(View.GONE);
+        radioGroup.setVisibility(View.GONE);
 
         commentsTable.setVisibility(View.VISIBLE);
-        comments.setVisibility(View.VISIBLE);
 
     }
 }

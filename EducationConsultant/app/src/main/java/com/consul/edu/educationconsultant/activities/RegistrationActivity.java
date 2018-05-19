@@ -1,10 +1,6 @@
 package com.consul.edu.educationconsultant.activities;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +14,6 @@ import android.widget.Toast;
 
 import com.consul.edu.educationconsultant.LoginActivity;
 import com.consul.edu.educationconsultant.R;
-import com.consul.edu.educationconsultant.databaseHelpers.UserDatabaseHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -37,9 +32,6 @@ public class RegistrationActivity extends AppCompatActivity {
     private FrameLayout frameProgressBar;
     private FirebaseAuth auth;
     private FirebaseUser firebaseUser;
-
-    private SQLiteOpenHelper userDatabaseHelper;
-    private SQLiteDatabase db;
 
     /**
      *
@@ -78,30 +70,6 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         frameProgressBar.setVisibility(View.GONE);
-
-        // Get a reference to the SQLite helper
-        userDatabaseHelper = new UserDatabaseHelper(this);
-
-        // If Android can’t get a reference to the database and a SQLiteException is thrown, we’ll use a Toast to tell the user that the database is unavailable
-        try {
-            // Get a reference to the database
-            db = userDatabaseHelper.getWritableDatabase();
-        }catch(SQLiteException e){
-            Toast toast = Toast.makeText(this,R.string.db_unavailable,Toast.LENGTH_SHORT);
-            toast.show();
-        }
-    }
-
-    /**
-     *
-     * This method is the final call you get before the activity is destroyed.
-     * For example, if it’s been told to finish, if the activity is being recreated due to a change in device configuration, or if Android has decided to destroy the activity in order to save space.
-     *
-     * */
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        db.close();
     }
 
     /**
@@ -148,9 +116,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
             frameProgressBar.setVisibility(View.VISIBLE);
 
-            // create user in database
-            insertUser(db,firstNameStr,lastNameStr,emailStr,passwordStr);
-
             // Firebase auth
             // create user
             auth.createUserWithEmailAndPassword(emailStr, passwordStr)
@@ -193,28 +158,5 @@ public class RegistrationActivity extends AppCompatActivity {
             Intent i = new Intent(RegistrationActivity.this, LoginActivity.class);
             startActivity(i);
         }
-    }
-
-    private void insertUser(SQLiteDatabase db, String firstName, String lastName, String email, String password){
-        // ContentValues object describes a set of data.
-        // You usually create a new ContentValues object for each row of data you want to create.
-        ContentValues userValues = new ContentValues();
-
-        // Add data to the ContentValues object
-        // FIRST_NAME is the column you want to add data to, and firstName is the data
-        userValues.put("FIRST_NAME", firstName);
-        userValues.put("LAST_NAME", lastName);
-        userValues.put("EMAIL", email);
-        userValues.put("PASSWORD", password);
-
-        /**
-         * This method inserts data into a table, and returns the ID of the record once it’s been inserted.
-         * If the method is unable to insert the record, it returns a value of -1.
-         *
-         * The middle parameter is usually set to null.
-         * It’s there in case the ContentValues object is empty, and you want to insert an empty row into your table.
-         * It’s unlikely you’d want to do this, but if you did you’d replace the null value with the name of one of the columns in your table.
-         * */
-        db.insert("USER", null, userValues);
     }
 }

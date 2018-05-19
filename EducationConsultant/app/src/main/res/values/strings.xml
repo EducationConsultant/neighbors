@@ -112,4 +112,8 @@
     <string name="answer_four">Answer Four</string>
     <string name="answer_four_hint">Ex. Watermelon</string>
     <string name="education_level">Education Level</string>
+
+    <!-- Details view -->
+    <string name="btn_submit">Submit</string>
+    <string name="comment_msg">Write a comment...</string>
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,434 +10,320 @@
     tools:context="com.consul.edu.educationconsultant.activities.DetailsActivity"
     tools:showIn="@layout/details_navigation_drawer">
 
-    <ScrollView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/rel_layout_resolve_question"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <LinearLayout
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:textSize="25sp"
+            android:text="Title" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_below="@+id/title"
+            android:textSize="20sp"
+            android:text="Description" />
+
+        <TextView
+            android:id="@+id/eduLevel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:text="username"
-                android:layout_marginLeft="20dp"
-                android:textStyle="italic|bold"
-                android:layout_below="@id/eduLevel"/>
+            android:layout_below="@id/description"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/background_btn_login"
+            android:textStyle="bold"
+            android:textSize="10sp"
+            android:textColor="@color/colorWhite"
+            android:text="Edu Level"/>
 
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:layout_marginLeft="20dp"
-                android:text="description"
-                android:textStyle="bold"
-                android:layout_toRightOf="@+id/username"
-                android:layout_below="@id/eduLevel"/>
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/category"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:text="category"
-                android:textStyle="bold"
-                android:layout_marginLeft="20dp"
-                android:background="@color/colorAccent"
-                android:layout_marginTop="10dp"/>
-            <TextView
-                android:id="@+id/eduLevel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:text="eduLevel"
-                android:textStyle="bold"
-                android:layout_marginLeft="20dp"
-                android:background="@color/colorAccent"
-                android:layout_toRightOf="@id/category"
-                android:layout_marginTop="10dp"/>
+            android:layout_below="@id/description"
+            android:layout_toRightOf="@id/eduLevel"
+            android:background="@drawable/background_lbl_category"
+            android:textStyle="bold"
+            android:textSize="10sp"
+            android:text="Category"/>
 
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/category"
+            android:layout_marginLeft="8dp"
+            android:textSize="12sp"
+            android:text="First Last"/>
 
-        </LinearLayout>
+        <RadioGroup
+           android:id="@+id/radio_group"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_below="@id/username"
+           android:layout_marginTop="16dp"
+           android:layout_marginLeft="8dp"
+           android:layout_marginRight="8dp"
+           android:background="@color/colorWhite">
 
-        <!-- ANSWERS TABLE !-->
-            <TableLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/answers_table"
-                android:layout_width="wrap_content"
+            <RadioButton
+                android:id="@+id/answer1"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="45dp"
-                android:layout_marginBottom="25dp"
-                android:layout_marginRight="45dp"
-                android:layout_marginTop="40dp"
-                android:shrinkColumns="*"
-                android:paddingTop="1dp"
-                android:stretchColumns="0" >
-                <TableRow
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:background="#CCC"
-                    android:paddingBottom="1dp"
-                    android:paddingRight="1dp"
-                    android:id="@+id/row_question_title">
-                    <TextView
-                        android:id="@+id/title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="18dp"
-                        android:text="Question title"
-                        android:padding="20dip"
-                        android:textColor="@color/black"
-                        android:textStyle="bold|italic"
-                        android:gravity="center"
-                        android:background="@color/colorAccent"
-                        android:layout_marginLeft="1dp"/>
-                </TableRow>
-                <TableRow
-                    android:id="@+id/row_answers"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:background="#CCC"
-                    android:paddingBottom="1dp"
-                    android:paddingRight="1dp">
-                    <RadioGroup
-                        android:gravity="center_horizontal"
-                        android:background="#FFF">
-                    <RadioButton
-                        android:id="@+id/answer1"
-                        android:text="ans1"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        android:padding="12dp"
-                        android:textColor="#000000"/>
-                    <RadioButton
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        android:padding="12dp"
-                        android:id="@+id/answer2"
-                        android:text="ans2"
-                        android:textColor="#000000"/>
-                    <RadioButton
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        android:padding="12dp"
-                        android:id="@+id/answer3"
-                        android:text="ans3"
-                        android:textColor="#000000"/>
-                    <RadioButton
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        android:padding="12dp"
-                        android:id="@+id/answer4"
-                        android:text="ansvdavvdaadva4"
-                        android:textColor="#000000"/>
-                    </RadioGroup>
-                </TableRow>
-            </TableLayout>
+                android:layout_width="match_parent"
+                android:textColor="@color/black"
+                android:padding="12dp"
+                android:text="ans1"/>
+
+            <RadioButton
+                android:id="@+id/answer2"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:padding="12dp"
+                android:textColor="@color/black"
+                android:text="ans2" />
+
+            <RadioButton
+                android:id="@+id/answer3"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:padding="12dp"
+                android:textColor="@color/black"
+                android:text="ans3" />
+
+            <RadioButton
+                android:id="@+id/answer4"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:padding="12dp"
+                android:textColor="@color/black"
+                android:text="ans4" />
+        </RadioGroup>
 
         <!-- SUBMIT BUTTON -->
-            <Button
-                android:id="@+id/submit_answer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Submit"
-                android:layout_below="@+id/answers_table"
-                android:layout_marginLeft="150dp"
-                android:layout_marginStart="150dp"
-                android:background="@color/colorPrimary"
-                android:textColor="@color/colorWhite"
-                android:onClick="submit_answer"/>
+        <Button
+            android:id="@+id/submit_answer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/radio_group"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/background_btn_login"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:textColor="@color/colorWhite"
+            android:text="@string/btn_submit"
+            android:onClick="submit_answer"/>
 
-            <!--     COMMENTS    -->
-            <TextView
-                android:id="@+id/comments"
-                android:layout_width="wrap_content"
+        <!--     COMMENTS    -->
+        <TableLayout
+            android:id="@+id/comments_table"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="16dp"
+            android:paddingTop="1dp"
+            android:layout_below="@id/username"
+            android:shrinkColumns="*"
+            android:stretchColumns="0">
+
+            <TableRow
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Comments:"
-                android:layout_marginLeft="14dp"
-                android:layout_marginTop="20dp"
-                android:textStyle="bold"
-                android:layout_below="@+id/submit_answer"/>
-            <TableLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/comments_table"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="14dp"
-                android:layout_marginBottom="25dp"
-                android:layout_marginRight="45dp"
-                android:shrinkColumns="*"
-                android:background="#CCC"
-                android:paddingTop="1dp"
-                android:stretchColumns="0"
-                android:layout_below="@id/comments">
-                <TableRow
+                android:paddingBottom="1dp"
+                android:background="@color/colorPrimary">
+                <TextView
+                    android:id="@+id/first_row"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:background="#CCC"
-                    android:paddingBottom="1dp"
-                    android:paddingRight="1dp">
-                    <TextView
-                        android:id="@+id/text1_comment"
+                    android:textAlignment="viewEnd"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorWhite"
+                    android:drawableRight="@drawable/ic_comment_white"
+                    android:text="4"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="1dp"
+                android:background="@color/colorWhite">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/picture1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18dp"
-                        android:text="This is my first comment."
-                        android:textColor="#000000"
-                        android:textStyle="italic"
-                        android:background="#FFF"
-                        android:layout_marginLeft="1dp"/>
+                        android:src="@mipmap/ic_logo_round"
+                        android:contentDescription="@string/app_name"/>
+
                     <TextView
                         android:id="@+id/username1_comment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="15dp"
-                        android:text="User 4"
-                        android:textColor="#000000"
-                        android:textStyle="italic|bold"
-                        android:background="#FFF"
-                        android:layout_marginLeft="1dp"/>
-                    </TableRow>
-                    <TableRow
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:background="#CCC"
-                        android:paddingBottom="1dp"
-                        android:paddingRight="1dp">
-                        <TextView
-                            android:id="@+id/text32_comment"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="18dp"
-                            android:text="This is my second comment."
-                            android:textColor="#000000"
-                            android:textStyle="italic"
-                            android:background="#FFF"
-                            android:layout_marginLeft="1dp"/>
-                        <TextView
-                            android:id="@+id/username32_comment"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="15dp"
-                            android:text="User 2"
-                            android:textColor="#000000"
-                            android:textStyle="italic|bold"
-                            android:background="#FFF"
-                            android:layout_marginLeft="1dp"/>
-                    </TableRow>
-                <TableRow
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:background="#CCC"
-                    android:paddingBottom="1dp"
-                    android:paddingRight="1dp">
+                        android:layout_toRightOf="@id/picture1"
+                        android:textStyle="bold"
+                        android:text="User 4"/>
+
                     <TextView
-                        android:id="@+id/text24_comment"
+                        android:id="@+id/text1_comment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18dp"
-                        android:text="This is my second comment."
-                        android:textColor="#000000"
-                        android:textStyle="italic"
-                        android:background="#FFF"
-                        android:layout_marginLeft="1dp"/>
+                        android:layout_below="@id/username1_comment"
+                        android:layout_toRightOf="@id/picture1"
+                        android:textSize="12sp"
+                        android:textColor="@color/black"
+                        android:text="This is my first comment." />
+                </RelativeLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:paddingBottom="1dp"
+                android:background="@color/colorWhite">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/picture2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/ic_logo_round"
+                        android:contentDescription="@string/app_name"/>
+
+                    <TextView
+                        android:id="@+id/username32_comment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/picture2"
+                        android:textStyle="bold"
+                        android:text="User 2" />
+
+                    <TextView
+                        android:id="@+id/text32_comment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/username32_comment"
+                        android:layout_toRightOf="@id/picture2"
+                        android:textSize="12sp"
+                        android:textColor="@color/black"
+                        android:text="This is my second comment." />
+                </RelativeLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:paddingBottom="1dp"
+                android:background="@color/colorWhite">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/picture3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/ic_logo_round"
+                        android:contentDescription="@string/app_name"/>
+
                     <TextView
                         android:id="@+id/username24_comment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="15dp"
-                        android:text="User 2"
-                        android:textColor="#000000"
-                        android:textStyle="italic|bold"
-                        android:background="#FFF"
-                        android:layout_marginLeft="1dp"/>
-                </TableRow>
-                <TableRow
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:background="#CCC"
-                    android:paddingBottom="1dp"
-                    android:paddingRight="1dp">
+                        android:layout_toRightOf="@id/picture3"
+                        android:textStyle="bold"
+                        android:text="User 2" />
+
                     <TextView
-                        android:id="@+id/text232_comment"
+                        android:id="@+id/text24_comment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18dp"
-                        android:text="This is my second comment."
-                        android:textColor="#000000"
-                        android:textStyle="italic"
-                        android:background="#FFF"
-                        android:layout_marginLeft="1dp"/>
+                        android:layout_below="@id/username24_comment"
+                        android:layout_toRightOf="@id/picture3"
+                        android:textSize="12sp"
+                        android:textColor="@color/black"
+                        android:text="This is my second comment." />
+                </RelativeLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:paddingBottom="1dp"
+                android:background="@color/colorWhite">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/picture4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/ic_logo_round"
+                        android:contentDescription="@string/app_name"/>
+
                     <TextView
                         android:id="@+id/username232_comment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="15dp"
-                        android:text="User 2"
-                        android:textColor="#000000"
-                        android:textStyle="italic|bold"
-                        android:background="#FFF"
-                        android:layout_marginLeft="1dp"/>
-                </TableRow>
-                <TableRow
+                        android:layout_toRightOf="@id/picture4"
+                        android:textStyle="bold"
+                        android:text="User 2" />
+
+                    <TextView
+                        android:id="@+id/text232_comment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/username232_comment"
+                        android:layout_toRightOf="@id/picture4"
+                        android:textSize="12sp"
+                        android:textColor="@color/black"
+                        android:text="This is my second comment." />
+
+                </RelativeLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:paddingBottom="1dp"
+                android:background="@color/colorWhite">
+
+                <RelativeLayout
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:background="#CCC"
-                    android:paddingBottom="1dp"
-                    android:paddingRight="1dp">
-                    <TextView
-                        android:id="@+id/text21_comment"
-                        android:layout_width="wrap_content"
+                    android:layout_width="match_parent">
+
+                    <EditText
+                        android:id="@+id/comment_message"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18dp"
-                        android:text="This is my second comment."
-                        android:textColor="#000000"
-                        android:textStyle="italic"
-                        android:background="#FFF"
-                        android:layout_marginLeft="1dp"/>
-                    <TextView
-                        android:id="@+id/username21_comment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="15dp"
-                        android:text="User 2"
-                        android:textColor="#000000"
-                        android:textStyle="italic|bold"
-                        android:background="#FFF"
-                        android:layout_marginLeft="1dp"/>
-                </TableRow>
-                <TableRow
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:background="#CCC"
-                    android:paddingBottom="1dp"
-                    android:paddingRight="1dp">
-                    <TextView
-                        android:id="@+id/text28_comment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="18dp"
-                        android:text="This is my second comment."
-                        android:textColor="#000000"
-                        android:textStyle="italic"
-                        android:background="#FFF"
-                        android:layout_marginLeft="1dp"/>
-                    <TextView
-                        android:id="@+id/username28_comment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="15dp"
-                        android:text="User 2"
-                        android:textColor="#000000"
-                        android:textStyle="italic|bold"
-                        android:background="#FFF"
-                        android:layout_marginLeft="1dp"/>
-                </TableRow>
-                <TableRow
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:background="#CCC"
-                    android:paddingBottom="1dp"
-                    android:paddingRight="1dp">
-                    <TextView
-                        android:id="@+id/text27_comment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="18dp"
-                        android:text="This is my second comment."
-                        android:textColor="#000000"
-                        android:textStyle="italic"
-                        android:background="#FFF"
-                        android:layout_marginLeft="1dp"/>
-                    <TextView
-                        android:id="@+id/username27_comment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="15dp"
-                        android:text="User 2"
-                        android:textColor="#000000"
-                        android:textStyle="italic|bold"
-                        android:background="#FFF"
-                        android:layout_marginLeft="1dp"/>
-                </TableRow>
-                <TableRow
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:background="#CCC"
-                    android:paddingBottom="1dp"
-                    android:paddingRight="1dp">
-                    <TextView
-                        android:id="@+id/text3_comment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="18dp"
-                        android:text="This is my third comment."
-                        android:textColor="#000000"
-                        android:textStyle="italic"
-                        android:background="#FFF"
-                        android:layout_marginLeft="1dp"/>
-                    <TextView
-                        android:id="@+id/username3_comment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="15dp"
-                        android:text="User 2"
-                        android:textColor="#000000"
-                        android:textStyle="italic|bold"
-                        android:background="#FFF"
-                        android:layout_marginLeft="1dp"/>
-                </TableRow>
-                <TableRow
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:background="#CCC"
-                    android:paddingBottom="1dp"
-                    android:paddingRight="1dp">
-                    <TextView
-                        android:id="@+id/text4_comment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="18dp"
-                        android:text="This is my second comment."
-                        android:textColor="#000000"
-                        android:textStyle="italic"
-                        android:background="#FFF"
-                        android:layout_marginLeft="1dp"/>
-                    <TextView
-                        android:id="@+id/username4_comment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="15dp"
-                        android:text="User 2"
-                        android:textColor="#000000"
-                        android:textStyle="italic|bold"
-                        android:background="#FFF"
-                        android:layout_marginLeft="1dp"/>
-                </TableRow>
-            </TableLayout>
-        </LinearLayout>
-    </ScrollView>
-</RelativeLayout>
+                        android:layout_centerInParent="true"
+                        android:inputType="textMultiLine"
+                        android:hint="@string/comment_msg"
+                        android:drawableRight="@drawable/ic_send"/>
+
+                </RelativeLayout>
+
+            </TableRow>
+        </TableLayout>
+    </RelativeLayout>
+</ScrollView>

@@ -67,7 +67,6 @@ public class LoginActivity extends AppCompatActivity{
         firebaseUser = auth.getCurrentUser();
 
         // Check if a user is logged in
-        // TODO: Uncomment this part when development is finished
         if (firebaseUser != null) {
             // User is logged in
             Intent i = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
@@ -102,7 +101,6 @@ public class LoginActivity extends AppCompatActivity{
             frameProgressBar.setVisibility(View.VISIBLE);
 
             // Authenticate user
-            // TODO: Uncomment this part when development is finished
             auth.signInWithEmailAndPassword(emailStr, passwordStr)
                     .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override

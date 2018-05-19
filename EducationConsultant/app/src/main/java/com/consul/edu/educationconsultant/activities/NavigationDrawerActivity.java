@@ -53,7 +53,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
 
     private static final String TAG = "NavigationDrawrActivity";
-    private static final String BASE_URL = "http://192.168.1.6:8095/educon/";
+    private static final String BASE_URL = "http://192.168.0.14:8095/educon/";
 
 
     private Button btnLogout;
@@ -67,7 +67,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
     private FirebaseAuth auth;
     private FirebaseUser firebaseUser;
 
-    private List<Question> questionList = new ArrayList<>();
+    private List<Question> questionList;
     private RecyclerView recyclerView;
     private QuestionAdapter mAdapter;
 
@@ -75,6 +75,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_drawer);
+
+        questionList = new ArrayList<>();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

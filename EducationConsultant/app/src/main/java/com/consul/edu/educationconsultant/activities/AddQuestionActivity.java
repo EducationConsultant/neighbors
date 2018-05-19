@@ -231,8 +231,8 @@ public class AddQuestionActivity extends AppCompatActivity {
                 String ansTwoStr = ansTwo.getText().toString().trim();
                 String ansThreeStr = ansThree.getText().toString().trim();
                 String ansFourStr = ansFour.getText().toString().trim();
-                String eduLevelStr = "foo"; //eduLevel.getText().toString().trim();
-                String categoryStr = "bar";//category.getText().toString().trim();
+                String eduLevelStr = eduLevel.getSelectedItem().toString();
+                String categoryStr = category.getSelectedItem().toString();
 
                 /*
                  * check if all fields are field out
@@ -280,7 +280,7 @@ public class AddQuestionActivity extends AppCompatActivity {
                 newQuestion.setCategory(categoryStr);
                 newQuestion.setCorrectAns(ansOneStr);
                 newQuestion.setUsername(firebaseUser.getEmail());
-                newQuestion.setAnswered("no");
+                newQuestion.setAnswered("");
 
                 /*
                  * TODO
