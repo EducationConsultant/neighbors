@@ -117,7 +117,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         recyclerView.setAdapter(mAdapter);
 
 
-        //prepareQuestionData();
+        prepareQuestionData();
 
 
         // separator
@@ -192,7 +192,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
         } else if (id == R.id.nav_profile) {
             intent = new Intent(NavigationDrawerActivity.this,ProfileActivity.class);
         } else if (id == R.id.nav_logout) {
-            // TODO: Uncomment this part when development is finished
             auth.signOut();
             firebaseUser = auth.getCurrentUser();
             if (firebaseUser == null) {
@@ -246,10 +245,15 @@ public class NavigationDrawerActivity extends AppCompatActivity
                     String eduLevel  = questionListResponse.get(i).getEduLevel();
                     String correctAns  = questionListResponse.get(i).getCorrectAns();
                     String answered  = questionListResponse.get(i).getAnswered();
+
                     Question q = new Question(title, username, description, category, answer1, answer2, answer3, answer4, eduLevel,correctAns,answered);
-                    questionList.add(q);
-                    Toast.makeText(NavigationDrawerActivity.this, "Broj pitanja dodatih u questionList: " + questionList.size(), Toast.LENGTH_SHORT).show();
-                    mAdapter.notifyDataSetChanged();
+
+                    if (!questionList.contains(q)) {
+                        questionList.add(q);
+                        mAdapter.notifyDataSetChanged();
+                    }
+                    //Toast.makeText(NavigationDrawerActivity.this, "Broj pitanja dodatih u questionList: " + questionList.size(), Toast.LENGTH_SHORT).show();
+
                 }
             }
 
@@ -275,7 +279,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         txtUserFirstLastName.setText(firebaseUser.getDisplayName());
         txtEmail.setText(firebaseUser.getEmail());
 
-        prepareQuestionData();
+//        prepareQuestionData();   // duplicates data !!!!!!!!!
 
     }
 

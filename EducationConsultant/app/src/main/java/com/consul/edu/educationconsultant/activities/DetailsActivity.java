@@ -47,19 +47,14 @@ public class DetailsActivity extends AppCompatActivity
 
     private Button btnSubmitAnswer;
 
-    private TextView questionTitle;
-    private TextView questionDescription;
-    private TextView questionCategory;
-    private TextView questionEduLevel;
-    private TextView questionUsername;
     private TableLayout commentsTable;
     private EditText commentMessage;
 
     private RadioGroup radioGroup;
-    private RadioButton rbAnswer1;
-    private RadioButton rbAnswer2;
-    private RadioButton rbAnswer3;
-    private RadioButton rbAnswer4;
+    private RadioButton rb1;
+    private RadioButton rb2;
+    private RadioButton rb3;
+    private RadioButton rb4;
 
     private Question question;
 
@@ -72,17 +67,11 @@ public class DetailsActivity extends AppCompatActivity
 
         btnSubmitAnswer = (Button) findViewById(R.id.submit_answer);
 
-        questionTitle = findViewById(R.id.title);
-        questionDescription = (TextView) findViewById(R.id.description);
-        questionCategory = (TextView) findViewById(R.id.category);
-        questionEduLevel = (TextView) findViewById(R.id.eduLevel);
-        questionUsername = (TextView) findViewById(R.id.username);
-
         radioGroup = (RadioGroup) findViewById(R.id.radio_group);
-        rbAnswer1 = (RadioButton)findViewById(R.id.answer1);
-        rbAnswer2 = (RadioButton)findViewById(R.id.answer2);
-        rbAnswer3 = (RadioButton)findViewById(R.id.answer3);
-        rbAnswer4 = (RadioButton)findViewById(R.id.answer4);
+        rb1 = (RadioButton)findViewById(R.id.answer1);
+        rb2 = (RadioButton)findViewById(R.id.answer2);
+        rb3 = (RadioButton)findViewById(R.id.answer3);
+        rb4 = (RadioButton)findViewById(R.id.answer4);
 
         commentsTable = (TableLayout) findViewById(R.id.comments_table);
         commentMessage = (EditText) findViewById(R.id.comment_message);
@@ -160,7 +149,7 @@ public class DetailsActivity extends AppCompatActivity
         if(getIntent().hasExtra("description") && getIntent().hasExtra("username") && getIntent().hasExtra("category") ) {
             Log.d(TAG, "getIncomingIntent: found intent extras");
 
-            String title = getIntent().getStringExtra("title");
+           // String title = getIntent().getStringExtra("title");
             String description = getIntent().getStringExtra("description");
             String username = getIntent().getStringExtra("username");
             String category = getIntent().getStringExtra("category");
@@ -171,21 +160,29 @@ public class DetailsActivity extends AppCompatActivity
             String eduLevel = getIntent().getStringExtra("eduLevel");
             String answered = getIntent().getStringExtra("answered");
 
-            setQuestion(title, description, username, category, answer1, answer2, answer3, answer4, eduLevel,answered);
+            setQuestion(description, username, category, answer1, answer2, answer3, answer4, eduLevel,answered);
         }
     }
 
-    private void setQuestion(String title, String description, String username, String category, String answer1, String answer2, String answer3, String answer4, String eduLevel, String answered) {
 
-        questionTitle.setText(title);
-        questionDescription.setText(description);
-        questionUsername.setText(username);
-        questionCategory.setText(category);
-        questionEduLevel.setText(eduLevel);
-        rbAnswer1.setText(answer1);
-        rbAnswer2.setText(answer2);
-        rbAnswer3.setText(answer3);
-        rbAnswer4.setText(answer4);
+    private void setQuestion( String description, String username, String category, String answer1, String answer2, String answer3, String answer4, String eduLevel, String answered) {
+        TextView descriptionView  = findViewById(R.id.description);
+        TextView usernameView = findViewById(R.id.username);
+        TextView categoryView = findViewById(R.id.category);
+        rb1 = findViewById(R.id.answer1);
+        rb2 = findViewById(R.id.answer2);
+        rb3 = findViewById(R.id.answer3);
+        rb4 = findViewById(R.id.answer4);
+        TextView eduLevelView = findViewById(R.id.eduLevel);
+
+        descriptionView.setText(description);
+        usernameView.setText(username);
+        categoryView.setText(category);
+        rb1.setText(answer1);
+        rb2.setText(answer2);
+        rb3.setText(answer3);
+        rb4.setText(answer4);
+        eduLevelView.setText(eduLevel);
 
         if(answered.equals("")){
             btnSubmitAnswer.setVisibility(View.VISIBLE);
@@ -199,6 +196,7 @@ public class DetailsActivity extends AppCompatActivity
 
             commentsTable.setVisibility(View.VISIBLE);
         }
+
     }
 
 
