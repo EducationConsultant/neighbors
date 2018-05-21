@@ -8,6 +8,8 @@ import java.math.BigInteger;
 // TODO: Add answeredQuestions
 public class User {
 
+    private Long id;
+
     @SerializedName("firstName")
     @Expose
     private String firstName;
@@ -35,6 +37,9 @@ public class User {
         this.password = password;
     }
 
+    public Long getId() {
+        return id;
+    }
 
     public String getFirstName() {
         return firstName;

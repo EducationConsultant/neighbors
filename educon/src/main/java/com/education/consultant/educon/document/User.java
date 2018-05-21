@@ -13,7 +13,7 @@ import java.util.List;
 public class User {
 
     @Id
-    private BigInteger id;
+    private Long id;
 
     private String firstName;
 
@@ -23,6 +23,8 @@ public class User {
     private String email;
 
     private String password;
+
+    private static Long nextId = 1L;
 
     public User(){
 
@@ -65,6 +67,22 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public static Long getNextId() {
+        return nextId;
+    }
+
+    public static void setNextId(Long nextId) {
+        User.nextId = nextId;
     }
 
     @Override

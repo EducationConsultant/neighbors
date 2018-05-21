@@ -5,10 +5,7 @@ import com.education.consultant.educon.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -27,6 +24,14 @@ public class UserController {
         return new ResponseEntity<List<User>>(users, HttpStatus.OK);
     }
 
+    // find by email and password
+    @RequestMapping(method = RequestMethod.PUT)
+    public ResponseEntity<User> findByEmailAndPassword(@RequestBody User user){
+        User resultUser = userService.findByEmailAndPassword(user.getEmail(), user.getPassword());
+
+        return new ResponseEntity<User>(resultUser, HttpStatus.OK);
+    }
+
     // insert user
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<User> insertUser(@Valid @RequestBody User user) {
@@ -35,11 +40,13 @@ public class UserController {
         return new ResponseEntity<User>(savedUser, HttpStatus.CREATED);
     }
 
-    // find by email and password
-    @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<User> findByEmailAndPassword(@RequestBody User user){
-        User findedUser = userService.findByEmailAndPassword(user.getEmail(), user.getPassword());
+    // update user
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    private ResponseEntity<User> updateUser(@PathVariable Long id,
+                                            @Valid @RequestBody User user) {
 
-        return new ResponseEntity<User>(findedUser, HttpStatus.OK);
+        User savedUser = userService.update(id, user);
+        return new ResponseEntity<User>(savedUser, HttpStatus.OK);
     }
+
 }

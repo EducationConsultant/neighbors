@@ -7,7 +7,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
-import retrofit2.http.Path;
 
 /**
  * Created by Svetlana on 5/16/2018.
@@ -20,6 +19,7 @@ public interface RedditAPI {
     @Headers("Content-Type: application/json")
     @GET("question")
     Call<List<Question>> getData();
+
 }
 
 

@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.consul.edu.educationconsultant.R;
+import com.consul.edu.educationconsultant.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -134,6 +135,11 @@ public class ProfileActivity extends AppCompatActivity {
                 firebaseUser.updateProfile(profileUpdates);
                 firebaseUser.updateEmail(inputEmail.getText().toString());
 
+                User userToUpdate = new User();
+                userToUpdate.setFirstName(inputFirstName.getText().toString());
+                userToUpdate.setLastName(inputLastName.getText().toString());
+                userToUpdate.setEmail(inputEmail.getText().toString());
+
                 Toast toast = Toast.makeText(this,R.string.msg_profile_updated,Toast.LENGTH_SHORT);
                 toast.show();
 
@@ -163,5 +169,4 @@ public class ProfileActivity extends AppCompatActivity {
 
         }
     }
-
 }

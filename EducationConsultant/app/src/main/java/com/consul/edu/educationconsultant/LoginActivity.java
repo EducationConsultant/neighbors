@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.consul.edu.educationconsultant.activities.NavigationDrawerActivity;
 import com.consul.edu.educationconsultant.activities.RegistrationActivity;
 import com.consul.edu.educationconsultant.activities.ResetPasswordActivity;
+import com.consul.edu.educationconsultant.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -100,6 +101,8 @@ public class LoginActivity extends AppCompatActivity{
 
             frameProgressBar.setVisibility(View.VISIBLE);
 
+            User user = new User("","",emailStr,passwordStr);
+
             // Authenticate user
             auth.signInWithEmailAndPassword(emailStr, passwordStr)
                     .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
@@ -151,6 +154,4 @@ public class LoginActivity extends AppCompatActivity{
             startActivity(i);
         }
     }
-
-
 }
