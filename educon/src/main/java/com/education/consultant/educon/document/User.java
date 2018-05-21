@@ -1,27 +1,27 @@
-package com.consul.edu.educationconsultant.model;
+package com.education.consultant.educon.document;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigInteger;
+import java.util.List;
 
 // TODO: Add answeredQuestions
+@Document
 public class User {
 
-    @SerializedName("firstName")
-    @Expose
+    @Id
+    private BigInteger id;
+
     private String firstName;
 
-    @SerializedName("lastName")
-    @Expose
     private String lastName;
 
-    @SerializedName("email")
-    @Expose
+    @Indexed(unique = true)
     private String email;
 
-    @SerializedName("password")
-    @Expose
     private String password;
 
     public User(){
@@ -35,33 +35,32 @@ public class User {
         this.password = password;
     }
 
-
     public String getFirstName() {
         return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public void setPassword(String password) {
