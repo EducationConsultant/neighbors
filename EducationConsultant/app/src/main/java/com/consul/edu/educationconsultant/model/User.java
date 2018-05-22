@@ -8,6 +8,8 @@ import java.math.BigInteger;
 // TODO: Add answeredQuestions
 public class User {
 
+    @SerializedName("id")
+    @Expose
     private Long id;
 
     @SerializedName("firstName")

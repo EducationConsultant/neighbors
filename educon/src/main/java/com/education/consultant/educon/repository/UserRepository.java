@@ -9,6 +9,8 @@ public interface UserRepository extends MongoRepository<User, Long> {
 
     public User findByEmailAndPassword(String email, String password);
 
+    public User findByEmail(String email);
+
     public List<User> findAllByOrderByIdDesc();
 
 }

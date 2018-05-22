@@ -32,6 +32,11 @@ public class SettingsActivity extends AppCompatActivity {
         this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back);
     }
 
+    public void onClickChangePassword(View view){
+        Intent intent = new Intent(SettingsActivity.this,SettingsChangePasswordActivity.class);
+        startActivity(intent);
+    }
+
     public void onClickEducationLevels(View view){
         Intent intent = new Intent(SettingsActivity.this, SettingsEducationLevelsActivity.class);
         startActivity(intent);

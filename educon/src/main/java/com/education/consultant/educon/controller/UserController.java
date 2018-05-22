@@ -32,6 +32,14 @@ public class UserController {
         return new ResponseEntity<User>(resultUser, HttpStatus.OK);
     }
 
+    // find by email
+    @RequestMapping(value = "/email",method = RequestMethod.PUT)
+    public ResponseEntity<User> findByEmail(@RequestBody User user){
+        User resultUser = userService.findByEmail(user.getEmail());
+
+        return new ResponseEntity<User>(resultUser, HttpStatus.OK);
+    }
+
     // insert user
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<User> insertUser(@Valid @RequestBody User user) {
@@ -46,6 +54,14 @@ public class UserController {
                                             @Valid @RequestBody User user) {
 
         User savedUser = userService.update(id, user);
+        return new ResponseEntity<User>(savedUser, HttpStatus.OK);
+    }
+
+    // update password
+    @RequestMapping(value = "/{id}/password", method = RequestMethod.PUT)
+    private ResponseEntity<User> updateUserPassword(@PathVariable Long id, @RequestBody String newPassword) {
+
+        User savedUser = userService.updateUserPassword(id, newPassword);
         return new ResponseEntity<User>(savedUser, HttpStatus.OK);
     }
 

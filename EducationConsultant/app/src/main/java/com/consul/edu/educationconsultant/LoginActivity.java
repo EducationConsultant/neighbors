@@ -16,11 +16,18 @@ import com.consul.edu.educationconsultant.activities.NavigationDrawerActivity;
 import com.consul.edu.educationconsultant.activities.RegistrationActivity;
 import com.consul.edu.educationconsultant.activities.ResetPasswordActivity;
 import com.consul.edu.educationconsultant.model.User;
+import com.consul.edu.educationconsultant.retrofit.UserClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity{
 
@@ -84,7 +91,7 @@ public class LoginActivity extends AppCompatActivity{
      * */
     public void onClickLogin(View view){
         if (btnLogin != null) {
-            String emailStr = inputEmail.getEditableText().toString().trim();
+            final String emailStr = inputEmail.getEditableText().toString().trim();
             final String passwordStr = inputPassword.getEditableText().toString().trim();
 
             // Check if the email field is empty
@@ -101,7 +108,7 @@ public class LoginActivity extends AppCompatActivity{
 
             frameProgressBar.setVisibility(View.VISIBLE);
 
-            User user = new User("","",emailStr,passwordStr);
+
 
             // Authenticate user
             auth.signInWithEmailAndPassword(emailStr, passwordStr)
@@ -116,6 +123,8 @@ public class LoginActivity extends AppCompatActivity{
                                         // there was an error
                                         Toast.makeText(LoginActivity.this, getString(R.string.msg_authentication_failed), Toast.LENGTH_LONG).show();
                                     } else {
+                                        User user = new User("","",emailStr,"");
+                                        //sendNetworkRequest(user);
                                         // Start the Main activity
                                         Intent intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
                                         startActivity(intent);
@@ -153,5 +162,27 @@ public class LoginActivity extends AppCompatActivity{
             Intent i = new Intent(LoginActivity.this, ResetPasswordActivity.class);
             startActivity(i);
         }
+    }
+
+    private void sendNetworkRequest(User user){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(UserClient.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        UserClient client = retrofit.create(UserClient.class);
+        Call<User> userResponse = client.findByEmail(user);
+
+        userResponse.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                Toast.makeText(LoginActivity.this, "findByEmail: User email: " + response.body().getEmail(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Toast.makeText(LoginActivity.this, "findByEmail: Server does not response.", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

@@ -2,22 +2,17 @@ package com.consul.edu.educationconsultant.activities;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.consul.edu.educationconsultant.R;
 import com.consul.edu.educationconsultant.model.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -30,7 +25,6 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText inputFirstName;
     private EditText inputLastName;
     private EditText inputEmail;
-    private Button btnResetPassword;
 
     private Toolbar toolbar;
     private ActionBar actionBar;
@@ -66,7 +60,6 @@ public class ProfileActivity extends AppCompatActivity {
         inputFirstName = (EditText) findViewById(R.id.firstname_edit);
         inputLastName = (EditText) findViewById(R.id.lastname_edit);
         inputEmail = (EditText) findViewById(R.id.email_edit);
-        btnResetPassword = (Button) findViewById(R.id.btn_reset_pass);
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
@@ -150,23 +143,6 @@ public class ProfileActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    public void onClickResetPassword(View view){
-        if (btnResetPassword != null) {
-            auth.sendPasswordResetEmail(firebaseUser.getEmail())
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(ProfileActivity.this, R.string.msg_send_instructions, Toast.LENGTH_LONG).show();
-                            } else {
-                                Toast.makeText(ProfileActivity.this, R.string.msg_failed_send, Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-
         }
     }
 }

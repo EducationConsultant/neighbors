@@ -92,8 +92,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.NavigationDrawerActivity" />
         </activity>
-        <activity android:name=".activities.SettingsLocationActivity"
+        <activity
+            android:name=".activities.SettingsLocationActivity"
             android:label="@string/location_name"
+            android:parentActivityName=".activities.SettingsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.SettingsActivity" />
+        </activity>
+        <activity
+            android:name=".activities.SettingsChangePasswordActivity"
+            android:label="@string/change_password_name"
             android:parentActivityName=".activities.SettingsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

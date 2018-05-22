@@ -29,9 +29,27 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/title_account"
+        android:padding="8dp"
+        android:textSize="12sp"/>
+
+    <TextView android:id="@+id/change_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/change_password_name"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onClickChangePassword"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/title_filters"
         android:padding="8dp"
-        android:textSize="18dp"/>
+        android:textSize="12sp"/>
 
     <TextView android:id="@+id/education_levels"
         android:layout_width="match_parent"
@@ -39,7 +57,7 @@
         android:padding="16dp"
         android:text="@string/education_levels_name"
         android:textColor="@color/black"
-        android:textSize="18dp"
+        android:textSize="16sp"
         android:clickable="true"
         android:focusable="true"
         android:onClick="onClickEducationLevels"/>
@@ -55,7 +73,7 @@
         android:padding="16dp"
         android:text="@string/category_title"
         android:textColor="@color/black"
-        android:textSize="18dp"
+        android:textSize="16sp"
         android:clickable="true"
         android:focusable="true"
         android:onClick="onClickCategoryFilter"/>
@@ -70,7 +88,7 @@
         android:padding="16dp"
         android:text="@string/location_label"
         android:textColor="@color/black"
-        android:textSize="18dp"
+        android:textSize="16sp"
         android:clickable="true"
         android:focusable="true"
         android:onClick="onClickLocationFilter"/>

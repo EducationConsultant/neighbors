@@ -40,6 +40,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User updateUserPassword(Long userId, String newPassword) {
+        User userToUpdate = findOne(userId);
+
+        userToUpdate.setPassword(newPassword);
+
+        User saved = userRepository.save(userToUpdate);
+        return saved;
+    }
+
+    @Override
     public List<User> findAll() {
         return userRepository.findAll();
     }
@@ -47,6 +57,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByEmailAndPassword(String email, String password) {
         return userRepository.findByEmailAndPassword(email,password);
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     @Override
