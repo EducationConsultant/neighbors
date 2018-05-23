@@ -1,6 +1,7 @@
 package com.consul.edu.educationconsultant.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.consul.edu.educationconsultant.R;
+import com.consul.edu.educationconsultant.asyncTasks.FindUserByEmailTask;
 import com.consul.edu.educationconsultant.model.User;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
@@ -29,6 +31,9 @@ public class SettingsChangePasswordActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private ActionBar actionBar;
+
+    private SharedPreferences sharedPreferences;
+    private String sharedPrefName;
 
     private FirebaseAuth auth;
     private FirebaseUser firebaseUser;
@@ -79,6 +84,14 @@ public class SettingsChangePasswordActivity extends AppCompatActivity {
         super.onStart();
 
         firebaseUser = auth.getCurrentUser();
+        sharedPrefName = "currentUser";
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+       // new FindUserByEmailTask().execute(firebaseUser.getEmail());
     }
 
     /**
@@ -102,6 +115,8 @@ public class SettingsChangePasswordActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_change_password:
+                sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
+
                 String oldPasswordStr = inputOldPassword.getText().toString();
                 String newPasswordStr = inputNewPassword.getText().toString();
                 String newPasswordRepeatStr = inputNewPasswordRepeat.getText().toString();
@@ -122,25 +137,30 @@ public class SettingsChangePasswordActivity extends AppCompatActivity {
                     return false;
                 }
 
-                if(newPasswordStr.equals(newPasswordRepeatStr)){
-                    firebaseUser.updatePassword(newPasswordStr);
-                    // Re-authenticate a user
-                    // Get auth credentials from the user for re-authentication.
-                    AuthCredential credential = EmailAuthProvider
-                            .getCredential(firebaseUser.getEmail(), newPasswordStr);
-                    // Prompt the user to re-provide their sign-in credentials
-                    firebaseUser.reauthenticate(credential);
+                if(sharedPreferences.getString("user_password", "").equals(oldPasswordStr)){
+                    if(newPasswordStr.equals(newPasswordRepeatStr)){
+                        firebaseUser.updatePassword(newPasswordStr);
+                        // Re-authenticate a user
+                        // Get auth credentials from the user for re-authentication.
+                        AuthCredential credential = EmailAuthProvider
+                                .getCredential(firebaseUser.getEmail(), newPasswordStr);
+                        // Prompt the user to re-provide their sign-in credentials
+                        firebaseUser.reauthenticate(credential);
 
-                    Toast toast = Toast.makeText(this,R.string.password_changed,Toast.LENGTH_SHORT);
-                    toast.show();
+                        Toast toast = Toast.makeText(this,R.string.password_changed,Toast.LENGTH_SHORT);
+                        toast.show();
 
-                    Intent intent = new Intent(SettingsChangePasswordActivity.this, SettingsActivity.class);
-                    startActivity(intent);
-                    finish();
-                    // Returning true tells Android you're dealt with the item being clicked
-                    return true;
+                        Intent intent = new Intent(SettingsChangePasswordActivity.this, SettingsActivity.class);
+                        startActivity(intent);
+                        finish();
+                        // Returning true tells Android you're dealt with the item being clicked
+                        return true;
+                    }else{
+                        Toast.makeText(getApplicationContext(), R.string.passwords_do_not_match, Toast.LENGTH_LONG).show();
+                        return false;
+                    }
                 }else{
-                    Toast.makeText(getApplicationContext(), R.string.passwords_do_not_match, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.old_password_error, Toast.LENGTH_LONG).show();
                     return false;
                 }
             default:

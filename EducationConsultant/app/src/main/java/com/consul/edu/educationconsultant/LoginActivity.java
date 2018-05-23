@@ -1,10 +1,12 @@
 package com.consul.edu.educationconsultant;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,19 +17,12 @@ import android.widget.Toast;
 import com.consul.edu.educationconsultant.activities.NavigationDrawerActivity;
 import com.consul.edu.educationconsultant.activities.RegistrationActivity;
 import com.consul.edu.educationconsultant.activities.ResetPasswordActivity;
-import com.consul.edu.educationconsultant.model.User;
-import com.consul.edu.educationconsultant.retrofit.UserClient;
+import com.consul.edu.educationconsultant.asyncTasks.FindUserByEmailTask;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity{
 
@@ -40,6 +35,9 @@ public class LoginActivity extends AppCompatActivity{
     private FrameLayout frameProgressBar;
     private FirebaseAuth auth;
     private FirebaseUser firebaseUser;
+
+    private String sharedPrefName;
+    private SharedPreferences sharedPreferences;
 
     /**
      * This method gets called immediately after your activity is launched.
@@ -73,6 +71,7 @@ public class LoginActivity extends AppCompatActivity{
         super.onStart();
 
         firebaseUser = auth.getCurrentUser();
+        sharedPrefName = "currentUser";
 
         // Check if a user is logged in
         if (firebaseUser != null) {
@@ -81,6 +80,12 @@ public class LoginActivity extends AppCompatActivity{
             startActivity(i);
             finish();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
     }
 
     /**
@@ -123,12 +128,11 @@ public class LoginActivity extends AppCompatActivity{
                                         // there was an error
                                         Toast.makeText(LoginActivity.this, getString(R.string.msg_authentication_failed), Toast.LENGTH_LONG).show();
                                     } else {
-                                        User user = new User("","",emailStr,"");
-                                        //sendNetworkRequest(user);
+                                        new FindUserByEmailTask(sharedPreferences).execute(emailStr);
                                         // Start the Main activity
-                                        Intent intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
-                                        startActivity(intent);
-                                        finish();
+                                       Intent intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
+                                       startActivity(intent);
+                                       finish();
                                     }
                                 }
                             });
@@ -162,27 +166,5 @@ public class LoginActivity extends AppCompatActivity{
             Intent i = new Intent(LoginActivity.this, ResetPasswordActivity.class);
             startActivity(i);
         }
-    }
-
-    private void sendNetworkRequest(User user){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(UserClient.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        UserClient client = retrofit.create(UserClient.class);
-        Call<User> userResponse = client.findByEmail(user);
-
-        userResponse.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                Toast.makeText(LoginActivity.this, "findByEmail: User email: " + response.body().getEmail(), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, "findByEmail: Server does not response.", Toast.LENGTH_LONG).show();
-            }
-        });
     }
 }
