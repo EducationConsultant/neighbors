@@ -1,6 +1,7 @@
 package com.consul.edu.educationconsultant.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.consul.edu.educationconsultant.LoginActivity;
 import com.consul.edu.educationconsultant.R;
+import com.consul.edu.educationconsultant.asyncTasks.RegistrationUserTask;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -32,6 +34,9 @@ public class RegistrationActivity extends AppCompatActivity {
     private FrameLayout frameProgressBar;
     private FirebaseAuth auth;
     private FirebaseUser firebaseUser;
+
+    private String sharedPrefName;
+    private SharedPreferences sharedPreferences;
 
     /**
      *
@@ -58,6 +63,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
         // Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
+
+        sharedPrefName = "currentUser";
     }
 
     /**
@@ -70,6 +77,8 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         frameProgressBar.setVisibility(View.GONE);
+
+        sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
     }
 
     /**
@@ -82,8 +91,8 @@ public class RegistrationActivity extends AppCompatActivity {
         if(btnSignup != null) {
             final String firstNameStr = inputFirstName.getText().toString().trim();
             final String lastNameStr = inputLastName.getText().toString().trim();
-            String emailStr = inputEmail.getText().toString().trim();
-            String passwordStr = inputPassword.getText().toString().trim();
+            final String emailStr = inputEmail.getText().toString().trim();
+            final String passwordStr = inputPassword.getText().toString().trim();
 
             // Check if the first name field is empty
             if (TextUtils.isEmpty(firstNameStr)) {
@@ -130,6 +139,8 @@ public class RegistrationActivity extends AppCompatActivity {
                                 Toast.makeText(RegistrationActivity.this, "Authentication failed." + task.getException(),
                                         Toast.LENGTH_LONG).show();
                             } else {
+                                new RegistrationUserTask(sharedPreferences).execute(firstNameStr,lastNameStr,emailStr,passwordStr);
+
                                 firebaseUser = auth.getCurrentUser();
                                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                         .setDisplayName(firstNameStr + " " + lastNameStr)

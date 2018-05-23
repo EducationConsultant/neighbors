@@ -1,6 +1,7 @@
 package com.consul.edu.educationconsultant.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.consul.edu.educationconsultant.R;
+import com.consul.edu.educationconsultant.asyncTasks.UpdateUserPasswordTask;
+import com.consul.edu.educationconsultant.asyncTasks.UpdateUserProfileTask;
 import com.consul.edu.educationconsultant.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,6 +34,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private FirebaseUser firebaseUser;
+
+    private SharedPreferences sharedPreferences;
+    private String sharedPrefName;
 
     /**
      *
@@ -76,6 +82,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onStart();
 
         firebaseUser = auth.getCurrentUser();
+        sharedPrefName = "currentUser";
     }
 
     /**
@@ -97,6 +104,8 @@ public class ProfileActivity extends AppCompatActivity {
         inputFirstName.setText(firstName);
         inputLastName.setText(lastName);
         inputEmail.setText(firebaseUser.getEmail());
+
+        sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
     }
 
     /**
@@ -120,6 +129,8 @@ public class ProfileActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_edit_profile:
+                Long userId = sharedPreferences.getLong("user_id", -1L);
+                new UpdateUserProfileTask().execute(userId.toString(), inputFirstName.getText().toString(), inputLastName.getText().toString(), inputEmail.getText().toString());
 
                 // Update a user's basic profile information
                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()

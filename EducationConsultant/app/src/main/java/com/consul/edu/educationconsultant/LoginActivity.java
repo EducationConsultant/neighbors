@@ -3,6 +3,7 @@ package com.consul.edu.educationconsultant;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -39,6 +40,9 @@ public class LoginActivity extends AppCompatActivity{
     private String sharedPrefName;
     private SharedPreferences sharedPreferences;
 
+    private Handler handler;
+    private int state;
+
     /**
      * This method gets called immediately after your activity is launched.
      * This method is where you do all your normal activity setup such as calling setContentView().
@@ -60,6 +64,9 @@ public class LoginActivity extends AppCompatActivity{
 
         // Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
+
+        handler= new Handler();
+        state = 0;
     }
 
     /**
@@ -125,10 +132,12 @@ public class LoginActivity extends AppCompatActivity{
                                     // the auth state listener will be notified and logic to handle the
                                     // signed in user can be handled in the listener.
                                     if (!task.isSuccessful()) {
+                                        //frameProgressBar.setVisibility(View.GONE);
                                         // there was an error
                                         Toast.makeText(LoginActivity.this, getString(R.string.msg_authentication_failed), Toast.LENGTH_LONG).show();
                                     } else {
                                         new FindUserByEmailTask(sharedPreferences).execute(emailStr);
+
                                         // Start the Main activity
                                        Intent intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
                                        startActivity(intent);
