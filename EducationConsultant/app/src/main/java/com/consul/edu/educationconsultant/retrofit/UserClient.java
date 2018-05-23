@@ -30,4 +30,9 @@ public interface UserClient {
     @Headers("Content-Type: application/json")
     @PUT("user/{id}")
     Call<User> updateUser(@Path("id") Long id, @Body User user);
+
+    // update user password
+    @Headers("Content-Type: application/json")
+    @PUT("user/{id}/password")
+    Call<User> updateUserPassword(@Path("id") Long id, @Body User user);
 }

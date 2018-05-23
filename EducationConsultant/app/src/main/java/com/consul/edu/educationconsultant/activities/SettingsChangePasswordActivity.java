@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.consul.edu.educationconsultant.R;
 import com.consul.edu.educationconsultant.asyncTasks.FindUserByEmailTask;
+import com.consul.edu.educationconsultant.asyncTasks.UpdateUserPasswordTask;
 import com.consul.edu.educationconsultant.model.User;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
@@ -90,6 +91,7 @@ public class SettingsChangePasswordActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
 
        // new FindUserByEmailTask().execute(firebaseUser.getEmail());
     }
@@ -147,8 +149,15 @@ public class SettingsChangePasswordActivity extends AppCompatActivity {
                         // Prompt the user to re-provide their sign-in credentials
                         firebaseUser.reauthenticate(credential);
 
+                        final SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("user_password",newPasswordStr);
+                        editor.apply();
+
                         Toast toast = Toast.makeText(this,R.string.password_changed,Toast.LENGTH_SHORT);
                         toast.show();
+
+                        Long userId = sharedPreferences.getLong("user_id", -1L);
+                        new UpdateUserPasswordTask().execute(userId.toString(), newPasswordStr);
 
                         Intent intent = new Intent(SettingsChangePasswordActivity.this, SettingsActivity.class);
                         startActivity(intent);

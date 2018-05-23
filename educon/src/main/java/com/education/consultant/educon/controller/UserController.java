@@ -59,9 +59,9 @@ public class UserController {
 
     // update password
     @RequestMapping(value = "/{id}/password", method = RequestMethod.PUT)
-    private ResponseEntity<User> updateUserPassword(@PathVariable Long id, @RequestBody String newPassword) {
+    private ResponseEntity<User> updateUserPassword(@PathVariable Long id, @RequestBody User user) {
 
-        User savedUser = userService.updateUserPassword(id, newPassword);
+        User savedUser = userService.updateUserPassword(id, user.getPassword());
         return new ResponseEntity<User>(savedUser, HttpStatus.OK);
     }
 
