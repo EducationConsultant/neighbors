@@ -7,14 +7,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.consul.edu.educationconsultant.R;
-import com.consul.edu.educationconsultant.asyncTasks.UpdateUserPasswordTask;
-import com.consul.edu.educationconsultant.asyncTasks.UpdateUserProfileTask;
+import com.consul.edu.educationconsultant.asyncTasks.UserUpdateProfileTask;
 import com.consul.edu.educationconsultant.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -129,8 +129,27 @@ public class ProfileActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_edit_profile:
+                // Check if the first name field is empty
+                if (TextUtils.isEmpty(inputFirstName.getText().toString())) {
+                    Toast.makeText(getApplicationContext(), R.string.msg_enter_firstname, Toast.LENGTH_LONG).show();
+                    return false;
+                }
+
+                // Check if the last name field is empty
+                if (TextUtils.isEmpty(inputLastName.getText().toString())) {
+                    Toast.makeText(getApplicationContext(), R.string.msg_enter_lastname, Toast.LENGTH_LONG).show();
+                    return false;
+                }
+
+                // Check if the email field is empty
+                if (TextUtils.isEmpty(inputEmail.getText().toString())) {
+                    Toast.makeText(getApplicationContext(), R.string.msg_enter_email, Toast.LENGTH_LONG).show();
+                    return false;
+                }
+
+
                 Long userId = sharedPreferences.getLong("user_id", -1L);
-                new UpdateUserProfileTask().execute(userId.toString(), inputFirstName.getText().toString(), inputLastName.getText().toString(), inputEmail.getText().toString());
+                new UserUpdateProfileTask().execute(userId.toString(), inputFirstName.getText().toString(), inputLastName.getText().toString(), inputEmail.getText().toString());
 
                 // Update a user's basic profile information
                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()

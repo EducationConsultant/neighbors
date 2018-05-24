@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +17,7 @@ import android.widget.Toast;
 import com.consul.edu.educationconsultant.activities.NavigationDrawerActivity;
 import com.consul.edu.educationconsultant.activities.RegistrationActivity;
 import com.consul.edu.educationconsultant.activities.ResetPasswordActivity;
-import com.consul.edu.educationconsultant.asyncTasks.FindUserByEmailTask;
+import com.consul.edu.educationconsultant.asyncTasks.UserFindByEmailTask;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -136,7 +135,7 @@ public class LoginActivity extends AppCompatActivity{
                                         // there was an error
                                         Toast.makeText(LoginActivity.this, getString(R.string.msg_authentication_failed), Toast.LENGTH_LONG).show();
                                     } else {
-                                        new FindUserByEmailTask(sharedPreferences).execute(emailStr);
+                                        new UserFindByEmailTask(sharedPreferences).execute(emailStr);
 
                                         // Start the Main activity
                                        Intent intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);

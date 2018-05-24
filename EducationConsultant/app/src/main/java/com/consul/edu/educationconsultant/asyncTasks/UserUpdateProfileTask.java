@@ -1,6 +1,5 @@
 package com.consul.edu.educationconsultant.asyncTasks;
 
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -13,31 +12,20 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- *
- * First parameter is the type of object used to pass any task parameters to the doInBackground() method.
- * Second parameter is the type of object used to indicate task progress.
- * Third parameter is the type of the task result.
- *
- * */
-
-public class FindUserByEmailTask extends AsyncTask<String, Void, User> {
+public class UserUpdateProfileTask extends AsyncTask<String, Void, User> {
 
     private User userRequest;
     private User userResult;
 
-    private SharedPreferences sharedPreferences;
-
-    public FindUserByEmailTask(SharedPreferences sharedPreferences){
-        this.sharedPreferences = sharedPreferences;
-    }
-
     @Override
     protected User doInBackground(String... strings) {
-        String userEmail = strings[0];
-        userRequest = new User("","",userEmail,"");
+        String userIdStr = strings[0];
+        Long userId = Long.parseLong(userIdStr);
+        String userFirstName = strings[1];
+        String userLastName = strings[2];
+        String userEmail = strings[3];
 
-        final SharedPreferences.Editor editor = sharedPreferences.edit();
+        userRequest = new User(userFirstName,userLastName,userEmail,"");
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(UserClient.BASE_URL)
@@ -45,25 +33,18 @@ public class FindUserByEmailTask extends AsyncTask<String, Void, User> {
                 .build();
 
         UserClient client = retrofit.create(UserClient.class);
-        Call<User> userResponse = client.findByEmail(userRequest);
-
+        Call<User> userResponse = client.updateUser(userId, userRequest);
 
         userResponse.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                Log.w("successInBackground","doInBackground: User email: " + response.body().getEmail());
+                Log.w("successUpdateProfile","User email: " + response.body().getEmail());
                 userResult = new User(response.body().getId(),response.body().getFirstName(),response.body().getLastName(),response.body().getEmail(),response.body().getPassword());
-
-                editor.putLong("user_id",userResult.getId());
-                editor.apply();
-                editor.putString("user_password",userResult.getPassword());
-                editor.apply();
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Log.e("notResponse","findByEmail: Server does not response.");
-                //Toast.makeText(LoginActivity.this, "findByEmail: Server does not response.", Toast.LENGTH_LONG).show();
+                Log.e("errorUpdateProfile","Server does not response.");
                 userResult = null;
             }
         });

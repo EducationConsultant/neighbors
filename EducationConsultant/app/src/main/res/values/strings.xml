@@ -34,8 +34,8 @@
     <string name="link_forgot_password">Forgot password?</string>
     <string name="btn_login">Log in</string>
     <string name="btn_signup">Sign up</string>
-    <string name="btn_reset_password">Reset password</string>
-    <string name="lbl_forgot_password_msg">To reset your password, enter the email address you use to sign into Education Consultant.</string>
+    <string name="btn_reset_password">Send email</string>
+    <string name="lbl_forgot_password_msg">To get your password, enter the email address you use to sign into Education Consultant.</string>
     <string name="lbl_reset_password">To reset your password, click the button below.</string>
 
 
@@ -49,7 +49,7 @@
     <string name="msg_password_length">Password too short, enter minimum 6 characters.</string>
     <string name="msg_authentication_failed">Authentication failed.</string>
     <string name="msg_user_not_found">User not found.</string>
-    <string name="msg_send_instructions">We have sent you instructions to reset your password.</string>
+    <string name="msg_send_instructions">We have sent you your password.</string>
     <string name="msg_failed_send">Failed to send reset email.</string>
     <string name="msg_profile_updated">User profile updated.</string>
 

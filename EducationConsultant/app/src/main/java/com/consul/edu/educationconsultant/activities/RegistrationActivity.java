@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.consul.edu.educationconsultant.LoginActivity;
 import com.consul.edu.educationconsultant.R;
-import com.consul.edu.educationconsultant.asyncTasks.RegistrationUserTask;
+import com.consul.edu.educationconsultant.asyncTasks.UserRegistrationTask;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -139,7 +139,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                 Toast.makeText(RegistrationActivity.this, "Authentication failed." + task.getException(),
                                         Toast.LENGTH_LONG).show();
                             } else {
-                                new RegistrationUserTask(sharedPreferences).execute(firstNameStr,lastNameStr,emailStr,passwordStr);
+                                new UserRegistrationTask(sharedPreferences).execute(firstNameStr,lastNameStr,emailStr,passwordStr);
 
                                 firebaseUser = auth.getCurrentUser();
                                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()

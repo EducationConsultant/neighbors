@@ -1,5 +1,6 @@
 package com.consul.edu.educationconsultant.asyncTasks;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -12,20 +13,16 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class UpdateUserProfileTask extends AsyncTask<String, Void, User> {
+public class UserSendEmailTask extends AsyncTask<String, Void, User> {
 
     private User userRequest;
     private User userResult;
 
     @Override
     protected User doInBackground(String... strings) {
-        String userIdStr = strings[0];
-        Long userId = Long.parseLong(userIdStr);
-        String userFirstName = strings[1];
-        String userLastName = strings[2];
-        String userEmail = strings[3];
+        String userEmail = strings[0];
+        userRequest = new User("","",userEmail,"");
 
-        userRequest = new User(userFirstName,userLastName,userEmail,"");
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(UserClient.BASE_URL)
@@ -33,18 +30,19 @@ public class UpdateUserProfileTask extends AsyncTask<String, Void, User> {
                 .build();
 
         UserClient client = retrofit.create(UserClient.class);
-        Call<User> userResponse = client.updateUser(userId, userRequest);
+        Call<User> userResponse = client.sendEmail(userRequest);
+
 
         userResponse.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                Log.w("successUpdateProfile","User email: " + response.body().getEmail());
+                Log.w("successSendEmail","doInBackground: User email: " + response.body().getEmail());
                 userResult = new User(response.body().getId(),response.body().getFirstName(),response.body().getLastName(),response.body().getEmail(),response.body().getPassword());
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Log.e("errorUpdateProfile","Server does not response.");
+                Log.e("errSendMail","findByEmail: Server does not response.");
                 userResult = null;
             }
         });

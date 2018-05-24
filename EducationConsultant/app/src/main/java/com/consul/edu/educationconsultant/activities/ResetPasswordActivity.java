@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.consul.edu.educationconsultant.R;
+import com.consul.edu.educationconsultant.asyncTasks.UserSendEmailTask;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -61,7 +62,10 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 return;
             }
 
-            frameProgressBar.setVisibility(View.VISIBLE);
+            new UserSendEmailTask().execute(email);
+            Toast.makeText(ResetPasswordActivity.this, R.string.msg_send_instructions, Toast.LENGTH_LONG).show();
+
+            /*frameProgressBar.setVisibility(View.VISIBLE);
 
             auth.sendPasswordResetEmail(email)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -75,7 +79,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
                             frameProgressBar.setVisibility(View.GONE);
                         }
-                    });
+                    });*/
 
         }
     }

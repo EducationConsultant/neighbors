@@ -10,19 +10,15 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.consul.edu.educationconsultant.R;
-import com.consul.edu.educationconsultant.asyncTasks.FindUserByEmailTask;
-import com.consul.edu.educationconsultant.asyncTasks.UpdateUserPasswordTask;
-import com.consul.edu.educationconsultant.model.User;
+import com.consul.edu.educationconsultant.asyncTasks.UserUpdatePasswordTask;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class SettingsChangePasswordActivity extends AppCompatActivity {
 
@@ -92,8 +88,6 @@ public class SettingsChangePasswordActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
-
-       // new FindUserByEmailTask().execute(firebaseUser.getEmail());
     }
 
     /**
@@ -157,7 +151,7 @@ public class SettingsChangePasswordActivity extends AppCompatActivity {
                         toast.show();
 
                         Long userId = sharedPreferences.getLong("user_id", -1L);
-                        new UpdateUserPasswordTask().execute(userId.toString(), newPasswordStr);
+                        new UserUpdatePasswordTask().execute(userId.toString(), newPasswordStr);
 
                         Intent intent = new Intent(SettingsChangePasswordActivity.this, SettingsActivity.class);
                         startActivity(intent);

@@ -1,6 +1,7 @@
 package com.education.consultant.educon.controller;
 
 import com.education.consultant.educon.document.User;
+import com.education.consultant.educon.service.EmailService;
 import com.education.consultant.educon.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EmailService emailService;
 
     // findAll
     @RequestMapping(method = RequestMethod.GET)
@@ -63,6 +67,14 @@ public class UserController {
 
         User savedUser = userService.updateUserPassword(id, user.getPassword());
         return new ResponseEntity<User>(savedUser, HttpStatus.OK);
+    }
+
+    // forgot password
+    @RequestMapping(value = "/forgotPassword", method = RequestMethod.PUT)
+    public ResponseEntity<Void> sendEmail(@RequestBody User user) {
+        User requestUser = userService.findByEmail(user.getEmail());
+        emailService.sendEmail(requestUser);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

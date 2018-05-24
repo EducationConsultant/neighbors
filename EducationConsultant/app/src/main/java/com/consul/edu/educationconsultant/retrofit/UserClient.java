@@ -39,4 +39,9 @@ public interface UserClient {
     @Headers("Content-Type: application/json")
     @PUT("user/{id}/password")
     Call<User> updateUserPassword(@Path("id") Long id, @Body User user);
+
+    // forgot password
+    @Headers("Content-Type: application/json")
+    @PUT("user/forgotPassword")
+    Call<User> sendEmail(@Body User user);
 }

@@ -13,24 +13,29 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RegistrationUserTask extends AsyncTask<String, Void, User> {
+/**
+ *
+ * First parameter is the type of object used to pass any task parameters to the doInBackground() method.
+ * Second parameter is the type of object used to indicate task progress.
+ * Third parameter is the type of the task result.
+ *
+ * */
+
+public class UserFindByEmailTask extends AsyncTask<String, Void, User> {
+
     private User userRequest;
     private User userResult;
 
     private SharedPreferences sharedPreferences;
 
-    public RegistrationUserTask(SharedPreferences sharedPreferences){
+    public UserFindByEmailTask(SharedPreferences sharedPreferences){
         this.sharedPreferences = sharedPreferences;
     }
 
     @Override
     protected User doInBackground(String... strings) {
-        String userFirstName = strings[0];
-        String userLastName = strings[1];
-        String userEmail = strings[2];
-        String userPassword = strings[3];
-
-        userRequest = new User(userFirstName,userLastName,userEmail,userPassword);
+        String userEmail = strings[0];
+        userRequest = new User("","",userEmail,"");
 
         final SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -40,13 +45,13 @@ public class RegistrationUserTask extends AsyncTask<String, Void, User> {
                 .build();
 
         UserClient client = retrofit.create(UserClient.class);
-        Call<User> userResponse = client.insertUser(userRequest);
+        Call<User> userResponse = client.findByEmail(userRequest);
 
 
         userResponse.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                Log.w("successInsertUser","User email: " + response.body().getEmail());
+                Log.w("successInBackground","doInBackground: User email: " + response.body().getEmail());
                 userResult = new User(response.body().getId(),response.body().getFirstName(),response.body().getLastName(),response.body().getEmail(),response.body().getPassword());
 
                 editor.putLong("user_id",userResult.getId());
@@ -57,7 +62,8 @@ public class RegistrationUserTask extends AsyncTask<String, Void, User> {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Log.e("errorInsertUser","Server does not response.");
+                Log.e("notResponse","findByEmail: Server does not response.");
+                //Toast.makeText(LoginActivity.this, "findByEmail: Server does not response.", Toast.LENGTH_LONG).show();
                 userResult = null;
             }
         });
