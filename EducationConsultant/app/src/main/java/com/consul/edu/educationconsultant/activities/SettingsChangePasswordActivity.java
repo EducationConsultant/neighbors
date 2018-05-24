@@ -139,7 +139,7 @@ public class SettingsChangePasswordActivity extends AppCompatActivity {
                         // Re-authenticate a user
                         // Get auth credentials from the user for re-authentication.
                         AuthCredential credential = EmailAuthProvider
-                                .getCredential(firebaseUser.getEmail(), newPasswordStr);
+                                .getCredential(sharedPreferences.getString("user_email", ""), newPasswordStr);
                         // Prompt the user to re-provide their sign-in credentials
                         firebaseUser.reauthenticate(credential);
 

@@ -56,6 +56,16 @@ public class UserFindByEmailTask extends AsyncTask<String, Void, User> {
 
                 editor.putLong("user_id",userResult.getId());
                 editor.apply();
+
+                editor.putString("user_first_name",response.body().getFirstName());
+                editor.apply();
+
+                editor.putString("user_last_name",response.body().getLastName());
+                editor.apply();
+
+                editor.putString("user_email",response.body().getEmail());
+                editor.apply();
+
                 editor.putString("user_password",userResult.getPassword());
                 editor.apply();
             }

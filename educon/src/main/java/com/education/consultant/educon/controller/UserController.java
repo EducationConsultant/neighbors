@@ -49,6 +49,8 @@ public class UserController {
     public ResponseEntity<User> insertUser(@Valid @RequestBody User user) {
         User savedUser = userService.save(user);
 
+        System.err.print("CREATED USER: " + user.getEmail()+"\n");
+
         return new ResponseEntity<User>(savedUser, HttpStatus.CREATED);
     }
 

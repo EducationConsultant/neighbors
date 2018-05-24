@@ -10,7 +10,7 @@ public interface QuestionService {
     public Question save(Question question);
     public Question update(Long questionId, Question question);
     public Long deleteById(Long id);
-    public List<Question> find();
+    public List<Question> findAll();
     public List<Question> findByCategory(List<String> categories);
     public List<Question> findByEduLevel(List<String> eduLevels);
     public Question findOne(Long id);

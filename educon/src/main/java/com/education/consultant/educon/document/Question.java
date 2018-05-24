@@ -19,7 +19,7 @@ public class Question {
 
     public Question() {}
     
-    public Question(final User owner,
+    public Question(User owner,
                     String description,
                     String category,
                     String answer1, String answer2,

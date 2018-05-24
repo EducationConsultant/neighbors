@@ -55,7 +55,7 @@ public class Question {
     }
 
     // create question for server
-    public Question(final User owner,
+    public Question(User owner,
                     String description, String category,
                     String answer1, String answer2,
                     String answer3, String answer4,
@@ -71,7 +71,7 @@ public class Question {
     }
 
     // create question for test
-    public Question(final User owner,
+    public Question(User owner,
                     String description, String category,
                     String answer1, String answer2,
                     String answer3, String answer4,

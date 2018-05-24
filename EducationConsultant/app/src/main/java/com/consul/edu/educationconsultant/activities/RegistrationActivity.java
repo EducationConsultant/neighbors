@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,10 +16,12 @@ import android.widget.Toast;
 
 import com.consul.edu.educationconsultant.LoginActivity;
 import com.consul.edu.educationconsultant.R;
-import com.consul.edu.educationconsultant.asyncTasks.UserRegistrationTask;
+import com.consul.edu.educationconsultant.asyncTasks.RegistrationTask;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -58,7 +61,7 @@ public class RegistrationActivity extends AppCompatActivity {
         inputLastName = (EditText) findViewById(R.id.lastname);
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
-        btnSignup = (Button) findViewById(R.id.btn_signup);
+        btnSignup = (Button) findViewById(R.id.btn_sign_up);
         linkLogin = (TextView) findViewById(R.id.link_login);
 
         // Get Firebase auth instance
@@ -89,10 +92,10 @@ public class RegistrationActivity extends AppCompatActivity {
      * */
     public void onClickSignUpBtn(View view){
         if(btnSignup != null) {
-            final String firstNameStr = inputFirstName.getText().toString().trim();
-            final String lastNameStr = inputLastName.getText().toString().trim();
-            final String emailStr = inputEmail.getText().toString().trim();
-            final String passwordStr = inputPassword.getText().toString().trim();
+            final String firstNameStr = inputFirstName.getText().toString();
+            final String lastNameStr = inputLastName.getText().toString();
+            final String emailStr = inputEmail.getText().toString();
+            final String passwordStr = inputPassword.getText().toString();
 
             // Check if the first name field is empty
             if (TextUtils.isEmpty(firstNameStr)) {
@@ -123,15 +126,12 @@ public class RegistrationActivity extends AppCompatActivity {
                 return;
             }
 
-            frameProgressBar.setVisibility(View.VISIBLE);
-
             // Firebase auth
             // create user
             auth.createUserWithEmailAndPassword(emailStr, passwordStr)
                     .addOnCompleteListener(RegistrationActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            frameProgressBar.setVisibility(View.GONE);
                             // If sign in fails, display a message to the user. If sign in succeeds
                             // the auth state listener will be notified and logic to handle the
                             // signed in user can be handled in the listener.
@@ -140,15 +140,29 @@ public class RegistrationActivity extends AppCompatActivity {
                                         Toast.LENGTH_LONG).show();
                             } else {
                                 firebaseUser = auth.getCurrentUser();
+
                                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                        .setDisplayName(firstNameStr + " " + lastNameStr)
+                                        .setDisplayName(inputFirstName.getText().toString() + " " + inputLastName.getText().toString())
                                         .build();
                                 firebaseUser.updateProfile(profileUpdates);
 
-                                new UserRegistrationTask(sharedPreferences).execute(firstNameStr,lastNameStr,emailStr,passwordStr);
+                                final SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("user_first_name",inputFirstName.getText().toString());
+                                editor.apply();
 
-                                Intent i = new Intent(RegistrationActivity.this, NavigationDrawerActivity.class);
-                                startActivity(i);
+                                editor.putString("user_last_name",inputLastName.getText().toString());
+                                editor.apply();
+
+                                editor.putString("user_email",inputEmail.getText().toString());
+                                editor.apply();
+
+                                editor.putString("user_password",inputPassword.getText().toString());
+                                editor.apply();
+
+                                new RegistrationTask(sharedPreferences).execute(firstNameStr,lastNameStr,emailStr,passwordStr);
+
+                                Intent intent = new Intent(RegistrationActivity.this, NavigationDrawerActivity.class);
+                                startActivity(intent);
                                 finish();
                             }
                         }

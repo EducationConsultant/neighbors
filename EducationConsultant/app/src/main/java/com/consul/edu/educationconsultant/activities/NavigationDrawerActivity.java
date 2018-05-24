@@ -85,6 +85,11 @@ public class NavigationDrawerActivity extends AppCompatActivity
         auth = FirebaseAuth.getInstance();
         firebaseUser = auth.getCurrentUser();
 
+        Log.e(TAG,firebaseUser.getEmail());
+
+        sharedPrefName = "currentUser";
+        sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
+
         questionList = new ArrayList<>();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -110,11 +115,10 @@ public class NavigationDrawerActivity extends AppCompatActivity
         txtUserFirstLastName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_first_last_name);
         txtEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_email);
 
-        txtUserFirstLastName.setText(firebaseUser.getDisplayName());
-        txtEmail.setText(firebaseUser.getEmail());
+        String displayName = sharedPreferences.getString("user_first_name", "") + " " + sharedPreferences.getString("user_last_name", "");
+        txtUserFirstLastName.setText(displayName);
 
-        sharedPrefName = "currentUser";
-        sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
+        txtEmail.setText(firebaseUser.getEmail());
 
         // RecycleView
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -123,6 +127,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+
 
         prepareQuestionData();
 
@@ -219,11 +224,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
     }
 
     private void prepareQuestionData() {
-        String currentString = firebaseUser.getDisplayName();
-        String[] separated = currentString.split(" ");
-        String firstName = separated[0];
-        String lastName = separated[1];
-
        // User owner = new User(sharedPreferences.getLong("user_id", -1L),firstName,lastName,firebaseUser.getEmail(),sharedPreferences.getString("user_password", ""));
        // Question question = new Question(owner, "This is my first question", "Mathematics", "a1", "a2" ,"a3", "a4", "Elementary School");
       //  questionList.add(question);
@@ -258,6 +258,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                     newQuestion.setEduLevel(q.getEduLevel());
                     newQuestion.setCorrectAns(q.getCorrectAns());
                     newQuestion.setAnswered(q.getAnswered());
+
 
                     if (!questionList.contains(newQuestion)) {
                         questionList.add(newQuestion);

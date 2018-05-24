@@ -27,7 +27,7 @@ public class QuestionServiceImpl implements QuestionService {
 
 
     @Override
-    public List<Question> find() {
+    public List<Question> findAll() {
         return repository.findAll();
     }
 

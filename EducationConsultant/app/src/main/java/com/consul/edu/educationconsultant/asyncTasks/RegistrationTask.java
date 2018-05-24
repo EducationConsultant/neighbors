@@ -13,13 +13,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class UserRegistrationTask extends AsyncTask<String, Void, User> {
+public class RegistrationTask extends AsyncTask<String, Void, User> {
     private User userRequest;
     private User userResult;
 
     private SharedPreferences sharedPreferences;
 
-    public UserRegistrationTask(SharedPreferences sharedPreferences){
+    public RegistrationTask(SharedPreferences sharedPreferences){
         this.sharedPreferences = sharedPreferences;
     }
 
@@ -31,7 +31,6 @@ public class UserRegistrationTask extends AsyncTask<String, Void, User> {
         String userPassword = strings[3];
 
         userRequest = new User(userFirstName,userLastName,userEmail,userPassword);
-        userResult = new User();
 
         final SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -40,26 +39,25 @@ public class UserRegistrationTask extends AsyncTask<String, Void, User> {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        UserClient client = retrofit.create(UserClient.class);
-        Call<User> userResponse = client.insertUser(userRequest);
-
+        UserClient userClient = retrofit.create(UserClient.class);
+        Call<User> userResponse = userClient.insertUser(userRequest);
 
         userResponse.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                Log.w("successInsertUser","User email: " + response.body().getEmail());
+                Log.w("RegistrationActivity","insert success: " + response.body().getEmail());
                 userResult = new User(response.body().getId(),response.body().getFirstName(),response.body().getLastName(),response.body().getEmail(),response.body().getPassword());
 
-                editor.putLong("user_id",response.body().getId());
+                editor.putLong("user_id", response.body().getId());
                 editor.apply();
+
                 editor.putString("user_password",response.body().getPassword());
                 editor.apply();
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Log.e("errorInsertUser","Server does not response.");
-                userResult = null;
+                Log.e("RegistrationActivity","insert failed");
             }
         });
 

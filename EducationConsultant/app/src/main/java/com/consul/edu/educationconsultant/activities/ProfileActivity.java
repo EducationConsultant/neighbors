@@ -95,17 +95,11 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        String currentString = firebaseUser.getDisplayName();
-        String[] separated = currentString.split(" ");
-        String firstName = separated[0];
-        String lastName = separated[1];
-
-
-        inputFirstName.setText(firstName);
-        inputLastName.setText(lastName);
-        inputEmail.setText(firebaseUser.getEmail());
-
         sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
+
+        inputFirstName.setText(sharedPreferences.getString("user_first_name", ""));
+        inputLastName.setText(sharedPreferences.getString("user_last_name", ""));
+        inputEmail.setText(sharedPreferences.getString("user_email", ""));
     }
 
     /**
@@ -149,7 +143,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 
                 Long userId = sharedPreferences.getLong("user_id", -1L);
-                new UserUpdateProfileTask().execute(userId.toString(), inputFirstName.getText().toString(), inputLastName.getText().toString(), inputEmail.getText().toString());
+                new UserUpdateProfileTask(sharedPreferences).execute(userId.toString(), inputFirstName.getText().toString(), inputLastName.getText().toString(), inputEmail.getText().toString());
 
                 // Update a user's basic profile information
                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()

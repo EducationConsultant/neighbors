@@ -26,8 +26,8 @@ public class QuestionController {
     // find all
     // localhost:8095/educon/question
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<Question>> getQuestions() {
-        List<Question> questions = questionService.find();
+    public ResponseEntity<List<Question>> findAll() {
+        List<Question> questions = questionService.findAll();
         return new ResponseEntity<List<Question>>(questions, HttpStatus.OK);
     }
 

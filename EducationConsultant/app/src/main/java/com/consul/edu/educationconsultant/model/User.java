@@ -87,4 +87,8 @@ public class User {
     public String toString() {
         return "User [First name: " + firstName + ", Last name: " + lastName +", Email: " + email + "]";
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
