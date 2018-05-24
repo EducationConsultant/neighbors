@@ -45,10 +45,19 @@ public class RegistrationTask extends AsyncTask<String, Void, User> {
         userResponse.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                Log.w("RegistrationActivity","insert success: " + response.body().getEmail());
+                Log.w("insertUserSuccess","insert success: " + response.body().getEmail());
                 userResult = new User(response.body().getId(),response.body().getFirstName(),response.body().getLastName(),response.body().getEmail(),response.body().getPassword());
 
                 editor.putLong("user_id", response.body().getId());
+                editor.apply();
+
+                editor.putString("user_first_name",response.body().getFirstName());
+                editor.apply();
+
+                editor.putString("user_last_name",response.body().getLastName());
+                editor.apply();
+
+                editor.putString("user_email",response.body().getEmail());
                 editor.apply();
 
                 editor.putString("user_password",response.body().getPassword());
@@ -57,7 +66,7 @@ public class RegistrationTask extends AsyncTask<String, Void, User> {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Log.e("RegistrationActivity","insert failed");
+                Log.e("insertUserFail","insert failed");
             }
         });
 

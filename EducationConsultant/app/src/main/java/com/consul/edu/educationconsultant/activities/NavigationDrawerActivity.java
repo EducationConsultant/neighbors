@@ -85,8 +85,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
         auth = FirebaseAuth.getInstance();
         firebaseUser = auth.getCurrentUser();
 
-        Log.e(TAG,firebaseUser.getEmail());
-
         sharedPrefName = "currentUser";
         sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
 
@@ -115,8 +113,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
         txtUserFirstLastName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_first_last_name);
         txtEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_email);
 
-        String displayName = sharedPreferences.getString("user_first_name", "") + " " + sharedPreferences.getString("user_last_name", "");
-        txtUserFirstLastName.setText(displayName);
+        String firstLastName = sharedPreferences.getString("user_first_name", "") + " " + sharedPreferences.getString("user_last_name", "");
+        txtUserFirstLastName.setText(firstLastName);
 
         txtEmail.setText(firebaseUser.getEmail());
 
@@ -281,7 +279,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
 
-        txtUserFirstLastName.setText(firebaseUser.getDisplayName());
+        String firstLastName = sharedPreferences.getString("user_first_name", "") + " " + sharedPreferences.getString("user_last_name", "");
+        txtUserFirstLastName.setText(firstLastName);
         txtEmail.setText(firebaseUser.getEmail());
     }
 

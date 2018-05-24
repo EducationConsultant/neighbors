@@ -279,10 +279,8 @@ public class AddQuestionActivity extends AppCompatActivity {
                     return false;
                 }
 
-                String currentString = firebaseUser.getDisplayName();
-                String[] separated = currentString.split(" ");
-                String firstName = separated[0];
-                String lastName = separated[1];
+                String firstName = sharedPreferences.getString("user_first_name", "");
+                String lastName = sharedPreferences.getString("user_last_name", "");
 
                 User owner = new User(sharedPreferences.getLong("user_id", -1L),firstName,lastName,firebaseUser.getEmail(),sharedPreferences.getString("user_password", ""));
 

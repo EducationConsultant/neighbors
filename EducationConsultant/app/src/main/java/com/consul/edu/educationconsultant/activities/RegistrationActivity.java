@@ -147,7 +147,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                 firebaseUser.updateProfile(profileUpdates);
 
                                 final SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("user_first_name",inputFirstName.getText().toString());
+                               /* editor.putString("user_first_name",inputFirstName.getText().toString());
                                 editor.apply();
 
                                 editor.putString("user_last_name",inputLastName.getText().toString());
@@ -157,7 +157,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                 editor.apply();
 
                                 editor.putString("user_password",inputPassword.getText().toString());
-                                editor.apply();
+                                editor.apply();*/
 
                                 new RegistrationTask(sharedPreferences).execute(firstNameStr,lastNameStr,emailStr,passwordStr);
 

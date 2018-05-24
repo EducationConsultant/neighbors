@@ -2,6 +2,7 @@ package com.consul.edu.educationconsultant.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -58,12 +59,18 @@ public class DetailsActivity extends AppCompatActivity
 
     private Question question;
 
+    private SharedPreferences sharedPreferences;
+    private String sharedPrefName;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         Log.d(TAG, "onCreate: started.");
+
+        sharedPrefName = "currentUser";
+        sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
 
         btnSubmitAnswer = (Button) findViewById(R.id.submit_answer);
 
@@ -139,7 +146,8 @@ public class DetailsActivity extends AppCompatActivity
         auth = FirebaseAuth.getInstance();
         firebaseUser = auth.getCurrentUser();
 
-        txtUserFirstLastName.setText(firebaseUser.getDisplayName());
+        String firstLastName = sharedPreferences.getString("user_first_name", "") + " " + sharedPreferences.getString("user_last_name", "");
+        txtUserFirstLastName.setText(firstLastName);
         txtEmail.setText(firebaseUser.getEmail());
 
     }

@@ -135,6 +135,9 @@ public class SettingsChangePasswordActivity extends AppCompatActivity {
 
                 if(sharedPreferences.getString("user_password", "").equals(oldPasswordStr)){
                     if(newPasswordStr.equals(newPasswordRepeatStr)){
+                        Long userId = sharedPreferences.getLong("user_id", -1L);
+                        new UserUpdatePasswordTask().execute(userId.toString(), newPasswordStr);
+
                         firebaseUser.updatePassword(newPasswordStr);
                         // Re-authenticate a user
                         // Get auth credentials from the user for re-authentication.
@@ -149,9 +152,6 @@ public class SettingsChangePasswordActivity extends AppCompatActivity {
 
                         Toast toast = Toast.makeText(this,R.string.password_changed,Toast.LENGTH_SHORT);
                         toast.show();
-
-                        Long userId = sharedPreferences.getLong("user_id", -1L);
-                        new UserUpdatePasswordTask().execute(userId.toString(), newPasswordStr);
 
                         Intent intent = new Intent(SettingsChangePasswordActivity.this, SettingsActivity.class);
                         startActivity(intent);
