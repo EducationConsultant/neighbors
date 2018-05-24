@@ -1,21 +1,31 @@
 package com.education.consultant.educon.document;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class Question {
 
     @Id
-    private Integer id;
+    private Long id;
 
-    private String username, description, category, answer1, answer2, answer3, answer4, eduLevel, correctAns, answered;
+    private String description, category, answer1, answer2, answer3, answer4, eduLevel, correctAns, answered;
+
+    @DBRef
+    private User owner;
+
+    private static Long nextId = 1L;
 
     public Question() {}
     
-    public Question(Integer id, String username, String description, String category, String answer1, String answer2, String answer3, String answer4, String eduLevel, String correctAns, String answered) {
-        this.id = id;
-        this.username = username;
+    public Question(final User owner,
+                    String description,
+                    String category,
+                    String answer1, String answer2,
+                    String answer3, String answer4,
+                    String eduLevel) {
+        this.owner = owner;
         this.description = description;
         this.category = category;
         this.answer1 = answer1;
@@ -23,25 +33,14 @@ public class Question {
         this.answer3 = answer3;
         this.answer4 = answer4;
         this.eduLevel = eduLevel;
-        this.correctAns = correctAns;
-        this.answered = answered;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
-    }
-
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getDescription() {
@@ -114,5 +113,21 @@ public class Question {
 
     public void setAnswered(String answered) {
         this.answered = answered;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    public static Long getNextId() {
+        return nextId;
+    }
+
+    public static void setNextId(Long nextId) {
+        Question.nextId = nextId;
     }
 }

@@ -10,12 +10,12 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories(basePackageClasses = QuestionRepository.class)
 @Configuration
 public class MongoDBConfig {
-
+/*
     @Bean
     CommandLineRunner commandLineRunner(QuestionRepository questionRepository) {
         return args -> questionRepository.save(
-                new Question(1, "user",
+                new Question("user",
                         "opis","kat", "ans1", "ans2", "ans3",
                         "ans4", "nivo", "tacan", "odg"));
-    }
+    }*/
 }

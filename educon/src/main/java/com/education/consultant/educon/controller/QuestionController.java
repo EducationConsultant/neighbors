@@ -3,6 +3,8 @@ package com.education.consultant.educon.controller;
 import com.education.consultant.educon.document.Question;
 import com.education.consultant.educon.repository.QuestionRepository;
 import com.education.consultant.educon.service.QuestionService;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,14 +29,13 @@ public class QuestionController {
         return new ResponseEntity<List<Question>>(questions, HttpStatus.OK);
     }
 
-    // find by title
-    // localhost:8095/educon/question/title?title=naslov
-//    @RequestMapping(value = "/title", method = RequestMethod.GET)
-//    public ResponseEntity<Question> findByTitle(@RequestParam(value = "title") String title) {
-//        Question questions = questionService.findByTitle(title);
-//        return new ResponseEntity<Question>(questions, HttpStatus.OK);
-//    }
-
+    // find one
+    @RequestMapping(value = "/{id}",method = RequestMethod.GET)
+    public ResponseEntity<Question> getQuestion(@PathVariable Long id) {
+        Question question = questionService.findOne(id);
+        return new ResponseEntity<Question>(question, HttpStatus.OK);
+    }
+    
     // insert
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Question> insertQuestion(@RequestBody Question question) {
@@ -42,5 +43,20 @@ public class QuestionController {
         return new ResponseEntity<Question>(savedQuestion, HttpStatus.CREATED);
     }
 
+    // update question
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    private ResponseEntity<Question> updateQuestion(@PathVariable Long id, @RequestBody Question question) {
+
+        Question savedQuestion = questionService.update(id, question);
+        return new ResponseEntity<Question>(savedQuestion, HttpStatus.OK);
+    }
+
+    // delete question
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Long> deleteQuestion(@PathVariable Long id) {
+        questionService.deleteById(id);
+
+        return new ResponseEntity<Long>(HttpStatus.OK);
+    }
 
 }
