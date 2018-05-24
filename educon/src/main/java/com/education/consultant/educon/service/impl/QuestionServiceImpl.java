@@ -33,7 +33,17 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<Question> findByCategory(List<String> categories) {
-        return null;
+        List<Question> resultQuestions = new ArrayList<Question>();
+        List<Question> allQuestions = repository.findAll();
+
+        for(Question question:allQuestions){
+            for(String category : categories){
+                if(question.getCategory().equals(category))
+                    resultQuestions.add(question);
+            }
+        }
+
+        return resultQuestions;
     }
 
     @Override

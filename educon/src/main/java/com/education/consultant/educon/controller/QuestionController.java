@@ -3,6 +3,7 @@ package com.education.consultant.educon.controller;
 import com.education.consultant.educon.document.Question;
 import com.education.consultant.educon.repository.QuestionRepository;
 import com.education.consultant.educon.service.QuestionService;
+import com.education.consultant.educon.wrappers.CategoryWrapper;
 import com.education.consultant.educon.wrappers.EduLevelWrapper;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,10 +40,19 @@ public class QuestionController {
 
     // find by eduLevels
     @RequestMapping(value = "/eduLevels", method = RequestMethod.PUT)
-    public ResponseEntity<List<Question>> findByCategories(@RequestBody EduLevelWrapper eduLevels) {
+    public ResponseEntity<List<Question>> findByEduLevels(@RequestBody EduLevelWrapper eduLevels) {
         List<String> eduLevelsStr = eduLevels.getEduLevels();
 
         List<Question> questions = questionService.findByEduLevel(eduLevelsStr);
+        return new ResponseEntity<List<Question>>(questions, HttpStatus.OK);
+    }
+
+    // find by categories
+    @RequestMapping(value = "/categories", method = RequestMethod.PUT)
+    public ResponseEntity<List<Question>> findByCategories(@RequestBody CategoryWrapper categories) {
+        List<String> categoriesStr = categories.getCategories();
+
+        List<Question> questions = questionService.findByCategory(categoriesStr);
         return new ResponseEntity<List<Question>>(questions, HttpStatus.OK);
     }
 
