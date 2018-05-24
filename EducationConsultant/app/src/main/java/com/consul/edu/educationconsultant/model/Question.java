@@ -7,19 +7,12 @@ import com.google.gson.annotations.SerializedName;
  * Created by Svetlana on 4/14/2018.
  */
 
-
-
 // TODO : ADD COMMENTS
 public class Question {
 
-
-    @SerializedName("title")
+    @SerializedName("owner")
     @Expose
-    private String title;
-
-    @SerializedName("username")
-    @Expose
-    private String username;
+    private User owner;
 
     @SerializedName("description")
     @Expose
@@ -61,9 +54,13 @@ public class Question {
     public Question() {
     }
 
-    public Question(String title, String username, String description, String category, String answer1, String answer2, String answer3, String answer4, String eduLevel, String correctAns, String answered) {
-        this.title = title;
-        this.username = username;
+    // create question for server
+    public Question(final User owner,
+                    String description, String category,
+                    String answer1, String answer2,
+                    String answer3, String answer4,
+                    String eduLevel) {
+        this.owner = owner;
         this.description = description;
         this.category = category;
         this.answer1 = answer1;
@@ -71,28 +68,29 @@ public class Question {
         this.answer3 = answer3;
         this.answer4 = answer4;
         this.eduLevel = eduLevel;
-        this.correctAns = correctAns;
+    }
+
+    // create question for test
+    public Question(final User owner,
+                    String description, String category,
+                    String answer1, String answer2,
+                    String answer3, String answer4,
+                    String eduLevel, String answered, String correctAns) {
+        this.owner = owner;
+        this.description = description;
+        this.category = category;
+        this.answer1 = answer1;
+        this.answer2 = answer2;
+        this.answer3 = answer3;
+        this.answer4 = answer4;
+        this.eduLevel = eduLevel;
         this.answered = answered;
+        this.correctAns = correctAns;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public String getUsername() {
-        return username;
-    }
 
     public String getDescription() {
         return description;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setUsername(String genre) {
-        this.username = username;
     }
 
     public void setDescription(String description) {
@@ -153,12 +151,19 @@ public class Question {
 
     public void setAnswered(String answered) { this.answered = answered; }
 
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
     @Override
     public String toString() {
         return "Question{" +
-                "title='" + title + '\'' +
-                ", username='" + username + '\'' +
-                ", description='" + description + '\'' +
+                "description='" + description + '\'' +
+                ", owner.email='" + owner.getEmail() + '\'' +
                 '}';
 
     }

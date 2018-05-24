@@ -31,6 +31,7 @@ public class UserRegistrationTask extends AsyncTask<String, Void, User> {
         String userPassword = strings[3];
 
         userRequest = new User(userFirstName,userLastName,userEmail,userPassword);
+        userResult = new User();
 
         final SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -49,9 +50,9 @@ public class UserRegistrationTask extends AsyncTask<String, Void, User> {
                 Log.w("successInsertUser","User email: " + response.body().getEmail());
                 userResult = new User(response.body().getId(),response.body().getFirstName(),response.body().getLastName(),response.body().getEmail(),response.body().getPassword());
 
-                editor.putLong("user_id",userResult.getId());
+                editor.putLong("user_id",response.body().getId());
                 editor.apply();
-                editor.putString("user_password",userResult.getPassword());
+                editor.putString("user_password",response.body().getPassword());
                 editor.apply();
             }
 

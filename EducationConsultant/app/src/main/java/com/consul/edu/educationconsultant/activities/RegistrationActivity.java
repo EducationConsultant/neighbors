@@ -139,13 +139,13 @@ public class RegistrationActivity extends AppCompatActivity {
                                 Toast.makeText(RegistrationActivity.this, "Authentication failed." + task.getException(),
                                         Toast.LENGTH_LONG).show();
                             } else {
-                                new UserRegistrationTask(sharedPreferences).execute(firstNameStr,lastNameStr,emailStr,passwordStr);
-
                                 firebaseUser = auth.getCurrentUser();
                                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                         .setDisplayName(firstNameStr + " " + lastNameStr)
                                         .build();
                                 firebaseUser.updateProfile(profileUpdates);
+
+                                new UserRegistrationTask(sharedPreferences).execute(firstNameStr,lastNameStr,emailStr,passwordStr);
 
                                 Intent i = new Intent(RegistrationActivity.this, NavigationDrawerActivity.class);
                                 startActivity(i);

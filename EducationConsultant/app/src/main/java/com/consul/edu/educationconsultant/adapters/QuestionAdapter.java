@@ -55,7 +55,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.MyView
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         Question question = questionList.get(position);
         holder.description.setText(question.getDescription());
-        holder.username.setText(question.getUsername());
+        holder.username.setText(question.getOwner().getEmail());
 
 
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +65,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.MyView
 
                 Intent intent = new Intent(mContext, DetailsActivity.class);
 //                intent.putExtra("title", questionList.get(position).getTitle());
-                intent.putExtra("username", questionList.get(position).getUsername());
+                intent.putExtra("username", questionList.get(position).getOwner().getEmail());
                 intent.putExtra("description", questionList.get(position).getDescription());
                 intent.putExtra("category", questionList.get(position).getCategory());
                 intent.putExtra("answer1", questionList.get(position).getAnswer1());

@@ -3,6 +3,7 @@ package com.consul.edu.educationconsultant.activities;
 import android.content.Intent;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 
@@ -26,6 +27,7 @@ import com.consul.edu.educationconsultant.R;
 
 import com.consul.edu.educationconsultant.listeners.RecyclerTouchListener;
 import com.consul.edu.educationconsultant.model.Question;
+import com.consul.edu.educationconsultant.model.User;
 import com.consul.edu.educationconsultant.retrofit.RedditAPI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -71,10 +73,17 @@ public class NavigationDrawerActivity extends AppCompatActivity
     private RecyclerView recyclerView;
     private QuestionAdapter mAdapter;
 
+    private SharedPreferences sharedPreferences;
+    private String sharedPrefName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_drawer);
+
+        //Get Firebase auth instance
+        auth = FirebaseAuth.getInstance();
+        firebaseUser = auth.getCurrentUser();
 
         questionList = new ArrayList<>();
 
@@ -101,12 +110,11 @@ public class NavigationDrawerActivity extends AppCompatActivity
         txtUserFirstLastName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_first_last_name);
         txtEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_email);
 
-        //Get Firebase auth instance
-        auth = FirebaseAuth.getInstance();
-        firebaseUser = auth.getCurrentUser();
-
         txtUserFirstLastName.setText(firebaseUser.getDisplayName());
         txtEmail.setText(firebaseUser.getEmail());
+
+        sharedPrefName = "currentUser";
+        sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
 
         // RecycleView
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -116,9 +124,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
-
         prepareQuestionData();
-
 
         // separator
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
@@ -213,19 +219,25 @@ public class NavigationDrawerActivity extends AppCompatActivity
     }
 
     private void prepareQuestionData() {
+        String currentString = firebaseUser.getDisplayName();
+        String[] separated = currentString.split(" ");
+        String firstName = separated[0];
+        String lastName = separated[1];
 
-        Question question = new Question("Question A", "User 1", "This is my first question", "Mathematics", "a1", "a2" ,"a3", "a4", "Elementary School", "a1", "a1");
-        questionList.add(question);
+       // User owner = new User(sharedPreferences.getLong("user_id", -1L),firstName,lastName,firebaseUser.getEmail(),sharedPreferences.getString("user_password", ""));
+       // Question question = new Question(owner, "This is my first question", "Mathematics", "a1", "a2" ,"a3", "a4", "Elementary School");
+      //  questionList.add(question);
 
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(RedditAPI.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         RedditAPI redditAPI = retrofit.create(RedditAPI.class);
 
         Call<List<Question>> call = redditAPI.getData();
+
         call.enqueue(new Callback<List<Question>>() {
             @Override
             public void onResponse(Call<List<Question>> call, Response<List<Question>> response) {
@@ -233,27 +245,24 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 Log.d(TAG, "onResponse: received information" + response.body().toString());
                 List<Question> questionListResponse = response.body();
 
-                for(int i = 0; i < questionListResponse.size(); i++) {
-                    String title = questionListResponse.get(i).getTitle();
-                    String username  = questionListResponse.get(i).getUsername();
-                    String description  = questionListResponse.get(i).getDescription();
-                    String category  = questionListResponse.get(i).getCategory();
-                    String answer1  = questionListResponse.get(i).getAnswer1();
-                    String answer2  = questionListResponse.get(i).getAnswer2();
-                    String answer3  = questionListResponse.get(i).getAnswer3();
-                    String answer4  = questionListResponse.get(i).getAnswer4();
-                    String eduLevel  = questionListResponse.get(i).getEduLevel();
-                    String correctAns  = questionListResponse.get(i).getCorrectAns();
-                    String answered  = questionListResponse.get(i).getAnswered();
+                for(Question q:questionListResponse){
+                    Question newQuestion = new Question();
+                    newQuestion.setOwner(q.getOwner());
+                    newQuestion.setDescription(q.getDescription());
+                    newQuestion.setCategory(q.getCategory());
 
-                    Question q = new Question(title, username, description, category, answer1, answer2, answer3, answer4, eduLevel,correctAns,answered);
+                    newQuestion.setAnswer1(q.getAnswer1());
+                    newQuestion.setAnswer2(q.getAnswer2());
+                    newQuestion.setAnswer3(q.getAnswer3());
+                    newQuestion.setAnswer4(q.getAnswer4());
+                    newQuestion.setEduLevel(q.getEduLevel());
+                    newQuestion.setCorrectAns(q.getCorrectAns());
+                    newQuestion.setAnswered(q.getAnswered());
 
-                    if (!questionList.contains(q)) {
-                        questionList.add(q);
+                    if (!questionList.contains(newQuestion)) {
+                        questionList.add(newQuestion);
                         mAdapter.notifyDataSetChanged();
                     }
-                    //Toast.makeText(NavigationDrawerActivity.this, "Broj pitanja dodatih u questionList: " + questionList.size(), Toast.LENGTH_SHORT).show();
-
                 }
             }
 
@@ -271,16 +280,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
 
-
-        //Get Firebase auth instance
-        auth = FirebaseAuth.getInstance();
-        firebaseUser = auth.getCurrentUser();
-
         txtUserFirstLastName.setText(firebaseUser.getDisplayName());
         txtEmail.setText(firebaseUser.getEmail());
-
-//        prepareQuestionData();   // duplicates data !!!!!!!!!
-
     }
 
     @Override

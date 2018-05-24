@@ -2,6 +2,7 @@ package com.consul.edu.educationconsultant.activities;
 
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
 import android.support.v7.app.ActionBar;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import com.consul.edu.educationconsultant.R;
 
 import com.consul.edu.educationconsultant.model.Question;
+import com.consul.edu.educationconsultant.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -50,12 +52,18 @@ public class AddQuestionActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private FirebaseUser firebaseUser;
 
+    private SharedPreferences sharedPreferences;
+    private String sharedPrefName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_question);
 
         progressBar = findViewById(R.id.progressBar);
+
+        sharedPrefName = "currentUser";
+        sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
 
         /*
         * config spinner for education levels
@@ -271,6 +279,14 @@ public class AddQuestionActivity extends AppCompatActivity {
                     return false;
                 }
 
+                String currentString = firebaseUser.getDisplayName();
+                String[] separated = currentString.split(" ");
+                String firstName = separated[0];
+                String lastName = separated[1];
+
+                User owner = new User(sharedPreferences.getLong("user_id", -1L),firstName,lastName,firebaseUser.getEmail(),sharedPreferences.getString("user_password", ""));
+
+                newQuestion.setOwner(owner);
                 newQuestion.setDescription(questionStr);
                 newQuestion.setAnswer1(ansOneStr);
                 newQuestion.setAnswer2(ansTwoStr);
@@ -278,9 +294,7 @@ public class AddQuestionActivity extends AppCompatActivity {
                 newQuestion.setAnswer4(ansFourStr);
                 newQuestion.setEduLevel(eduLevelStr);
                 newQuestion.setCategory(categoryStr);
-                newQuestion.setCorrectAns(ansOneStr);
-                newQuestion.setUsername(firebaseUser.getEmail());
-                newQuestion.setAnswered("");
+
 
                 /*
                  * TODO
