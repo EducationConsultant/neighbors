@@ -1,6 +1,8 @@
 package com.education.consultant.educon.service;
 
 import com.education.consultant.educon.document.Question;
+import com.education.consultant.educon.wrappers.EduLevelWrapper;
+
 import java.util.List;
 
 public interface QuestionService {

@@ -5,6 +5,7 @@ import com.education.consultant.educon.document.User;
 import com.education.consultant.educon.repository.QuestionRepository;
 import com.education.consultant.educon.repository.UserRepository;
 import com.education.consultant.educon.service.QuestionService;
+import com.education.consultant.educon.wrappers.EduLevelWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,9 +39,15 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<Question> findByEduLevel(List<String> eduLevels) {
         List<Question> resultQuestions = new ArrayList<Question>();
-        for(String eduLevel : eduLevels){
-            resultQuestions.add(repository.findByEduLevel(eduLevel));
+        List<Question> allQuestions = repository.findAll();
+
+        for(Question question:allQuestions){
+            for(String eduLevel : eduLevels){
+                if(question.getEduLevel().equals(eduLevel))
+                    resultQuestions.add(question);
+            }
         }
+
         return resultQuestions;
     }
 
