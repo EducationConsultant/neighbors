@@ -1,15 +1,22 @@
 package com.consul.edu.educationconsultant.retrofit;
 
 import com.consul.edu.educationconsultant.model.Question;
+import com.consul.edu.educationconsultant.model.User;
+import com.consul.edu.educationconsultant.wrappers.FilterWrapper;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+<<<<<<< HEAD
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+=======
+import retrofit2.http.GET;
+import retrofit2.http.Headers;
+>>>>>>> filters
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
@@ -48,6 +55,9 @@ public interface RedditAPI {
     @Headers("Content-Type: application/json")
     @PUT("question/{id}")
     Call<Question> updateQuestion(@Path("id") Long id, @Body Question question);
+
+    @PUT("question/filters/{radius}")
+    Call<List<Question>> findByFilters(@Path("radius") int radius, @Body FilterWrapper filters);
 
 }
 

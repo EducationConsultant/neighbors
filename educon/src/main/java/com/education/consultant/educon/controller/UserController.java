@@ -41,6 +41,8 @@ public class UserController {
     public ResponseEntity<User> findByEmail(@RequestBody User user){
         User resultUser = userService.findByEmail(user.getEmail());
 
+        System.err.print(user.getEmail()+"\n");
+
         return new ResponseEntity<User>(resultUser, HttpStatus.OK);
     }
 
