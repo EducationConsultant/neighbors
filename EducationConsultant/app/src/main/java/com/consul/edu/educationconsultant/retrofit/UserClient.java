@@ -13,7 +13,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface UserClient {
-    String BASE_URL = "http://192.168.0.14:8095/educon/";
+    String BASE_URL = "http://192.168.0.12:8095/educon/";
 
     // find by email and password
     @Headers("Content-Type: application/json")

@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.consul.edu.educationconsultant.R;
 
+import com.consul.edu.educationconsultant.asyncTasks.QuestionAddTask;
 import com.consul.edu.educationconsultant.model.Question;
 import com.consul.edu.educationconsultant.model.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -298,7 +299,7 @@ public class AddQuestionActivity extends AppCompatActivity {
                  * TODO
                  * Here should go sending the data to server and storing it
                  */
-
+                new QuestionAddTask(sharedPreferences).execute(newQuestion);
 
                 // go back to home
                 Intent questionList = new Intent(AddQuestionActivity.this, NavigationDrawerActivity.class);
