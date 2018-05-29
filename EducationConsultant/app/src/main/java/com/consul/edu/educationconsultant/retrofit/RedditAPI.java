@@ -8,15 +8,12 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-<<<<<<< HEAD
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
-=======
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
->>>>>>> filters
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
@@ -26,7 +23,7 @@ import retrofit2.http.Path;
 
 public interface RedditAPI {
     // call ipconfig
-    String BASE_URL = "http://192.168.0.12:8095/educon/";
+    String BASE_URL = "http://192.168.0.14:8095/educon/";
 
     @Headers("Content-Type: application/json")
     @GET("question")
