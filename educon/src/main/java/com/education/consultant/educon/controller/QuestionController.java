@@ -1,5 +1,6 @@
 package com.education.consultant.educon.controller;
 
+import com.education.consultant.educon.document.Comment;
 import com.education.consultant.educon.document.Question;
 import com.education.consultant.educon.repository.QuestionRepository;
 import com.education.consultant.educon.service.QuestionService;
@@ -21,6 +22,7 @@ public class QuestionController {
 
     @Autowired
     private QuestionService questionService;
+    
 
 
     // find all
@@ -78,5 +80,30 @@ public class QuestionController {
 
         return new ResponseEntity<Long>(HttpStatus.OK);
     }
+    
+    
+	// insert COMMENT
+	@RequestMapping(value = "/comment/{questionId}", method = RequestMethod.POST )
+	public ResponseEntity<Comment> insertComment(@PathVariable Long questionId,  @RequestBody Comment comment) {
+     	Comment componentToUpdate = questionService.saveComment(questionId, comment);
+		return new ResponseEntity<Comment>(componentToUpdate, HttpStatus.CREATED);
 
+	}
+	
+	// find all comments of one question
+    // localhost:8095/educon/question/commentsAll/{questionId}
+    @RequestMapping(value = "/commentsAll/{questionId}", method = RequestMethod.GET)
+    public ResponseEntity<List<Comment>> findAllComments(@PathVariable Long questionId) {
+        List<Comment> comments = questionService.findAllComments(questionId);
+        return new ResponseEntity<List<Comment>>(comments, HttpStatus.OK);
+    }
+
+    
+    @RequestMapping(value = "/comments", method = RequestMethod.GET)
+    public ResponseEntity<List<Comment>> findAllComm() {
+        List<Comment> comments = questionService.findAllComm();
+        return new ResponseEntity<List<Comment>>(comments, HttpStatus.OK);
+    }
+
+    
 }

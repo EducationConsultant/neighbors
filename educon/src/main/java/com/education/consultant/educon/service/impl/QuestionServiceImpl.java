@@ -1,7 +1,9 @@
 package com.education.consultant.educon.service.impl;
 
+import com.education.consultant.educon.document.Comment;
 import com.education.consultant.educon.document.Question;
 import com.education.consultant.educon.document.User;
+import com.education.consultant.educon.repository.CommentRepository;
 import com.education.consultant.educon.repository.QuestionRepository;
 import com.education.consultant.educon.repository.UserRepository;
 import com.education.consultant.educon.service.QuestionService;
@@ -25,6 +27,8 @@ public class QuestionServiceImpl implements QuestionService {
     @Autowired
     private UserServiceImpl userService;
 
+    @Autowired
+    private CommentRepository commentRepository;
 
     @Override
     public List<Question> findAll() {
@@ -108,6 +112,42 @@ public class QuestionServiceImpl implements QuestionService {
 
         return id;
     }
+
+	@Override
+	public Comment saveComment(Long questionId, Comment comment) {
+		Question q = findOne(questionId);
+		comment.setQuestion(q);
+		
+	    List<Comment> comments = commentRepository.findAllByOrderByIdDesc();
+        for(Comment c : comments){
+            Long nextId = c.getId() + 1;
+            Comment.setNextId(nextId);
+            break;
+        }
+        comment.setId(Comment.getNextId());
+		
+		return commentRepository.save(comment);
+	}
+
+	@Override
+	public List<Comment> findAllComments(Long questionId) {
+		List<Comment> commentsAll = commentRepository.findAll();
+		List<Comment> commentsOfQuestion = new ArrayList<Comment>();
+		
+		for (Comment c : commentsAll) {
+			if(c.getQuestion().getId().equals(questionId)) {
+				commentsOfQuestion.add(c);
+			}
+		}
+		return commentsOfQuestion;
+	}
+
+	@Override
+	public List<Comment> findAllComm() {
+		return commentRepository.findAll();
+	}
+
+
 
 
 }

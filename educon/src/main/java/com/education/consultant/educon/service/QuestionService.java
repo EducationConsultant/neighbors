@@ -1,5 +1,6 @@
 package com.education.consultant.educon.service;
 
+import com.education.consultant.educon.document.Comment;
 import com.education.consultant.educon.document.Question;
 import com.education.consultant.educon.wrappers.EduLevelWrapper;
 
@@ -14,5 +15,8 @@ public interface QuestionService {
     public List<Question> findByCategory(List<String> categories);
     public List<Question> findByEduLevel(List<String> eduLevels);
     public Question findOne(Long id);
+    public Comment saveComment(Long questionId, Comment comment);
+	public List<Comment> findAllComments(Long questionId);
+	public List<Comment> findAllComm();
 
 }

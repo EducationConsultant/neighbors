@@ -47,6 +47,8 @@ captures/
 .data-mongodb/mongod.lock
 
 
+.data-mongodb
+
 /local.properties
 .DS_Store
 /build
