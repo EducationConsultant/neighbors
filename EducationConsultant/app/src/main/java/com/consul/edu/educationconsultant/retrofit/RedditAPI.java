@@ -41,14 +41,6 @@ public interface RedditAPI {
     Call<Question> getQuestion(@Path("id") Long id);
 
     @Headers("Content-Type: application/json")
-    @PUT("question/eduLevels")
-    Call<List<Question>> findByEduLevel(); // TODO
-
-    @Headers("Content-Type: application/json")
-    @PUT("question/categories")
-    Call<List<Question>> findByCategories(); // TODO
-
-    @Headers("Content-Type: application/json")
     @POST("question")
     Call<Question> insertQuestion(@Body Question question);
 
@@ -56,6 +48,7 @@ public interface RedditAPI {
     @PUT("question/{id}")
     Call<Question> updateQuestion(@Path("id") Long id, @Body Question question);
 
+	@Headers("Content-Type: application/json")
     @PUT("question/filters/{radius}")
     Call<List<Question>> findByFilters(@Path("radius") int radius, @Body FilterWrapper filters);
 
