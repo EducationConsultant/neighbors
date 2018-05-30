@@ -4,6 +4,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Document
 public class Comment {
 
@@ -16,6 +18,7 @@ public class Comment {
    private User creator;
    
    @DBRef
+   @JsonBackReference
    private Question question;
   
    private static Long nextId = 1L;

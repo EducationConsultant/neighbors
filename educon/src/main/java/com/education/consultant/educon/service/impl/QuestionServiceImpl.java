@@ -83,6 +83,10 @@ public class QuestionServiceImpl implements QuestionService {
         question.setId(Question.getNextId());
         question.setCorrectAns(question.getAnswer1());
         question.setAnswered("");
+        
+        List<Comment> comments = new ArrayList<>();
+        question.setComments(comments);
+  
 
         return repository.save(question);
     }
@@ -125,6 +129,9 @@ public class QuestionServiceImpl implements QuestionService {
             break;
         }
         comment.setId(Comment.getNextId());
+        
+        q.getComments().add(comment);
+        repository.save(q);
 		
 		return commentRepository.save(comment);
 	}

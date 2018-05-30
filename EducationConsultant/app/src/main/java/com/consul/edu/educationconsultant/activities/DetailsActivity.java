@@ -27,9 +27,22 @@ import android.widget.Toast;
 
 import com.consul.edu.educationconsultant.LoginActivity;
 import com.consul.edu.educationconsultant.R;
+import com.consul.edu.educationconsultant.adapters.CommentAdapter;
+import com.consul.edu.educationconsultant.adapters.QuestionAdapter;
+import com.consul.edu.educationconsultant.model.Comment;
 import com.consul.edu.educationconsultant.model.Question;
+import com.consul.edu.educationconsultant.retrofit.RedditAPI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Svetlana on 4/14/2018.
@@ -39,6 +52,10 @@ import com.google.firebase.auth.FirebaseUser;
 public class DetailsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
     private static final String TAG = "DetailsActivity";
+
+    private CommentAdapter mAdapter;  // TODO: uradi sve sto treba sa adapterom!!!!
+
+    private List<Comment> commentList;
 
     private TextView txtUserFirstLastName;
     private TextView txtEmail;
@@ -79,6 +96,8 @@ public class DetailsActivity extends AppCompatActivity
         rb2 = (RadioButton)findViewById(R.id.answer2);
         rb3 = (RadioButton)findViewById(R.id.answer3);
         rb4 = (RadioButton)findViewById(R.id.answer4);
+
+        commentList = new ArrayList<>();
 
         commentsTable = (TableLayout) findViewById(R.id.comments_table);
         commentMessage = (EditText) findViewById(R.id.comment_message);
@@ -152,12 +171,12 @@ public class DetailsActivity extends AppCompatActivity
 
     }
 
+
     private void getIncomingIntent() {
         Log.d(TAG, "getIncomingIntent: checking for incoming intents");
         if(getIntent().hasExtra("description") && getIntent().hasExtra("username") && getIntent().hasExtra("category") ) {
             Log.d(TAG, "getIncomingIntent: found intent extras");
 
-           // String title = getIntent().getStringExtra("title");
             String description = getIntent().getStringExtra("description");
             String username = getIntent().getStringExtra("username");
             String category = getIntent().getStringExtra("category");
@@ -168,12 +187,16 @@ public class DetailsActivity extends AppCompatActivity
             String eduLevel = getIntent().getStringExtra("eduLevel");
             String answered = getIntent().getStringExtra("answered");
 
-            setQuestion(description, username, category, answer1, answer2, answer3, answer4, eduLevel,answered);
+            long id = getIntent().getLongExtra("id", 0);
+
+            prepareCommentData(id);
+
+            setQuestion( description, username, category, answer1, answer2, answer3, answer4, eduLevel,answered);
         }
     }
 
 
-    private void setQuestion( String description, String username, String category, String answer1, String answer2, String answer3, String answer4, String eduLevel, String answered) {
+    private void setQuestion(String description, String username, String category, String answer1, String answer2, String answer3, String answer4, String eduLevel, String answered) {
         TextView descriptionView  = findViewById(R.id.description);
         TextView usernameView = findViewById(R.id.username);
         TextView categoryView = findViewById(R.id.category);
@@ -291,6 +314,53 @@ public class DetailsActivity extends AppCompatActivity
         radioGroup.setVisibility(View.GONE);
 
         commentsTable.setVisibility(View.VISIBLE);
+
+    }
+
+
+    private void prepareCommentData(Long id) {
+        // User owner = new User(sharedPreferences.getLong("user_id", -1L),firstName,lastName,firebaseUser.getEmail(),sharedPreferences.getString("user_password", ""));
+        // Question question = new Question(owner, "This is my first question", "Mathematics", "a1", "a2" ,"a3", "a4", "Elementary School");
+        //  questionList.add(question);
+
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(RedditAPI.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        RedditAPI redditAPI = retrofit.create(RedditAPI.class);
+
+        Call<List<Comment>> call = redditAPI.getComments(id);
+
+        call.enqueue(new Callback<List<Comment>>() {
+            @Override
+            public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
+                Log.d(TAG, "onResponse: Server Response:" + response.toString());
+                Log.d(TAG, "onResponse: received information" + response.body().toString());
+                List<Comment> commentListResponse = response.body();
+
+                for(Comment c : commentListResponse){
+                    Comment newComment = new Comment();
+                    newComment.setCreator(c.getCreator());
+                    newComment.setText(c.getText());
+                    newComment.setQuestion(c.getQuestion());
+
+                    //if (!commentListResponse.contains(newQuestion)) {
+                    commentList.add(newComment);
+                    Toast.makeText(getApplicationContext(),  "Broj komentara" + commentList.size(), Toast.LENGTH_SHORT).show();
+
+                    //mAdapter.notifyDataSetChanged();
+                   // }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Comment>> call, Throwable t) {
+                Log.e(TAG, "onFailure:Something went wrong " + t.getMessage());
+                Toast.makeText(DetailsActivity.this, "Something went wrong" , Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 }

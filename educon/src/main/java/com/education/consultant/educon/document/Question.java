@@ -1,8 +1,12 @@
 package com.education.consultant.educon.document;
 
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Document
 public class Question {
@@ -16,6 +20,10 @@ public class Question {
     private User owner;
 
     private static Long nextId = 1L;
+    
+    
+    @JsonManagedReference
+    private List<Comment> comments;
 
     public Question() {}
     
@@ -130,4 +138,16 @@ public class Question {
     public static void setNextId(Long nextId) {
         Question.nextId = nextId;
     }
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+    
+    
+    
+    
 }

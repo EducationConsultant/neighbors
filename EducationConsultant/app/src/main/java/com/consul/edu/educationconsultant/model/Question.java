@@ -3,6 +3,8 @@ package com.consul.edu.educationconsultant.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
  * Created by Svetlana on 4/14/2018.
  */
@@ -13,6 +15,10 @@ public class Question {
     @SerializedName("owner")
     @Expose
     private User owner;
+
+    @SerializedName("id")
+    @Expose
+    private Long id;
 
     @SerializedName("description")
     @Expose
@@ -50,6 +56,10 @@ public class Question {
     @Expose
     private String answered;
 
+
+    @SerializedName("commentList")
+    @Expose
+    private List<Comment>  commentList;
 
     public Question() {
     }
@@ -157,6 +167,22 @@ public class Question {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<Comment>  commentList) {
+        this.commentList = commentList;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override

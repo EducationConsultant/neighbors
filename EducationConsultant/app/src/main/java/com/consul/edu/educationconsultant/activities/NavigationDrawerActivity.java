@@ -256,6 +256,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                     newQuestion.setEduLevel(q.getEduLevel());
                     newQuestion.setCorrectAns(q.getCorrectAns());
                     newQuestion.setAnswered(q.getAnswered());
+                    newQuestion.setId(q.getId());
 
 
                     if (!questionList.contains(newQuestion)) {

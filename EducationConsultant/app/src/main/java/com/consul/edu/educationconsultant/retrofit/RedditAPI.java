@@ -1,5 +1,6 @@
 package com.consul.edu.educationconsultant.retrofit;
 
+import com.consul.edu.educationconsultant.model.Comment;
 import com.consul.edu.educationconsultant.model.Question;
 
 import java.util.List;
@@ -22,12 +23,12 @@ public interface RedditAPI {
     String BASE_URL = "http://192.168.43.209:8095/educon/";
 
     @Headers("Content-Type: application/json")
-    @GET("question")
-    Call<List<Question>> getData();
+    @GET("question/commentsAll/{questionId}")
+    Call<List<Comment>> getComments(@Path("questionId") Long questionId);
 
     @Headers("Content-Type: application/json")
     @GET("question")
-    Call<List<Question>> getQuestions();
+    Call<List<Question>> getData();
 
     @Headers("Content-Type: application/json")
     @GET("question/{id}")
@@ -52,30 +53,10 @@ public interface RedditAPI {
 }
 
 
-/**
- MITCH
-    String BASE_URL = "https://www.reddit.com/";
-
-    @Headers("Content-Type: application/json")
-    @GET(".json")
-    Call<Feed> getData();
-
-    **/
 
 
-/**
- *
- ASISTENT
-    @Headers({
-            "User-Agent: Mobile-Android",
-            "Content-Type:application/json"
-    })
-    @POST(ServiceUtils.ADD)
-    Call<ResponseBody> add(@Body TagToSend tag);
-
-    **/
 
 /** RETROFIT
 @GET("users/{user}/repos")
 Call<List<Repo>> listRepos(@Path("user") String user);
- **/
+        **/
