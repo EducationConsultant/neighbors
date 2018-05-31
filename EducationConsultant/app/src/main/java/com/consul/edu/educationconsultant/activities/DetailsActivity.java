@@ -18,6 +18,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -53,9 +54,9 @@ public class DetailsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
     private static final String TAG = "DetailsActivity";
 
-    private CommentAdapter mAdapter;  // TODO: uradi sve sto treba sa adapterom!!!!
+    private CommentAdapter adapter;  // TODO: uradi sve sto treba sa adapterom!!!!
 
-    private List<Comment> commentList;
+    private ArrayList<Comment> commentList;
 
     private TextView txtUserFirstLastName;
     private TextView txtEmail;
@@ -67,6 +68,7 @@ public class DetailsActivity extends AppCompatActivity
 
     private TableLayout commentsTable;
     private EditText commentMessage;
+    private ListView listCommentsView;
 
     private RadioGroup radioGroup;
     private RadioButton rb1;
@@ -101,6 +103,7 @@ public class DetailsActivity extends AppCompatActivity
 
         commentsTable = (TableLayout) findViewById(R.id.comments_table);
         commentMessage = (EditText) findViewById(R.id.comment_message);
+        listCommentsView = (ListView) findViewById(R.id.listCommentsView);
 
         question = new Question();
 
@@ -145,6 +148,8 @@ public class DetailsActivity extends AppCompatActivity
                                 return false;
                            }
         });
+
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.details_toolbar);
         setSupportActionBar(toolbar);
@@ -220,12 +225,15 @@ public class DetailsActivity extends AppCompatActivity
             radioGroup.setVisibility(View.VISIBLE);
 
             commentsTable.setVisibility(View.GONE);
+            listCommentsView.setVisibility(View.GONE);
+
         }else{
             question.setAnswered(answered);
             btnSubmitAnswer.setVisibility(View.GONE);
             radioGroup.setVisibility(View.GONE);
 
             commentsTable.setVisibility(View.VISIBLE);
+            listCommentsView.setVisibility(View.VISIBLE);
         }
 
     }
@@ -314,7 +322,7 @@ public class DetailsActivity extends AppCompatActivity
         radioGroup.setVisibility(View.GONE);
 
         commentsTable.setVisibility(View.VISIBLE);
-
+        listCommentsView.setVisibility(View.VISIBLE);
     }
 
 
@@ -350,7 +358,11 @@ public class DetailsActivity extends AppCompatActivity
                     commentList.add(newComment);
                     Toast.makeText(getApplicationContext(),  "Broj komentara" + commentList.size(), Toast.LENGTH_SHORT).show();
 
-                    //mAdapter.notifyDataSetChanged();
+                    adapter = new CommentAdapter(DetailsActivity.this, R.layout.adapter_comment_view_layout, commentList);
+                    listCommentsView.setAdapter(adapter);
+
+                    adapter.notifyDataSetChanged();
+
                    // }
                 }
             }
