@@ -141,7 +141,7 @@
                     android:textStyle="bold"
                     android:textColor="@color/colorWhite"
                     android:drawableRight="@drawable/ic_comment_white"
-                    android:text="4"/>
+                    android:text=""/>
             </TableRow>
 
             <TableRow

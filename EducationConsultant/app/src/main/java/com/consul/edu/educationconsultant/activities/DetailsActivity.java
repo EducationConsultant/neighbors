@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -63,7 +64,7 @@ public class DetailsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
     private static final String TAG = "DetailsActivity";
 
-    private CommentAdapter adapter;  // TODO: uradi sve sto treba sa adapterom!!!!
+    private CommentAdapter adapter;
 
     private ArrayList<Comment> commentList;
 
@@ -78,6 +79,7 @@ public class DetailsActivity extends AppCompatActivity
     private TableLayout commentsTable;
     private EditText commentMessage;
     private ListView listCommentsView;
+    private static boolean commented;
 
     private RadioGroup radioGroup;
     private RadioButton rb1;
@@ -89,6 +91,8 @@ public class DetailsActivity extends AppCompatActivity
 
     private SharedPreferences sharedPreferences;
     private String sharedPrefName;
+
+
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -113,10 +117,11 @@ public class DetailsActivity extends AppCompatActivity
         commentsTable = (TableLayout) findViewById(R.id.comments_table);
         commentMessage = (EditText) findViewById(R.id.comment_message);
         listCommentsView = (ListView) findViewById(R.id.listCommentsView);
+        commented = false;
 
         question = new Question();
 
-        getIncomingIntent();
+        getIncomingIntent();  // get data of selected question
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
@@ -138,9 +143,6 @@ public class DetailsActivity extends AppCompatActivity
                 }
             }
         });
-
-
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.details_toolbar);
         setSupportActionBar(toolbar);
@@ -327,10 +329,6 @@ public class DetailsActivity extends AppCompatActivity
     *  get all comments of one question, from database
     * */
     private void prepareCommentData(Long id) {
-        // User owner = new User(sharedPreferences.getLong("user_id", -1L),firstName,lastName,firebaseUser.getEmail(),sharedPreferences.getString("user_password", ""));
-        // Question question = new Question(owner, "This is my first question", "Mathematics", "a1", "a2" ,"a3", "a4", "Elementary School");
-        //  questionList.add(question);
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(RedditAPI.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -352,16 +350,14 @@ public class DetailsActivity extends AppCompatActivity
                     newComment.setText(c.getText());
                     newComment.setQuestion(c.getQuestion());
 
-                    //if (!commentListResponse.contains(newQuestion)) {
-                    commentList.add(newComment);
-                    Toast.makeText(getApplicationContext(),  "Broj komentara" + commentList.size(), Toast.LENGTH_SHORT).show();
+                    if (!commentListResponse.contains(newComment)) {
+                        commentList.add(newComment);
 
-                    adapter = new CommentAdapter(DetailsActivity.this, R.layout.adapter_comment_view_layout, commentList);
-                    listCommentsView.setAdapter(adapter);
+                        adapter = new CommentAdapter(DetailsActivity.this, R.layout.adapter_comment_view_layout, commentList);
+                        listCommentsView.setAdapter(adapter);
 
-                    adapter.notifyDataSetChanged();
-
-                   // }
+                        adapter.notifyDataSetChanged();
+                    }
                 }
             }
 
@@ -392,10 +388,19 @@ public class DetailsActivity extends AppCompatActivity
         RedditAPI redditAPI = retrofit.create(RedditAPI.class);
         Call<Comment> call = redditAPI.insertComment(questionId, new Comment(creator, question, text));
 
+
+        commented = true;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("commented","true");
+        editor.apply();
+
+
         call.enqueue(new Callback<Comment>() {
             @Override
             public void onResponse(Call<Comment> call, Response<Comment> response) {
                 Log.d(TAG, "onResponse: Server Response: " + response.toString());
+
             }
 
             @Override
@@ -404,6 +409,9 @@ public class DetailsActivity extends AppCompatActivity
                 Toast.makeText(DetailsActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
             }
         });
+
+
+
     }
 
     @Override
@@ -419,6 +427,10 @@ public class DetailsActivity extends AppCompatActivity
         super.onResume();
         sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
         setListenerOnCommentMessage();
+
+
+
+
     }
 
 
@@ -427,7 +439,6 @@ public class DetailsActivity extends AppCompatActivity
     *
     * */
     private void setListenerOnCommentMessage() {
-        // insert new comment
         commentMessage.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -438,16 +449,13 @@ public class DetailsActivity extends AppCompatActivity
 
                 if(event.getAction() == MotionEvent.ACTION_UP) {
                     if(event.getRawX() >= (commentMessage.getRight() - commentMessage.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        Toast.makeText(DetailsActivity.this,"Send comment",Toast.LENGTH_LONG).show();
                         insertCommentData();
 
                         // refresh activity
                         finish();
+                        overridePendingTransition(0, 0);
                         startActivity(getIntent());
-                        btnSubmitAnswer.setVisibility(View.GONE);
-                        radioGroup.setVisibility(View.GONE);
-                        commentsTable.setVisibility(View.VISIBLE);
-                        listCommentsView.setVisibility(View.VISIBLE);
+                        overridePendingTransition(0, 0);
 
                         return true;
                     }
@@ -455,6 +463,7 @@ public class DetailsActivity extends AppCompatActivity
                 return false;
             }
         });
+
     }
 
 
@@ -474,6 +483,29 @@ public class DetailsActivity extends AppCompatActivity
         user.setEmail(user_email);
         user.setPassword(user_password);
         return user;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        // get value of commented --- to show comments if comment is sent
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String name = preferences.getString("commented", "false");
+        Toast.makeText(this, "Vrendost onResume " + name , Toast.LENGTH_SHORT).show();
+
+        if(name == "true") {
+            Toast.makeText(this, "Usao u if " + name , Toast.LENGTH_SHORT).show();
+            btnSubmitAnswer.setVisibility(View.GONE);
+            radioGroup.setVisibility(View.GONE);
+            commentsTable.setVisibility(View.VISIBLE);
+            listCommentsView.setVisibility(View.VISIBLE);
+        }
     }
 }
 
