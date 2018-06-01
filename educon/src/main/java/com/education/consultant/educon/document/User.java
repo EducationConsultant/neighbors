@@ -1,5 +1,6 @@
 package com.education.consultant.educon.document;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -23,6 +24,10 @@ public class User {
     private String email;
 
     private String password;
+
+
+   // @JsonManagedReference
+    private List<ResolveQuestion> resolvedQuestions;
 
     private static Long nextId = 1L;
 
@@ -83,6 +88,14 @@ public class User {
 
     public static void setNextId(Long nextId) {
         User.nextId = nextId;
+    }
+
+    public List<ResolveQuestion> getResolvedQuestions() {
+        return resolvedQuestions;
+    }
+
+    public void setResolvedQuestions(List<ResolveQuestion> resolvedQuestions) {
+        this.resolvedQuestions = resolvedQuestions;
     }
 
     @Override

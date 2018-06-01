@@ -1,11 +1,13 @@
 package com.education.consultant.educon.service.impl;
 
+import com.education.consultant.educon.document.ResolveQuestion;
 import com.education.consultant.educon.document.User;
 import com.education.consultant.educon.repository.UserRepository;
 import com.education.consultant.educon.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +25,10 @@ public class UserServiceImpl implements UserService {
             User.setNextId(nextId);
             break;
         }
+
+        List<ResolveQuestion> resolvedQuestions = new ArrayList<>();
+        user.setResolvedQuestions(resolvedQuestions);
+
         user.setId(User.getNextId());
         return userRepository.save(user);
     }
