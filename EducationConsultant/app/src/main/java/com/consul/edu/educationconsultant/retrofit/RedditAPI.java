@@ -27,6 +27,10 @@ public interface RedditAPI {
     Call<List<Comment>> getComments(@Path("questionId") Long questionId);
 
     @Headers("Content-Type: application/json")
+    @POST("question/comment/{questionId}")
+    Call<Comment> insertComment(@Path("questionId") Long questionId, @Body Comment comment);
+
+    @Headers("Content-Type: application/json")
     @GET("question")
     Call<List<Question>> getData();
 

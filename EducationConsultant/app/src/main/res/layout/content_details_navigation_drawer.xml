@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,7 +8,8 @@
     android:weightSum="100"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.consul.edu.educationconsultant.activities.DetailsActivity"
-    tools:showIn="@layout/details_navigation_drawer">
+    tools:showIn="@layout/details_navigation_drawer"
+    android:fillViewport="true">
 
     <RelativeLayout
         android:id="@+id/rel_layout_resolve_question"
@@ -143,106 +144,6 @@
                     android:text="4"/>
             </TableRow>
 
-            <!--<TableRow-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:paddingBottom="1dp"-->
-                <!--android:background="@color/colorWhite">-->
-
-                <!--<RelativeLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:paddingLeft="8dp"-->
-                    <!--android:paddingRight="8dp">-->
-
-                    <!--<TextView-->
-                        <!--android:id="@+id/username1_comment"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:textStyle="bold"-->
-                        <!--android:text="User 4"/>-->
-
-                    <!--<TextView-->
-                        <!--android:id="@+id/text1_comment"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_below="@id/username1_comment"-->
-                        <!--android:textSize="12sp"-->
-                        <!--android:textColor="@color/black"-->
-                        <!--android:text="This is my first comment." />-->
-                <!--</RelativeLayout>-->
-            <!--</TableRow>-->
-
-            <!--<TableRow-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:paddingBottom="1dp"-->
-                <!--android:background="@color/colorWhite">-->
-
-                <!--<RelativeLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:paddingLeft="8dp"-->
-                    <!--android:paddingRight="8dp">-->
-
-                    <!--<View-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="1dp"-->
-                        <!--android:background="@color/colorPrimaryDark"/>-->
-
-                    <!--<TextView-->
-                        <!--android:id="@+id/username32_comment"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:textStyle="bold"-->
-                        <!--android:text="User 2" />-->
-
-                    <!--<TextView-->
-                        <!--android:id="@+id/text32_comment"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_below="@id/username32_comment"-->
-                        <!--android:textSize="12sp"-->
-                        <!--android:textColor="@color/black"-->
-                        <!--android:text="This is my second comment." />-->
-                <!--</RelativeLayout>-->
-            <!--</TableRow>-->
-
-            <!--<TableRow-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:paddingBottom="1dp"-->
-                <!--android:background="@color/colorWhite">-->
-
-                <!--<RelativeLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:paddingLeft="8dp"-->
-                    <!--android:paddingRight="8dp">-->
-
-                    <!--<View-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="1dp"-->
-                        <!--android:background="@color/colorPrimaryDark"/>-->
-
-                    <!--<TextView-->
-                        <!--android:id="@+id/username24_comment"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:textStyle="bold"-->
-                        <!--android:text="User 2" />-->
-
-                    <!--<TextView-->
-                        <!--android:id="@+id/text24_comment"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_below="@id/username24_comment"-->
-                        <!--android:textSize="12sp"-->
-                        <!--android:textColor="@color/black"-->
-                        <!--android:text="This is my second comment." />-->
-                <!--</RelativeLayout>-->
-            <!--</TableRow>-->
-
             <TableRow
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
@@ -254,35 +155,15 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp">
-
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/colorPrimaryDark"/>
-
                     <ListView
                         android:id="@+id/listCommentsView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
-
-
                     </ListView>
-
-                    <!--<TextView-->
-                        <!--android:id="@+id/username232_comment"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:textStyle="bold"-->
-                        <!--android:text="User 2" />-->
-
-                    <!--<TextView-->
-                        <!--android:id="@+id/text232_comment"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_below="@id/username232_comment"-->
-                        <!--android:textSize="12sp"-->
-                        <!--android:textColor="@color/black"-->
-                        <!--android:text="This is my second comment." />-->
                 </RelativeLayout>
             </TableRow>
 
@@ -315,4 +196,4 @@
             </TableRow>
         </TableLayout>
     </RelativeLayout>
-</android.support.constraint.ConstraintLayout>
+</ScrollView>

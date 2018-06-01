@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,13 +33,21 @@ import com.consul.edu.educationconsultant.adapters.CommentAdapter;
 import com.consul.edu.educationconsultant.adapters.QuestionAdapter;
 import com.consul.edu.educationconsultant.model.Comment;
 import com.consul.edu.educationconsultant.model.Question;
+import com.consul.edu.educationconsultant.model.User;
 import com.consul.edu.educationconsultant.retrofit.RedditAPI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -130,24 +139,6 @@ public class DetailsActivity extends AppCompatActivity
             }
         });
 
-        commentMessage.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                                final int DRAWABLE_LEFT = 0;
-                                final int DRAWABLE_TOP = 1;
-                                final int DRAWABLE_RIGHT = 2;
-                               final int DRAWABLE_BOTTOM = 3;
-
-                                       if(event.getAction() == MotionEvent.ACTION_UP) {
-                                        if(event.getRawX() >= (commentMessage.getRight() - commentMessage.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                                                // your action here
-                                                        Toast.makeText(DetailsActivity.this,"Send comment",Toast.LENGTH_LONG).show();
-                                                return true;
-                                            }
-                                    }
-                                return false;
-                           }
-        });
 
 
 
@@ -176,7 +167,9 @@ public class DetailsActivity extends AppCompatActivity
 
     }
 
-
+    /**
+     * get content od selected question from question list
+    * */
     private void getIncomingIntent() {
         Log.d(TAG, "getIncomingIntent: checking for incoming intents");
         if(getIntent().hasExtra("description") && getIntent().hasExtra("username") && getIntent().hasExtra("category") ) {
@@ -201,6 +194,10 @@ public class DetailsActivity extends AppCompatActivity
     }
 
 
+    /**
+     *  set question atributtes
+     *
+     * */
     private void setQuestion(String description, String username, String category, String answer1, String answer2, String answer3, String answer4, String eduLevel, String answered) {
         TextView descriptionView  = findViewById(R.id.description);
         TextView usernameView = findViewById(R.id.username);
@@ -314,9 +311,9 @@ public class DetailsActivity extends AppCompatActivity
         return true;
     }
 
+
     public void submit_answer(View view) {
         Toast.makeText(this, "You resolved question :) ", Toast.LENGTH_SHORT).show();
-
 
         btnSubmitAnswer.setVisibility(View.GONE);
         radioGroup.setVisibility(View.GONE);
@@ -325,12 +322,14 @@ public class DetailsActivity extends AppCompatActivity
         listCommentsView.setVisibility(View.VISIBLE);
     }
 
-
+    /**
+    *
+    *  get all comments of one question, from database
+    * */
     private void prepareCommentData(Long id) {
         // User owner = new User(sharedPreferences.getLong("user_id", -1L),firstName,lastName,firebaseUser.getEmail(),sharedPreferences.getString("user_password", ""));
         // Question question = new Question(owner, "This is my first question", "Mathematics", "a1", "a2" ,"a3", "a4", "Elementary School");
         //  questionList.add(question);
-
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(RedditAPI.BASE_URL)
@@ -338,7 +337,6 @@ public class DetailsActivity extends AppCompatActivity
                 .build();
 
         RedditAPI redditAPI = retrofit.create(RedditAPI.class);
-
         Call<List<Comment>> call = redditAPI.getComments(id);
 
         call.enqueue(new Callback<List<Comment>>() {
@@ -375,4 +373,109 @@ public class DetailsActivity extends AppCompatActivity
         });
 
     }
+
+
+    /**
+     * inert new comment for one question
+     * */
+    private void insertCommentData() {
+        final EditText comment_message = (EditText) findViewById(R.id.comment_message);
+        long questionId = getIntent().getLongExtra("id", 0);
+        String text = comment_message.getText().toString();
+        User creator = getLoggedInUser();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(RedditAPI.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        RedditAPI redditAPI = retrofit.create(RedditAPI.class);
+        Call<Comment> call = redditAPI.insertComment(questionId, new Comment(creator, question, text));
+
+        call.enqueue(new Callback<Comment>() {
+            @Override
+            public void onResponse(Call<Comment> call, Response<Comment> response) {
+                Log.d(TAG, "onResponse: Server Response: " + response.toString());
+            }
+
+            @Override
+            public void onFailure(Call<Comment> call, Throwable t) {
+                Log.e(TAG, "onFailure: Something went wrong: " + t.getMessage() );
+                Toast.makeText(DetailsActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebaseUser = auth.getCurrentUser();
+        sharedPrefName = "currentUser";
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
+        setListenerOnCommentMessage();
+    }
+
+
+    /**
+    *  set listener on filed commentMessage, to add new comment
+    *
+    * */
+    private void setListenerOnCommentMessage() {
+        // insert new comment
+        commentMessage.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+
+                if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if(event.getRawX() >= (commentMessage.getRight() - commentMessage.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        Toast.makeText(DetailsActivity.this,"Send comment",Toast.LENGTH_LONG).show();
+                        insertCommentData();
+
+                        // refresh activity
+                        finish();
+                        startActivity(getIntent());
+                        btnSubmitAnswer.setVisibility(View.GONE);
+                        radioGroup.setVisibility(View.GONE);
+                        commentsTable.setVisibility(View.VISIBLE);
+                        listCommentsView.setVisibility(View.VISIBLE);
+
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+    }
+
+
+    /**
+    * get loggedIn user from sharedPreference
+    * */
+    private User getLoggedInUser() {
+        User user = new User();
+        Long user_id  = sharedPreferences.getLong("user_id", 1);
+        String user_first_name = sharedPreferences.getString("user_first_name", "a");
+        String user_last_name = sharedPreferences.getString("user_last_name", "a");
+        String user_email = sharedPreferences.getString("user_email", "a@gmail.com");
+        String user_password = sharedPreferences.getString("user_password", "a");
+        user.setId(user_id);
+        user.setFirstName(user_first_name);
+        user.setLastName(user_last_name);
+        user.setEmail(user_email);
+        user.setPassword(user_password);
+        return user;
+    }
 }
+
+
+
