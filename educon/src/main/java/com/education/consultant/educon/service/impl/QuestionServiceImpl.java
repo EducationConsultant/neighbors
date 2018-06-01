@@ -2,18 +2,18 @@ package com.education.consultant.educon.service.impl;
 
 import com.education.consultant.educon.document.Comment;
 import com.education.consultant.educon.document.Question;
+
 import com.education.consultant.educon.document.User;
 import com.education.consultant.educon.repository.CommentRepository;
+
+
 import com.education.consultant.educon.repository.QuestionRepository;
 import com.education.consultant.educon.repository.UserRepository;
 import com.education.consultant.educon.service.QuestionService;
-import com.education.consultant.educon.wrappers.EduLevelWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
@@ -36,33 +36,34 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<Question> findByCategory(List<String> categories) {
-        List<Question> resultQuestions = new ArrayList<Question>();
+    public List<Question> findByFilters(int radius, List<String> filters) {
+        Set<Question> resultQuestions = new HashSet<>();
         List<Question> allQuestions = repository.findAll();
 
         for(Question question:allQuestions){
-            for(String category : categories){
-                if(question.getCategory().equals(category))
+            for(String filter : filters){
+                if(question.getCategory().equals(filter) || question.getEduLevel().equals(filter)) {
                     resultQuestions.add(question);
+                }
             }
         }
 
-        return resultQuestions;
-    }
+        // TODO: add filter by location
 
-    @Override
-    public List<Question> findByEduLevel(List<String> eduLevels) {
-        List<Question> resultQuestions = new ArrayList<Question>();
-        List<Question> allQuestions = repository.findAll();
-
-        for(Question question:allQuestions){
-            for(String eduLevel : eduLevels){
-                if(question.getEduLevel().equals(eduLevel))
-                    resultQuestions.add(question);
-            }
+        List<Question> questionsSorted = new ArrayList<>();
+        for(Question q : resultQuestions) {
+            questionsSorted.add(q);
         }
 
-        return resultQuestions;
+        Collections.sort(questionsSorted, new Comparator<Question>() {
+            @Override
+            public int compare(Question question1, Question question2) {
+                return question1.getId().compareTo(
+                        question2.getId());
+            }
+        });
+
+        return questionsSorted;
     }
 
     @Override

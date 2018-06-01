@@ -80,7 +80,7 @@ public class SettingsEducationLevelsActivity extends AppCompatActivity {
         super.onStart();
 
         firebaseUser = auth.getCurrentUser();
-        sharedPrefName = "SettingsEduLevels" + "_" + firebaseUser.getEmail();
+        sharedPrefName = "Settings" + "_" + firebaseUser.getEmail();
     }
 
     /**

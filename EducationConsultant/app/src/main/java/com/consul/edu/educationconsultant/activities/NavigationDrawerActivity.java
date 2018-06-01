@@ -4,6 +4,7 @@ import android.content.Intent;
 
 
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 
@@ -29,6 +30,7 @@ import com.consul.edu.educationconsultant.listeners.RecyclerTouchListener;
 import com.consul.edu.educationconsultant.model.Question;
 import com.consul.edu.educationconsultant.model.User;
 import com.consul.edu.educationconsultant.retrofit.RedditAPI;
+import com.consul.edu.educationconsultant.wrappers.FilterWrapper;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -47,16 +49,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-
-// TODO : baza ---> asinhroni zadaci ---> onResume()
-
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    private static final String TAG = "NavigationDrawrActivity";
-    private static final String BASE_URL = "http://192.168.0.14:8095/educon/";
-
+    private static final String TAG = "NavActivity";
 
     private Button btnLogout;
     private TextView txtUserFirstLastName;
@@ -74,7 +71,11 @@ public class NavigationDrawerActivity extends AppCompatActivity
     private QuestionAdapter mAdapter;
 
     private SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferencesSettings;
     private String sharedPrefName;
+    private String sharedPrefNameSettings;
+
+    private List<String> filtersStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +88,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         sharedPrefName = "currentUser";
         sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
+
+        sharedPrefNameSettings = "Settings" + "_" + firebaseUser.getEmail();
+        sharedPreferencesSettings = getSharedPreferences(sharedPrefNameSettings,MODE_PRIVATE);
 
         questionList = new ArrayList<>();
 
@@ -115,7 +119,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         String firstLastName = sharedPreferences.getString("user_first_name", "") + " " + sharedPreferences.getString("user_last_name", "");
         txtUserFirstLastName.setText(firstLastName);
-
         txtEmail.setText(firebaseUser.getEmail());
 
         // RecycleView
@@ -127,7 +130,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         recyclerView.setAdapter(mAdapter);
 
 
-        prepareQuestionData();
+        // prepareQuestionData();
 
         // separator
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
@@ -221,61 +224,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
         return true;
     }
 
-    private void prepareQuestionData() {
-       // User owner = new User(sharedPreferences.getLong("user_id", -1L),firstName,lastName,firebaseUser.getEmail(),sharedPreferences.getString("user_password", ""));
-       // Question question = new Question(owner, "This is my first question", "Mathematics", "a1", "a2" ,"a3", "a4", "Elementary School");
-      //  questionList.add(question);
-
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(RedditAPI.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        RedditAPI redditAPI = retrofit.create(RedditAPI.class);
-
-        Call<List<Question>> call = redditAPI.getData();
-
-        call.enqueue(new Callback<List<Question>>() {
-            @Override
-            public void onResponse(Call<List<Question>> call, Response<List<Question>> response) {
-                Log.d(TAG, "onResponse: Server Response:" + response.toString());
-                Log.d(TAG, "onResponse: received information" + response.body().toString());
-                List<Question> questionListResponse = response.body();
-
-                for(Question q:questionListResponse){
-                    Question newQuestion = new Question();
-                    newQuestion.setOwner(q.getOwner());
-                    newQuestion.setDescription(q.getDescription());
-                    newQuestion.setCategory(q.getCategory());
-
-                    newQuestion.setAnswer1(q.getAnswer1());
-                    newQuestion.setAnswer2(q.getAnswer2());
-                    newQuestion.setAnswer3(q.getAnswer3());
-                    newQuestion.setAnswer4(q.getAnswer4());
-                    newQuestion.setEduLevel(q.getEduLevel());
-                    newQuestion.setCorrectAns(q.getCorrectAns());
-                    newQuestion.setAnswered(q.getAnswered());
-                    newQuestion.setId(q.getId());
-
-
-                    if (!questionList.contains(newQuestion)) {
-                        questionList.add(newQuestion);
-                        mAdapter.notifyDataSetChanged();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Question>> call, Throwable t) {
-                Log.e(TAG, "onFailure:Something went wrong " + t.getMessage());
-                Toast.makeText(NavigationDrawerActivity.this, "Something went wrong" , Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
-
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -283,11 +231,118 @@ public class NavigationDrawerActivity extends AppCompatActivity
         String firstLastName = sharedPreferences.getString("user_first_name", "") + " " + sharedPreferences.getString("user_last_name", "");
         txtUserFirstLastName.setText(firstLastName);
         txtEmail.setText(firebaseUser.getEmail());
+
+
+        filtersStr = new ArrayList<String>();
+
+        // Location
+        int radius = sharedPreferencesSettings.getInt("radius", -1);
+
+        // Education levels
+        boolean elementary = sharedPreferencesSettings.getBoolean("elementary_sp", true);
+        boolean middle = sharedPreferencesSettings.getBoolean("middle_sp", true);
+        boolean high = sharedPreferencesSettings.getBoolean("high_sp", true);
+        boolean collage = sharedPreferencesSettings.getBoolean("collage_sp", true);
+        boolean master = sharedPreferencesSettings.getBoolean("masters_sp", true);
+        boolean doctor = sharedPreferencesSettings.getBoolean("doctors_sp", true);
+
+        if (elementary){
+            filtersStr.add(getString(R.string.elementary_school_title));
+        }
+        if(middle){
+            filtersStr.add(getString(R.string.middle_school_title));
+        }
+        if(high){
+            filtersStr.add(getString(R.string.high_school_title));
+        }
+        if (collage){
+            filtersStr.add(getString(R.string.collage_title));
+        }
+        if(master){
+            filtersStr.add(getString(R.string.masters_title));
+        }
+        if(doctor){
+            filtersStr.add(getString(R.string.doctors_title));
+        }
+
+        // Categories
+        boolean math = sharedPreferencesSettings.getBoolean("math_sp", true);
+        boolean sport = sharedPreferencesSettings.getBoolean("sport_sp", true);
+        boolean english = sharedPreferencesSettings.getBoolean("english_sp", true);
+        boolean other = sharedPreferencesSettings.getBoolean("other_sp", true);
+
+        if (math){
+            filtersStr.add(getString(R.string.mathematics_title));
+        }
+        if(sport){
+            filtersStr.add(getString(R.string.sport_title));
+        }
+        if(english){
+            filtersStr.add(getString(R.string.english_title));
+        }
+        if (other){
+            filtersStr.add(getString(R.string.other_title));
+        }
+
+        FilterWrapper filterWrapper = new FilterWrapper(filtersStr);
+
+        new FilterTask(radius,filterWrapper).execute();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    private class FilterTask extends AsyncTask<String,Void, List<Question>>{
+        private int radius;
+        private FilterWrapper filters;
 
+        public FilterTask(int radius, FilterWrapper filterWrapper){
+            this.radius=radius;
+            this.filters=filterWrapper;
+        }
+
+        @Override
+        protected List<Question> doInBackground(String... strings) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(RedditAPI.BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            RedditAPI client = retrofit.create(RedditAPI.class);
+            Call<List<Question>> questionResponse = client.findByFilters(radius,filters);
+
+            questionResponse.enqueue(new Callback<List<Question>>() {
+                @Override
+                public void onResponse(Call<List<Question>> call, Response<List<Question>> response) {
+                    List<Question> questionListResponse = response.body();
+                    Log.w(TAG, "questionListResponse.size()" + questionListResponse.size());
+
+                    for(Question q:questionListResponse) {
+                        Question newQuestion = new Question();
+                        newQuestion.setOwner(q.getOwner());
+                        newQuestion.setDescription(q.getDescription());
+                        newQuestion.setCategory(q.getCategory());
+
+                        newQuestion.setAnswer1(q.getAnswer1());
+                        newQuestion.setAnswer2(q.getAnswer2());
+                        newQuestion.setAnswer3(q.getAnswer3());
+                        newQuestion.setAnswer4(q.getAnswer4());
+                        newQuestion.setEduLevel(q.getEduLevel());
+                        newQuestion.setCorrectAns(q.getCorrectAns());
+                        newQuestion.setAnswered(q.getAnswered());
+                        newQuestion.setId(q.getId());
+
+
+                        if (!questionList.contains(newQuestion)) {
+                            questionList.add(newQuestion);
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<Question>> call, Throwable t) {
+                    Log.e(TAG, "Something went wrong");
+                }
+            });
+            return new ArrayList<>();
+        }
     }
 }
