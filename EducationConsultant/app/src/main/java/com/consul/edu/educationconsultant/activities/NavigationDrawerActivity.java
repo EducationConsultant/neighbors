@@ -42,6 +42,7 @@ import com.consul.edu.educationconsultant.retrofit.RedditAPI;
 import com.consul.edu.educationconsultant.wrappers.FilterWrapper;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -191,6 +192,11 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
             }
         }));
+
+
+        // for notification
+        FirebaseMessaging.getInstance().subscribeToTopic("NEWS");
+
     }
 
     @Override

@@ -14,7 +14,7 @@ import retrofit2.http.Path;
 
 public interface UserClient {
 
-    String BASE_URL = "http://192.168.43.209:8095/educon/";
+    String BASE_URL = "http://192.168.1.3:8095/educon/";
 
 
     // find by email and password
