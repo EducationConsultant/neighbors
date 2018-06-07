@@ -1,13 +1,22 @@
 package com.consul.edu.educationconsultant.activities;
 
+import android.Manifest;
 import android.content.Intent;
 
 
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import android.view.View;
@@ -77,6 +86,12 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
     private List<String> filtersStr;
 
+    // -- location --
+    private LocationManager locationManager;
+    private LocationListener locationListener;
+
+    // ----
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +106,32 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         sharedPrefNameSettings = "Settings" + "_" + firebaseUser.getEmail();
         sharedPreferencesSettings = getSharedPreferences(sharedPrefNameSettings,MODE_PRIVATE);
+
+        // -- location --
+        locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                Log.d("Location: ", location.toString());
+                Log.d("Longitude: ", String.valueOf(location.getLongitude()));
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        }; // end listener
+        // ----
 
         questionList = new ArrayList<>();
 
@@ -150,6 +191,17 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
             }
         }));
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            }
+        }
     }
 
     @Override
@@ -238,6 +290,18 @@ public class NavigationDrawerActivity extends AppCompatActivity
         // Location
         int radius = sharedPreferencesSettings.getInt("radius", -1);
 
+        // -- location --
+        // check for permissions
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            // Ask for permissions
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 99);
+
+        }else{
+            // permissions already accepted keep requesting the location
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        }
+        // ----
+
         // Education levels
         boolean elementary = sharedPreferencesSettings.getBoolean("elementary_sp", true);
         boolean middle = sharedPreferencesSettings.getBoolean("middle_sp", true);
@@ -287,6 +351,13 @@ public class NavigationDrawerActivity extends AppCompatActivity
         FilterWrapper filterWrapper = new FilterWrapper(filtersStr);
 
         new FilterTask(radius,filterWrapper).execute();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // stop checking for location while paused
+        locationManager.removeUpdates(locationListener);
     }
 
     private class FilterTask extends AsyncTask<String,Void, List<Question>>{
