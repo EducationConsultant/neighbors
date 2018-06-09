@@ -1,6 +1,7 @@
 package com.consul.edu.educationconsultant.activities;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.ArrayMap;
@@ -92,7 +94,11 @@ public class DetailsActivity extends AppCompatActivity
     private SharedPreferences sharedPreferences;
     private String sharedPrefName;
 
+    // -- dialog --
+    private AlertDialog.Builder alertDialog;
 
+    private String correctAns;
+    private String userAns;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -130,15 +136,23 @@ public class DetailsActivity extends AppCompatActivity
                 switch(checkedId){
                     case R.id.answer1:
                         question.setAnswered(radioButton.getText().toString());
+                        userAns = radioButton.getText().toString();
+                        Log.d("<<<< SET QUESTION1 >>>>", "foo bar " + userAns );
                         break;
                     case R.id.answer2:
                         question.setAnswered(radioButton.getText().toString());
+                        userAns = radioButton.getText().toString();
+                        Log.d("<<<< SET QUESTION2 >>>>", "foo bar "+ userAns );
                         break;
                     case R.id.answer3:
                         question.setAnswered(radioButton.getText().toString());
+                        userAns = radioButton.getText().toString();
+                        Log.d("<<<< SET QUESTION3 >>>>", "foo bar "+ userAns );
                         break;
                     case R.id.answer4:
                         question.setAnswered(radioButton.getText().toString());
+                        userAns = radioButton.getText().toString();
+                        Log.d("<<<< SET QUESTION4 >>>>", "foo bar "+ userAns);
                         break;
                 }
             }
@@ -210,6 +224,8 @@ public class DetailsActivity extends AppCompatActivity
         rb4 = findViewById(R.id.answer4);
         TextView eduLevelView = findViewById(R.id.eduLevel);
 
+        correctAns = answer1; // save the correct ans for when resolving the correctness
+
         descriptionView.setText(description);
         usernameView.setText(username);
         categoryView.setText(category);
@@ -218,7 +234,6 @@ public class DetailsActivity extends AppCompatActivity
         rb3.setText(answer3);
         rb4.setText(answer4);
         eduLevelView.setText(eduLevel);
-
         if(answered.equals("")){
             btnSubmitAnswer.setVisibility(View.VISIBLE);
             radioGroup.setVisibility(View.VISIBLE);
@@ -317,11 +332,38 @@ public class DetailsActivity extends AppCompatActivity
     public void submit_answer(View view) {
         Toast.makeText(this, "You resolved question :) ", Toast.LENGTH_SHORT).show();
 
-        btnSubmitAnswer.setVisibility(View.GONE);
-        radioGroup.setVisibility(View.GONE);
+        //Log.d("Is Correct: ", question.toString());
 
-        commentsTable.setVisibility(View.VISIBLE);
-        listCommentsView.setVisibility(View.VISIBLE);
+        // show the dialog
+        alertDialog = new AlertDialog.Builder(DetailsActivity.this);
+
+        // set up the dialog
+        alertDialog.setTitle("Your answer is: ");
+        alertDialog.setMessage("Foo bar");
+        // check is answer correct
+        if (correctAns.equals(userAns)){
+            alertDialog.setMessage("Correct!");
+        }else {
+            alertDialog.setMessage("Incorrect!");
+        }
+        alertDialog.setCancelable(false); // cannot cancel the dialog
+        // set up button on dialog
+        alertDialog.setPositiveButton("Continue",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do something
+                        btnSubmitAnswer.setVisibility(View.GONE);
+                        radioGroup.setVisibility(View.GONE);
+
+                        commentsTable.setVisibility(View.VISIBLE);
+                        listCommentsView.setVisibility(View.VISIBLE);
+                    }
+                });
+
+        // create dialog
+        AlertDialog dialog = alertDialog.create();
+        dialog.show();
     }
 
     /**
