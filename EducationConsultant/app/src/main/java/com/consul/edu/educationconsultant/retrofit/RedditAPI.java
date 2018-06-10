@@ -29,8 +29,8 @@ public interface RedditAPI {
 
 
     @Headers("Content-Type: application/json")
-    @GET("notification/send/{topic}")
-    Call<String> sendNotification(@Path("topic") String topic);
+    @GET("notification/send")
+    Call<String> sendNotification();
 
 
     @Headers("Content-Type: application/json")

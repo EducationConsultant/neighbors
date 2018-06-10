@@ -18,21 +18,21 @@ import java.util.concurrent.ExecutionException;
 @RequestMapping("/educon/notification")
 public class WebController {
 
-    //private final String TOPIC = "EduCon";
+    private final String TOPIC = "EduCon";
 
     @Autowired
     AndroidPushNotificationsService androidPushNotificationsService;
 
-    @RequestMapping(value = "/send/{topic}", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<String> send(@PathVariable String topic) throws JSONException {
+    @RequestMapping(value = "/send", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<String> send() throws JSONException {
 
         JSONObject body = new JSONObject();
-        body.put("to", "/topics/" + topic);
+        body.put("to", "/topics/" + TOPIC);
         body.put("priority", "high");
 
         JSONObject notification = new JSONObject();
         notification.put("title", "EduCon Notification");
-        notification.put("body", "Happy comment of " + topic + " question");
+        notification.put("body", "Happy comment  ");
 
         JSONObject data = new JSONObject();
         data.put("Key-1", "JSA Data 1");

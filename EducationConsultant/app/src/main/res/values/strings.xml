@@ -108,6 +108,8 @@
     <string name="profile">Profile</string>
     <string name="archive">Archive</string>
     <string name="home">Home</string>
+    <string name="subscribe">Subscribe</string>
+    <string name ="unsubscribe">Unsubscribe</string>
 
     <!-- Database -->
     <string name="db_unavailable">Database unavailable</string>
