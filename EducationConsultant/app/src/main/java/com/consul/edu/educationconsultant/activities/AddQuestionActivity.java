@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,11 +27,19 @@ import com.consul.edu.educationconsultant.R;
 import com.consul.edu.educationconsultant.asyncTasks.QuestionAddTask;
 import com.consul.edu.educationconsultant.model.Question;
 import com.consul.edu.educationconsultant.model.User;
+import com.consul.edu.educationconsultant.retrofit.RedditAPI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class AddQuestionActivity extends AppCompatActivity {
 
+    private static final String TAG = "AddQuestAct";
 
     private Button btnAdd;
 
@@ -300,6 +309,27 @@ public class AddQuestionActivity extends AppCompatActivity {
                  * Here should go sending the data to server and storing it
                  */
                 new QuestionAddTask(sharedPreferences).execute(newQuestion);
+
+
+                // NOTIFICATION
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(RedditAPI.BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                RedditAPI redditAPI = retrofit.create(RedditAPI.class);
+                Call<String> callNotification = redditAPI.sendNotification();
+                callNotification.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        Log.d(TAG, "onNotificationResponse: Server Response: " + response.toString());
+                    }
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Log.e(TAG, "onNotificationFailure: Something went wrong: " + t.getMessage() );
+                    }
+                });
+
 
                 // go back to home
                 Intent questionList = new Intent(AddQuestionActivity.this, NavigationDrawerActivity.class);
