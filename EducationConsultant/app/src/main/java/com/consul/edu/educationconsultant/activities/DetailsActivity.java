@@ -34,8 +34,10 @@ import com.consul.edu.educationconsultant.LoginActivity;
 import com.consul.edu.educationconsultant.R;
 import com.consul.edu.educationconsultant.adapters.CommentAdapter;
 import com.consul.edu.educationconsultant.adapters.QuestionAdapter;
+import com.consul.edu.educationconsultant.asyncTasks.AnswerQuestionAddTask;
 import com.consul.edu.educationconsultant.model.Comment;
 import com.consul.edu.educationconsultant.model.Question;
+import com.consul.edu.educationconsultant.model.ResolveQuestion;
 import com.consul.edu.educationconsultant.model.User;
 import com.consul.edu.educationconsultant.retrofit.RedditAPI;
 import com.google.firebase.auth.FirebaseAuth;
@@ -59,6 +61,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Svetlana on 4/14/2018.
+ * Co-Developed by Danilo
  */
 
 
@@ -99,6 +102,7 @@ public class DetailsActivity extends AppCompatActivity
 
     private String correctAns;
     private String userAns;
+    private Long questionId;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -202,6 +206,7 @@ public class DetailsActivity extends AppCompatActivity
             String answered = getIntent().getStringExtra("answered");
 
             long id = getIntent().getLongExtra("id", 0);
+            questionId = id;
 
             prepareCommentData(id);
 
@@ -332,9 +337,7 @@ public class DetailsActivity extends AppCompatActivity
     public void submit_answer(View view) {
         Toast.makeText(this, "You resolved question :) ", Toast.LENGTH_SHORT).show();
 
-        //Log.d("Is Correct: ", question.toString());
-
-        // show the dialog
+        // dialog
         alertDialog = new AlertDialog.Builder(DetailsActivity.this);
 
         // set up the dialog
@@ -348,16 +351,27 @@ public class DetailsActivity extends AppCompatActivity
         }
         alertDialog.setCancelable(false); // cannot cancel the dialog
         // set up button on dialog
+        // on dialog button click
         alertDialog.setPositiveButton("Continue",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // do something
+
                         btnSubmitAnswer.setVisibility(View.GONE);
                         radioGroup.setVisibility(View.GONE);
 
                         commentsTable.setVisibility(View.VISIBLE);
                         listCommentsView.setVisibility(View.VISIBLE);
+
+                        // add the answer
+                        ResolveQuestion newResolveQuestion = new ResolveQuestion();
+                        Long userId = sharedPreferences.getLong("user_id", -1L);
+
+                        newResolveQuestion.setAnswer(userAns);
+                        newResolveQuestion.setIdUsera(userId);
+                        newResolveQuestion.setIdQuestion(questionId);
+
+                        new AnswerQuestionAddTask().execute(newResolveQuestion);
                     }
                 });
 

@@ -2,6 +2,7 @@ package com.consul.edu.educationconsultant.retrofit;
 
 import com.consul.edu.educationconsultant.model.Comment;
 import com.consul.edu.educationconsultant.model.Question;
+import com.consul.edu.educationconsultant.model.ResolveQuestion;
 import com.consul.edu.educationconsultant.model.User;
 import com.consul.edu.educationconsultant.wrappers.FilterWrapper;
 
@@ -24,7 +25,7 @@ import retrofit2.http.Path;
 
 public interface RedditAPI {
     // call ipconfig
-    String BASE_URL = "http://192.168.43.209:8095/educon/";
+    String BASE_URL = "http://192.168.0.13:8095/educon/";
 
 
     @Headers("Content-Type: application/json")
@@ -54,6 +55,10 @@ public interface RedditAPI {
 	@Headers("Content-Type: application/json")
     @PUT("question/filters/{radius}")
     Call<List<Question>> findByFilters(@Path("radius") int radius, @Body FilterWrapper filters);
+
+	@Headers("Content-Type: application/json")
+    @POST("resolvequestion")
+    Call<ResolveQuestion> insertResolveQuestion(@Body ResolveQuestion resolveQuestion);
 
 }
 
