@@ -5,6 +5,7 @@ import com.education.consultant.educon.document.Question;
 import com.education.consultant.educon.service.QuestionService;
 import com.education.consultant.educon.wrappers.FilterWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Point;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,11 +38,15 @@ public class QuestionController {
     }
 
     // find by filters
+    // ...:8095/educon/question/filters/20?lat=44.787197&long=20.457273
     @RequestMapping(value = "/filters/{radius}", method = RequestMethod.PUT)
-    public ResponseEntity<List<Question>> findByFilters(@PathVariable int radius, @RequestBody FilterWrapper filters) {
+    public ResponseEntity<List<Question>> findByFilters(@PathVariable int radius,
+                                                        @RequestParam(value = "lat") String latitude,
+                                                        @RequestParam(value = "long") String longitude,
+                                                        @RequestBody FilterWrapper filters) {
         List<String> filtersStr = filters.getFilters();
 
-        List<Question> questions = questionService.findByFilters(radius, filtersStr);
+        List<Question> questions = questionService.findByFilters(radius, latitude, longitude, filtersStr);
         return new ResponseEntity<List<Question>>(questions, HttpStatus.OK);
     }
 

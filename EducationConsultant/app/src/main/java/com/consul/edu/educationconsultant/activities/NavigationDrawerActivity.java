@@ -377,7 +377,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
                     .build();
 
             RedditAPI client = retrofit.create(RedditAPI.class);
-            Call<List<Question>> questionResponse = client.findByFilters(radius,filters);
+
+            // TODO: Change "" with latitude and longitude
+            Call<List<Question>> questionResponse = client.findByFilters(radius,"","",filters);
 
             questionResponse.enqueue(new Callback<List<Question>>() {
                 @Override

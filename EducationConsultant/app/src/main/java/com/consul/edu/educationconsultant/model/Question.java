@@ -56,7 +56,6 @@ public class Question {
     @Expose
     private String answered;
 
-
     @SerializedName("commentList")
     @Expose
     private List<Comment>  commentList;

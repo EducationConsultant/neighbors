@@ -18,6 +18,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by Svetlana on 5/16/2018.
@@ -25,7 +26,7 @@ import retrofit2.http.Path;
 
 public interface RedditAPI {
     // call ipconfig
-    String BASE_URL = "http://192.168.0.13:8095/educon/";
+    String BASE_URL = "http://192.168.0.14:8095/educon/";
 
 
     @Headers("Content-Type: application/json")
@@ -54,7 +55,7 @@ public interface RedditAPI {
 
 	@Headers("Content-Type: application/json")
     @PUT("question/filters/{radius}")
-    Call<List<Question>> findByFilters(@Path("radius") int radius, @Body FilterWrapper filters);
+    Call<List<Question>> findByFilters(@Path("radius") int radius, @Query("lat") String latitude, @Query("long") String longitude, @Body FilterWrapper filters);
 
 	@Headers("Content-Type: application/json")
     @POST("resolvequestion")

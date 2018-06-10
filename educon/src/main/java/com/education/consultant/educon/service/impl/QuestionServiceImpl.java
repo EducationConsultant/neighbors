@@ -11,6 +11,10 @@ import com.education.consultant.educon.repository.QuestionRepository;
 import com.education.consultant.educon.repository.UserRepository;
 import com.education.consultant.educon.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.Metrics;
+import org.springframework.data.geo.Point;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -35,12 +39,21 @@ public class QuestionServiceImpl implements QuestionService {
         return repository.findAll();
     }
 
-    @Override
-    public List<Question> findByFilters(int radius, List<String> filters) {
-        Set<Question> resultQuestions = new HashSet<>();
-        List<Question> allQuestions = repository.findAll();
 
-        for(Question question:allQuestions){
+    @Override
+    public List<Question> findByFilters(int radius, String latitude, String longitude, List<String> filters) {
+
+        Set<Question> resultQuestions = new HashSet<>();
+        List<Question> questionsForFilters;
+
+        if(radius > -1){
+            Point location = new Point(Double.valueOf(longitude), Double.valueOf(latitude));
+            questionsForFilters = repository.findByLocationNear(location, new Distance(radius, Metrics.KILOMETERS));
+        }else{
+            questionsForFilters = repository.findAll();
+        }
+
+        for(Question question:questionsForFilters){
             for(String filter : filters){
                 if(question.getCategory().equals(filter) || question.getEduLevel().equals(filter)) {
                     resultQuestions.add(question);
@@ -48,7 +61,7 @@ public class QuestionServiceImpl implements QuestionService {
             }
         }
 
-        // TODO: add filter by location
+
 
         List<Question> questionsSorted = new ArrayList<>();
         for(Question q : resultQuestions) {
@@ -84,10 +97,14 @@ public class QuestionServiceImpl implements QuestionService {
         question.setId(Question.getNextId());
         question.setCorrectAns(question.getAnswer1());
         question.setAnswered("");
+
+        GeoJsonPoint locationPoint = new GeoJsonPoint(
+                Double.valueOf(question.getLongitude()),
+                Double.valueOf(question.getLatitude()));
+        question.setLocation(locationPoint);
         
         List<Comment> comments = new ArrayList<>();
         question.setComments(comments);
-  
 
         return repository.save(question);
     }
