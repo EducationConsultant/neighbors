@@ -42,6 +42,7 @@ import com.consul.edu.educationconsultant.model.User;
 import com.consul.edu.educationconsultant.retrofit.RedditAPI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -86,6 +87,11 @@ public class DetailsActivity extends AppCompatActivity
     private ListView listCommentsView;
     private static boolean commented;
 
+    // notifications
+    private Button btn_subscribe;
+    private Button btn_unsubscribe;
+    private final String TOPIC = "EduCon";
+
     private RadioGroup radioGroup;
     private RadioButton rb1;
     private RadioButton rb2;
@@ -115,6 +121,26 @@ public class DetailsActivity extends AppCompatActivity
         sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
 
         btnSubmitAnswer = (Button) findViewById(R.id.submit_answer);
+
+        btn_subscribe = (Button) findViewById(R.id.btn_subscribe);
+        btn_unsubscribe = (Button) findViewById(R.id.btn_unsubscribe);
+
+        final String descriptionTopic = getIntent().getStringExtra("description");
+
+        btn_subscribe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseMessaging.getInstance().subscribeToTopic(TOPIC);
+            }
+        });
+
+        btn_unsubscribe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseMessaging.getInstance().unsubscribeFromTopic(TOPIC);
+            }
+        });
+
 
         radioGroup = (RadioGroup) findViewById(R.id.radio_group);
         rb1 = (RadioButton)findViewById(R.id.answer1);
