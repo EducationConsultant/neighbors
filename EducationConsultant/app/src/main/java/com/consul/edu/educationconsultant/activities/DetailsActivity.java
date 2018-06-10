@@ -90,7 +90,7 @@ public class DetailsActivity extends AppCompatActivity
     // notifications
     private Button btn_subscribe;
     private Button btn_unsubscribe;
-    private final String TOPIC = "EduCon";
+  //  private final String TOPIC = "EduCon";
 
     private RadioGroup radioGroup;
     private RadioButton rb1;
@@ -102,6 +102,8 @@ public class DetailsActivity extends AppCompatActivity
 
     private SharedPreferences sharedPreferences;
     private String sharedPrefName;
+
+
 
     // -- dialog --
     private AlertDialog.Builder alertDialog;
@@ -120,26 +122,14 @@ public class DetailsActivity extends AppCompatActivity
         sharedPrefName = "currentUser";
         sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
 
+
         btnSubmitAnswer = (Button) findViewById(R.id.submit_answer);
 
         btn_subscribe = (Button) findViewById(R.id.btn_subscribe);
         btn_unsubscribe = (Button) findViewById(R.id.btn_unsubscribe);
 
-        final String descriptionTopic = getIntent().getStringExtra("description");
 
-        btn_subscribe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseMessaging.getInstance().subscribeToTopic(TOPIC);
-            }
-        });
 
-        btn_unsubscribe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseMessaging.getInstance().unsubscribeFromTopic(TOPIC);
-            }
-        });
 
 
         radioGroup = (RadioGroup) findViewById(R.id.radio_group);
@@ -210,6 +200,27 @@ public class DetailsActivity extends AppCompatActivity
         String firstLastName = sharedPreferences.getString("user_first_name", "") + " " + sharedPreferences.getString("user_last_name", "");
         txtUserFirstLastName.setText(firstLastName);
         txtEmail.setText(firebaseUser.getEmail());
+
+
+        final String descriptionTopic = getIntent().getStringExtra("description");
+        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+        editor.putString("TOPIC", "EduCon" + descriptionTopic);
+        editor.apply();
+
+
+        btn_subscribe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseMessaging.getInstance().subscribeToTopic("EduCon" + descriptionTopic);
+            }
+        });
+
+        btn_unsubscribe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseMessaging.getInstance().unsubscribeFromTopic("EduCon" + descriptionTopic);
+            }
+        });
 
     }
 
@@ -494,6 +505,25 @@ public class DetailsActivity extends AppCompatActivity
 
 
 
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        String restoredTopic = prefs.getString("TOPIC", "");
+        Toast.makeText(this, "Topic: " + restoredTopic, Toast.LENGTH_LONG).show();
+
+        Call<String> callNotification = redditAPI.sendNotification(restoredTopic);
+        callNotification.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.d(TAG, "onNotificationResponse: Server Response: " + response.toString());
+
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e(TAG, "onNotificationFailure: Something went wrong: " + t.getMessage() );
+            }
+        });
+
+
     }
 
     @Override
@@ -508,6 +538,7 @@ public class DetailsActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
+
         setListenerOnCommentMessage();
 
 

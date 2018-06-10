@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,21 +18,21 @@ import java.util.concurrent.ExecutionException;
 @RequestMapping("/educon/notification")
 public class WebController {
 
-    private final String TOPIC = "EduCon";
+    //private final String TOPIC = "EduCon";
 
     @Autowired
     AndroidPushNotificationsService androidPushNotificationsService;
 
-    @RequestMapping(value = "/send", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<String> send() throws JSONException {
+    @RequestMapping(value = "/send/{topic}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<String> send(@PathVariable String topic) throws JSONException {
 
         JSONObject body = new JSONObject();
-        body.put("to", "/topics/" + TOPIC);
+        body.put("to", "/topics/" + topic);
         body.put("priority", "high");
 
         JSONObject notification = new JSONObject();
-        notification.put("title", "JSA Notification");
-        notification.put("body", "Happy Message!");
+        notification.put("title", "EduCon Notification");
+        notification.put("body", "Happy comment of " + topic + " question");
 
         JSONObject data = new JSONObject();
         data.put("Key-1", "JSA Data 1");
