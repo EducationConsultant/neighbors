@@ -25,7 +25,7 @@ import retrofit2.http.Path;
 
 public interface RedditAPI {
     // call ipconfig
-    String BASE_URL = "http://192.168.0.13:8095/educon/";
+    String BASE_URL = "http://192.168.0.12:8095/educon/";
 
 
     @Headers("Content-Type: application/json")
@@ -59,6 +59,10 @@ public interface RedditAPI {
 	@Headers("Content-Type: application/json")
     @POST("resolvequestion")
     Call<ResolveQuestion> insertResolveQuestion(@Body ResolveQuestion resolveQuestion);
+
+    @Headers("Content-Type: application/json")
+    @GET("resolvequestion/archive/{userId}")
+    Call<List<ResolveQuestion>> getResolveQuestion(@Path("userId") Long id);
 
 }
 

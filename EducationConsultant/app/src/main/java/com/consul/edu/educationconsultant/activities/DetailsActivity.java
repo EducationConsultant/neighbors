@@ -103,6 +103,7 @@ public class DetailsActivity extends AppCompatActivity
     private String correctAns;
     private String userAns;
     private Long questionId;
+    private String questionText;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -141,22 +142,18 @@ public class DetailsActivity extends AppCompatActivity
                     case R.id.answer1:
                         question.setAnswered(radioButton.getText().toString());
                         userAns = radioButton.getText().toString();
-                        Log.d("<<<< SET QUESTION1 >>>>", "foo bar " + userAns );
                         break;
                     case R.id.answer2:
                         question.setAnswered(radioButton.getText().toString());
                         userAns = radioButton.getText().toString();
-                        Log.d("<<<< SET QUESTION2 >>>>", "foo bar "+ userAns );
                         break;
                     case R.id.answer3:
                         question.setAnswered(radioButton.getText().toString());
                         userAns = radioButton.getText().toString();
-                        Log.d("<<<< SET QUESTION3 >>>>", "foo bar "+ userAns );
                         break;
                     case R.id.answer4:
                         question.setAnswered(radioButton.getText().toString());
                         userAns = radioButton.getText().toString();
-                        Log.d("<<<< SET QUESTION4 >>>>", "foo bar "+ userAns);
                         break;
                 }
             }
@@ -207,6 +204,7 @@ public class DetailsActivity extends AppCompatActivity
 
             long id = getIntent().getLongExtra("id", 0);
             questionId = id;
+            questionText = description;
 
             prepareCommentData(id);
 
@@ -370,6 +368,8 @@ public class DetailsActivity extends AppCompatActivity
                         newResolveQuestion.setAnswer(userAns);
                         newResolveQuestion.setIdUsera(userId);
                         newResolveQuestion.setIdQuestion(questionId);
+                        newResolveQuestion.setCorrectAns(correctAns);
+                        newResolveQuestion.setQuestionText(questionText);
 
                         new AnswerQuestionAddTask().execute(newResolveQuestion);
                     }

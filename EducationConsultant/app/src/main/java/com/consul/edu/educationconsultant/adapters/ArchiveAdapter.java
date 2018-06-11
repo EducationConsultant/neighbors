@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.consul.edu.educationconsultant.R;
 import com.consul.edu.educationconsultant.model.Question;
+import com.consul.edu.educationconsultant.model.ResolveQuestion;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ import java.util.List;
 
 public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.MyViewHolder> {
 
-    private List<Question> questionList;
+    private List<ResolveQuestion> questionList;
     private Context mContext;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -51,7 +52,7 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.MyViewHo
     }
 
 
-    public ArchiveAdapter(Context context, List<Question> questionList) {
+    public ArchiveAdapter(Context context, List<ResolveQuestion> questionList) {
         this.questionList = questionList;
         mContext = context;
     }
@@ -66,12 +67,12 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(ArchiveAdapter.MyViewHolder holder, final int position) {
-        Question question = questionList.get(position);
-        holder.description.setText(question.getDescription());
-        holder.answered.setText(question.getAnswered());
+        ResolveQuestion question = questionList.get(position);
+        holder.description.setText(question.getQuestionText());
+        holder.answered.setText(question.getAnswer());
         holder.correctAns.setText(question.getCorrectAns());
 
-        if (question.getAnswered().equals(question.getCorrectAns())){
+        if (question.getAnswer().equals(question.getCorrectAns())){
             holder.answered.setBackgroundColor(Color.parseColor("#64bc72")); // green
         } else {
             holder.answered.setBackgroundColor(Color.parseColor("#ce6767")); // red
