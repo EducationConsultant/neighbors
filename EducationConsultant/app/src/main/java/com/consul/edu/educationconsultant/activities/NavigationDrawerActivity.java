@@ -42,6 +42,7 @@ import com.consul.edu.educationconsultant.retrofit.RedditAPI;
 import com.consul.edu.educationconsultant.wrappers.FilterWrapper;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +64,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
 
     private static final String TAG = "NavActivity";
+    private final String TOPIC = "EduCon";
 
     private Button btnLogout;
     private TextView txtUserFirstLastName;
@@ -255,7 +257,17 @@ public class NavigationDrawerActivity extends AppCompatActivity
             intent = new Intent(NavigationDrawerActivity.this,ArchiveActivity.class);
         } else if (id == R.id.nav_profile) {
             intent = new Intent(NavigationDrawerActivity.this,ProfileActivity.class);
-        } else if (id == R.id.nav_logout) {
+        }
+        else if(id == R.id.nav_subscribe) {
+            FirebaseMessaging.getInstance().subscribeToTopic(TOPIC);
+            intent = new Intent(NavigationDrawerActivity.this,NavigationDrawerActivity.class);
+        } else if(id == R.id.nav_unsubscribe) {
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(TOPIC);
+            intent = new Intent(NavigationDrawerActivity.this,NavigationDrawerActivity.class);
+
+        }
+
+        else if (id == R.id.nav_logout) {
             auth.signOut();
             firebaseUser = auth.getCurrentUser();
             if (firebaseUser == null) {
@@ -266,6 +278,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 finish();
                 return true;
             }
+
         }
 
         // Display the appropriate activity

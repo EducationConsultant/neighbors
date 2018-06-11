@@ -42,6 +42,7 @@ import com.consul.edu.educationconsultant.model.User;
 import com.consul.edu.educationconsultant.retrofit.RedditAPI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,6 +69,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class DetailsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
     private static final String TAG = "DetailsActivity";
+    private final String TOPIC = "EduCon";
 
     private CommentAdapter adapter;
 
@@ -86,6 +88,8 @@ public class DetailsActivity extends AppCompatActivity
     private ListView listCommentsView;
     private static boolean commented;
 
+
+
     private RadioGroup radioGroup;
     private RadioButton rb1;
     private RadioButton rb2;
@@ -96,6 +100,7 @@ public class DetailsActivity extends AppCompatActivity
 
     private SharedPreferences sharedPreferences;
     private String sharedPrefName;
+
 
     // -- dialog --
     private AlertDialog.Builder alertDialog;
@@ -114,6 +119,7 @@ public class DetailsActivity extends AppCompatActivity
 
         sharedPrefName = "currentUser";
         sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
+
 
         btnSubmitAnswer = (Button) findViewById(R.id.submit_answer);
 
@@ -181,6 +187,7 @@ public class DetailsActivity extends AppCompatActivity
         String firstLastName = sharedPreferences.getString("user_first_name", "") + " " + sharedPreferences.getString("user_last_name", "");
         txtUserFirstLastName.setText(firstLastName);
         txtEmail.setText(firebaseUser.getEmail());
+
 
     }
 
@@ -468,6 +475,9 @@ public class DetailsActivity extends AppCompatActivity
 
 
 
+
+
+
     }
 
     @Override
@@ -482,6 +492,7 @@ public class DetailsActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
+
         setListenerOnCommentMessage();
 
 
