@@ -139,7 +139,9 @@ public class DetailsActivity extends AppCompatActivity
 
         question = new Question();
 
-        getIncomingIntent();  // get data of selected question
+
+        // TODO: move to onResume()
+       //getIncomingIntent();  // get data of selected question
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
@@ -214,7 +216,8 @@ public class DetailsActivity extends AppCompatActivity
             questionId = id;
             questionText = description;
 
-            prepareCommentData(id);
+            new CommentAllTask().execute(id);
+           // prepareCommentData(id);
 
             setQuestion( description, username, category, answer1, answer2, answer3, answer4, eduLevel,answered);
         }
@@ -389,11 +392,8 @@ public class DetailsActivity extends AppCompatActivity
     }
 
 
-    // TODO : AsyncTask -- Get comments
-    /**
-    *
-    *  get all comments of one question, from database
-    * */
+
+
     private void prepareCommentData(Long id) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(RedditAPI.BASE_URL)
@@ -436,6 +436,58 @@ public class DetailsActivity extends AppCompatActivity
 
     }
 
+
+    /**
+     *
+     *  get all comments of one question, from database
+     * */
+    private class CommentAllTask extends AsyncTask<Long, Void, List<Comment>> {
+
+        @Override
+        protected List<Comment> doInBackground(Long... longs) {
+            Long id = longs[0];
+
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(RedditAPI.BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            RedditAPI redditAPI = retrofit.create(RedditAPI.class);
+            Call<List<Comment>> call = redditAPI.getComments(id);
+
+            call.enqueue(new Callback<List<Comment>>() {
+                @Override
+                public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
+                    Log.d(TAG, "onResponse: Server Response:" + response.toString());
+                    Log.d(TAG, "onResponse: received information" + response.body().toString());
+                    List<Comment> commentListResponse = response.body();
+
+                    for(Comment c : commentListResponse){
+                        Comment newComment = new Comment();
+                        newComment.setCreator(c.getCreator());
+                        newComment.setText(c.getText());
+                        newComment.setQuestion(c.getQuestion());
+
+                        if (!commentListResponse.contains(newComment)) {
+                            commentList.add(newComment);
+
+                            adapter = new CommentAdapter(DetailsActivity.this, R.layout.adapter_comment_view_layout, commentList);
+                            listCommentsView.setAdapter(adapter);
+
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<Comment>> call, Throwable t) {
+                    Log.e(TAG, "onFailure:Something went wrong " + t.getMessage());
+                    Toast.makeText(DetailsActivity.this, "Something went wrong" , Toast.LENGTH_SHORT).show();
+                }
+            });
+            return null;
+        }
+    }
 
     /**
      * inert new comment for one question
@@ -506,10 +558,8 @@ public class DetailsActivity extends AppCompatActivity
         super.onResume();
         sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
 
+        getIncomingIntent();
         setListenerOnCommentMessage();
-
-
-
 
     }
 
