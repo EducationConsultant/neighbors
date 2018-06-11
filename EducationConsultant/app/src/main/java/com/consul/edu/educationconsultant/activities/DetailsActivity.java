@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -387,6 +388,8 @@ public class DetailsActivity extends AppCompatActivity
         dialog.show();
     }
 
+
+    // TODO : AsyncTask -- Get comments
     /**
     *
     *  get all comments of one question, from database
@@ -442,43 +445,53 @@ public class DetailsActivity extends AppCompatActivity
         long questionId = getIntent().getLongExtra("id", 0);
         String text = comment_message.getText().toString();
         User creator = getLoggedInUser();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(RedditAPI.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        RedditAPI redditAPI = retrofit.create(RedditAPI.class);
-        Call<Comment> call = redditAPI.insertComment(questionId, new Comment(creator, question, text));
-
-
-        commented = true;
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("commented","true");
-        editor.apply();
-
-
-        call.enqueue(new Callback<Comment>() {
-            @Override
-            public void onResponse(Call<Comment> call, Response<Comment> response) {
-                Log.d(TAG, "onResponse: Server Response: " + response.toString());
-
-            }
-
-            @Override
-            public void onFailure(Call<Comment> call, Throwable t) {
-                Log.e(TAG, "onFailure: Something went wrong: " + t.getMessage() );
-                Toast.makeText(DetailsActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-
-
-
-
+        Comment newComment = new Comment(creator, question, text);
+        new CommentAddTask().execute(newComment);
     }
+
+    private class CommentAddTask extends AsyncTask<Comment, Void, Comment> {
+        final EditText comment_message = (EditText) findViewById(R.id.comment_message);
+        long questionId = getIntent().getLongExtra("id", 0);
+
+        private Comment commentRequest;
+        private Comment commentResult;
+
+        @Override
+        protected Comment doInBackground(Comment... comments) {
+            commentRequest = comments[0];
+            commentResult = new Comment();
+
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(RedditAPI.BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            RedditAPI redditAPI = retrofit.create(RedditAPI.class);
+            Call<Comment> call = redditAPI.insertComment(questionId, commentRequest);
+
+            commented = true;
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(DetailsActivity.this);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("commented","true");
+            editor.apply();
+
+
+            call.enqueue(new Callback<Comment>() {
+                @Override
+                public void onResponse(Call<Comment> call, Response<Comment> response) {
+                    Log.d(TAG, "onResponse: Server Response: " + response.toString());
+                    commentResult = new Comment();
+                }
+                @Override
+                public void onFailure(Call<Comment> call, Throwable t) {
+                    Log.e(TAG, "onFailure: Something went wrong: " + t.getMessage() );
+                    commentResult = null;
+                }
+            });
+            return commentResult;
+        }
+    }
+
+    
 
     @Override
     protected void onStart() {
