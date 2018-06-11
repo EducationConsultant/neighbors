@@ -5,6 +5,7 @@ import com.consul.edu.educationconsultant.model.Question;
 import com.consul.edu.educationconsultant.model.ResolveQuestion;
 import com.consul.edu.educationconsultant.model.User;
 import com.consul.edu.educationconsultant.wrappers.FilterWrapper;
+import com.google.gson.JsonElement;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public interface RedditAPI {
 
     @Headers("Content-Type: application/json")
     @GET("notification/send")
-    Call<String> sendNotification();
+    Call<JsonElement> sendNotification();
 
     @Headers("Content-Type: application/json")
     @GET("question/commentsAll/{questionId}")

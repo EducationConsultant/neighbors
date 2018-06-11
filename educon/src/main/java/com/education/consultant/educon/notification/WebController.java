@@ -32,14 +32,11 @@ public class WebController {
 
         JSONObject notification = new JSONObject();
         notification.put("title", "EduCon Notification");
-        notification.put("body", "Happy comment  ");
+        notification.put("body", "New question added  ");
 
-        JSONObject data = new JSONObject();
-        data.put("Key-1", "JSA Data 1");
-        data.put("Key-2", "JSA Data 2");
 
         body.put("notification", notification);
-        body.put("data", data);
+
 
 /**
  {

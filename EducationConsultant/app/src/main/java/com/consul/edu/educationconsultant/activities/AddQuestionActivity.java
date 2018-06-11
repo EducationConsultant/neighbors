@@ -30,6 +30,7 @@ import com.consul.edu.educationconsultant.model.User;
 import com.consul.edu.educationconsultant.retrofit.RedditAPI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.JsonElement;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -312,23 +313,23 @@ public class AddQuestionActivity extends AppCompatActivity {
 
 
                 // NOTIFICATION
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(RedditAPI.BASE_URL)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-
-                RedditAPI redditAPI = retrofit.create(RedditAPI.class);
-                Call<String> callNotification = redditAPI.sendNotification();
-                callNotification.enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        Log.d(TAG, "onNotificationResponse: Server Response: " + response.toString());
-                    }
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-                        Log.e(TAG, "onNotificationFailure: Something went wrong: " + t.getMessage() );
-                    }
-                });
+//                Retrofit retrofit = new Retrofit.Builder()
+//                        .baseUrl(RedditAPI.BASE_URL)
+//                        .addConverterFactory(GsonConverterFactory.create())
+//                        .build();
+//
+//                RedditAPI redditAPI = retrofit.create(RedditAPI.class);
+//                Call<JsonElement> callNotification = redditAPI.sendNotification();
+//                callNotification.enqueue(new Callback<JsonElement>() {
+//                    @Override
+//                    public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+//                        Log.d(TAG, "onNotificationResponse: Server Response: " + response.toString());
+//                    }
+//                    @Override
+//                    public void onFailure(Call<JsonElement> call, Throwable t) {
+//                        Log.e(TAG, "onNotificationFailure: Something went wrong: " + t.getMessage() );
+//                    }
+//                });
 
 
                 // go back to home
