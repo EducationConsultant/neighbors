@@ -1,5 +1,7 @@
 package com.education.consultant.educon.notification;
 
+import com.education.consultant.educon.document.Question;
+import com.education.consultant.educon.service.QuestionService;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +20,18 @@ import java.util.concurrent.ExecutionException;
 @RequestMapping("/educon/notification")
 public class WebController {
 
+
+
+    @Autowired
+    private QuestionService questionService;
+
     private final String TOPIC = "EduCon";
 
     @Autowired
     AndroidPushNotificationsService androidPushNotificationsService;
 
-    @RequestMapping(value = "/send", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<String> send() throws JSONException {
+    @RequestMapping(value = "/send/{descripiton}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<String> send(@PathVariable String descripiton) throws JSONException {
 
         JSONObject body = new JSONObject();
         body.put("to", "/topics/" + TOPIC);
@@ -32,7 +39,7 @@ public class WebController {
 
         JSONObject notification = new JSONObject();
         notification.put("title", "EduCon Notification");
-        notification.put("body", "New question added  ");
+        notification.put("body", "New question added: " + descripiton );
 
 
         body.put("notification", notification);
