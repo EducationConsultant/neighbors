@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.consul.edu.educationconsultant.model.Question;
 import com.consul.edu.educationconsultant.retrofit.RedditAPI;
+import com.google.gson.JsonElement;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -64,6 +65,22 @@ public class QuestionAddTask extends AsyncTask<Question, Void, Question> {
             public void onFailure(Call<Question> call, Throwable t) {
                 Log.e("errorInsertUser","Server does not response.");
                 questionResult = null;
+            }
+        });
+
+
+
+
+        RedditAPI redditAPI = retrofit.create(RedditAPI.class);
+        Call<JsonElement> callNotification = redditAPI.sendNotification();
+        callNotification.enqueue(new Callback<JsonElement>() {
+            @Override
+            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                Log.d("notification success", "onNotificationResponse: Server Response: " + response.toString());
+            }
+            @Override
+            public void onFailure(Call<JsonElement> call, Throwable t) {
+                Log.e("notification failed", "onNotificationFailure: Something went wrong: " + t.getMessage() );
             }
         });
 
