@@ -16,7 +16,7 @@ make folder data-mongodb in git\neighbours\educon
 
 cd git\neighbours\educon\data-mongodb
 
-mongod --dbpath=.
+run command:  mongod --dbpath=.
 
 
 run spring application educon
