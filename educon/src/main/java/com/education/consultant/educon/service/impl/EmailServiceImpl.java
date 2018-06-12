@@ -17,7 +17,7 @@ import java.util.Properties;
 @Service
 public class EmailServiceImpl implements EmailService {
     @Override
-    public void sendEmail(User user) {
+    public void sendEmail(User user, String subject) {
         final String username = "djolepingivin@gmail.com";
         final String password = "djolejepingvin12";
 
@@ -51,7 +51,7 @@ public class EmailServiceImpl implements EmailService {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getEmail()));
 
             // Set Subject: header field
-            message.setSubject("Education Consultant: Forgot password");
+            message.setSubject("Education Consultant: " + subject);
 
             // Now set the actual message
             message.setText(messageText);

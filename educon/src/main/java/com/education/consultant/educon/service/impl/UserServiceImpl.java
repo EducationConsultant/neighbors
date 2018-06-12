@@ -3,6 +3,7 @@ package com.education.consultant.educon.service.impl;
 import com.education.consultant.educon.document.ResolveQuestion;
 import com.education.consultant.educon.document.User;
 import com.education.consultant.educon.repository.UserRepository;
+import com.education.consultant.educon.service.EmailService;
 import com.education.consultant.educon.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -17,20 +19,37 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private EmailService emailService;
+
     @Override
     public User save(User user) {
-        List<User> users = userRepository.findAllByOrderByIdDesc();
-        for (User u : users) {
-            Long nextId = u.getId()+1;
-            User.setNextId(nextId);
-            break;
+        User userInDataBase = userRepository.findByEmail(user.getEmail());
+
+        if(userInDataBase == null) {
+            List<User> users = userRepository.findAllByOrderByIdDesc();
+            for (User u : users) {
+                Long nextId = u.getId() + 1;
+                User.setNextId(nextId);
+                break;
+            }
+
+            List<ResolveQuestion> resolvedQuestions = new ArrayList<>();
+            user.setResolvedQuestions(resolvedQuestions);
+
+            user.setId(User.getNextId());
+
+            if(user.getPassword().equals("")){
+                String password = generatePassword();
+                user.setPassword(password);
+
+                emailService.sendEmail(user, "Welcome");
+            }
+
+            return userRepository.save(user);
+        }else{
+            return userInDataBase;
         }
-
-        List<ResolveQuestion> resolvedQuestions = new ArrayList<>();
-        user.setResolvedQuestions(resolvedQuestions);
-
-        user.setId(User.getNextId());
-        return userRepository.save(user);
     }
 
     @Override
@@ -74,5 +93,18 @@ public class UserServiceImpl implements UserService {
     public User findOne(Long id) {
         Optional<User> user = userRepository.findById(id);
         return user.get();
+    }
+
+    private String generatePassword() {
+        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() < 7) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String saltStr = salt.toString();
+        return saltStr;
+
     }
 }

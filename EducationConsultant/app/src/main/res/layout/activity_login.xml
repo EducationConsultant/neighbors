@@ -96,6 +96,20 @@
                 android:layout_marginTop="16dp"
                 android:onClick="onClickSignUp"/>
 
+            <Button
+                android:id="@+id/btn_google_sign_in"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_lbl_category"
+                android:text="@string/btn_sign_in_google"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:padding="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginTop="16dp"
+                android:drawableLeft="@drawable/ic_google"/>
+
             <TextView
                 android:id="@+id/link_forgot_pass"
                 android:layout_width="wrap_content"
