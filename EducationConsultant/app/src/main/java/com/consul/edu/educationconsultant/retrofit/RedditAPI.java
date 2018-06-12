@@ -29,7 +29,6 @@ public interface RedditAPI {
     // call ipconfig
     String BASE_URL = "http://192.168.0.12:8095/educon/";
 
-
     @Headers("Content-Type: application/json")
     @GET("notification/send/{descripiton}")
     Call<JsonElement> sendNotification(@Path("descripiton") String descripiton);

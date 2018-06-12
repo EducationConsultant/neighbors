@@ -54,11 +54,11 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
 
         TextView tw1 = (TextView) convertView.findViewById(R.id.textView1);
         TextView tw2 = (TextView) convertView.findViewById(R.id.textView2);
-        TextView tw3 = (TextView) convertView.findViewById(R.id.textView3);
+
 
         tw1.setText(text);
         tw2.setText(creator.getEmail());
-       // tw3.setText(question.getCategory());
+
 
         return convertView;
 

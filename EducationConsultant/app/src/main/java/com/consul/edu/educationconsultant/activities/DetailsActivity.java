@@ -319,7 +319,16 @@ public class DetailsActivity extends AppCompatActivity
             intent = new Intent(DetailsActivity.this, ArchiveActivity.class);
         } else if (id == R.id.nav_profile) {
             intent = new Intent(DetailsActivity.this,ProfileActivity.class);
-        } else if (id == R.id.nav_logout) {
+        }  else if(id == R.id.nav_subscribe) {
+            FirebaseMessaging.getInstance().subscribeToTopic(TOPIC);
+            intent = new Intent(DetailsActivity.this,NavigationDrawerActivity.class);
+        } else if(id == R.id.nav_unsubscribe) {
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(TOPIC);
+            intent = new Intent(DetailsActivity.this,NavigationDrawerActivity.class);
+
+        }
+
+        else if (id == R.id.nav_logout) {
             intent = new Intent(DetailsActivity.this, LoginActivity.class);
 
             auth.signOut();
