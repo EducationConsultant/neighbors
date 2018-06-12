@@ -9,6 +9,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class ResolveQuestion {
 
+    @SerializedName("id")
+    @Expose
+    private Long id;
+
     @SerializedName("idUsera")
     @Expose
     private Long idUsera;
@@ -86,5 +90,13 @@ public class ResolveQuestion {
                 ", questionText='" + questionText+ '\'' +
                 '}';
 
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

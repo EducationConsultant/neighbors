@@ -10,4 +10,6 @@ import java.util.List;
 public interface QuestionRepository extends MongoRepository<Question, Long> {
 
     public List<Question> findAllByOrderByIdDesc();
+
+    public Question findByDescription(String description);
 }

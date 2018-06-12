@@ -70,6 +70,10 @@ public interface RedditAPI {
     @GET("resolvequestion/archive/{userId}")
     Call<List<ResolveQuestion>> getResolveQuestion(@Path("userId") Long id);
 
+
+    @Headers("Content-Type: application/json")
+    @GET("resolvequestion/{userId}/{questionId}")
+    Call<ResolveQuestion> findQuestionByUser(@Path("userId") Long userId, @Path("questionId") Long questionId);
 }
 
 

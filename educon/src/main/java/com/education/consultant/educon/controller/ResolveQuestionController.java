@@ -47,5 +47,12 @@ public class ResolveQuestionController {
     }
 
 
+    // find one question for current user
+    @RequestMapping(value = "/{userId}/{questionId}", method = RequestMethod.GET)
+    public ResponseEntity<ResolveQuestion> findQuestionByUser(@PathVariable Long userId, @PathVariable Long questionId) {
+        ResolveQuestion resolvedQuestion = resolveQuestionService.findQuestionByUser(userId, questionId);
+
+        return new ResponseEntity<ResolveQuestion>(resolvedQuestion, HttpStatus.OK);
+    }
 
 }

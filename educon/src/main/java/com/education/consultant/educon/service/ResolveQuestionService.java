@@ -11,4 +11,6 @@ public interface ResolveQuestionService {
     public ResolveQuestion findOne(Long id);
 
     public List<ResolveQuestion> findAllResolvedQuestions(Long userId);
+
+    public ResolveQuestion findQuestionByUser(Long userId, Long questionId);
 }

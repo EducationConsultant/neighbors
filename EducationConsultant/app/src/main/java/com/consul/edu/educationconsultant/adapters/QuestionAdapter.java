@@ -65,6 +65,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.MyView
 
                 Intent intent = new Intent(mContext, DetailsActivity.class);
 //                intent.putExtra("title", questionList.get(position).getTitle());
+                intent.putExtra("id", questionList.get(position).getId());
                 intent.putExtra("username", questionList.get(position).getOwner().getEmail());
                 intent.putExtra("description", questionList.get(position).getDescription());
                 intent.putExtra("category", questionList.get(position).getCategory());
@@ -75,7 +76,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.MyView
                 intent.putExtra("eduLevel", questionList.get(position).getEduLevel());
                 intent.putExtra("correctAns", questionList.get(position).getCorrectAns());
                 intent.putExtra("answered", questionList.get(position).getAnswered());
-                intent.putExtra("id", questionList.get(position).getId());
+
 
 
                 mContext.startActivity(intent);
