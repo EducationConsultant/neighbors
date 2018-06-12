@@ -75,7 +75,7 @@ public class UserController {
     @RequestMapping(value = "/forgotPassword", method = RequestMethod.PUT)
     public ResponseEntity<Void> sendEmail(@RequestBody User user) {
         User requestUser = userService.findByEmail(user.getEmail());
-        emailService.sendEmail(requestUser);
+        emailService.sendEmail(requestUser, "Forgot password");
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

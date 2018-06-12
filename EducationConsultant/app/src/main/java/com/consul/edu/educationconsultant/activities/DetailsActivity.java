@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -42,6 +43,7 @@ import com.consul.edu.educationconsultant.model.User;
 import com.consul.edu.educationconsultant.retrofit.RedditAPI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,6 +70,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class DetailsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
     private static final String TAG = "DetailsActivity";
+    private final String TOPIC = "EduCon";
 
     private CommentAdapter adapter;
 
@@ -86,6 +89,8 @@ public class DetailsActivity extends AppCompatActivity
     private ListView listCommentsView;
     private static boolean commented;
 
+
+
     private RadioGroup radioGroup;
     private RadioButton rb1;
     private RadioButton rb2;
@@ -97,12 +102,14 @@ public class DetailsActivity extends AppCompatActivity
     private SharedPreferences sharedPreferences;
     private String sharedPrefName;
 
+
     // -- dialog --
     private AlertDialog.Builder alertDialog;
 
     private String correctAns;
     private String userAns;
     private Long questionId;
+    private String questionText;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -113,6 +120,7 @@ public class DetailsActivity extends AppCompatActivity
 
         sharedPrefName = "currentUser";
         sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
+
 
         btnSubmitAnswer = (Button) findViewById(R.id.submit_answer);
 
@@ -131,7 +139,9 @@ public class DetailsActivity extends AppCompatActivity
 
         question = new Question();
 
-        getIncomingIntent();  // get data of selected question
+
+        // TODO: move to onResume()
+       //getIncomingIntent();  // get data of selected question
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
@@ -141,22 +151,18 @@ public class DetailsActivity extends AppCompatActivity
                     case R.id.answer1:
                         question.setAnswered(radioButton.getText().toString());
                         userAns = radioButton.getText().toString();
-                        Log.d("<<<< SET QUESTION1 >>>>", "foo bar " + userAns );
                         break;
                     case R.id.answer2:
                         question.setAnswered(radioButton.getText().toString());
                         userAns = radioButton.getText().toString();
-                        Log.d("<<<< SET QUESTION2 >>>>", "foo bar "+ userAns );
                         break;
                     case R.id.answer3:
                         question.setAnswered(radioButton.getText().toString());
                         userAns = radioButton.getText().toString();
-                        Log.d("<<<< SET QUESTION3 >>>>", "foo bar "+ userAns );
                         break;
                     case R.id.answer4:
                         question.setAnswered(radioButton.getText().toString());
                         userAns = radioButton.getText().toString();
-                        Log.d("<<<< SET QUESTION4 >>>>", "foo bar "+ userAns);
                         break;
                 }
             }
@@ -185,6 +191,7 @@ public class DetailsActivity extends AppCompatActivity
         txtUserFirstLastName.setText(firstLastName);
         txtEmail.setText(firebaseUser.getEmail());
 
+
     }
 
     /**
@@ -207,8 +214,10 @@ public class DetailsActivity extends AppCompatActivity
 
             long id = getIntent().getLongExtra("id", 0);
             questionId = id;
+            questionText = description;
 
-            prepareCommentData(id);
+            new CommentAllTask().execute(id);
+           // prepareCommentData(id);
 
             setQuestion( description, username, category, answer1, answer2, answer3, answer4, eduLevel,answered);
         }
@@ -370,6 +379,8 @@ public class DetailsActivity extends AppCompatActivity
                         newResolveQuestion.setAnswer(userAns);
                         newResolveQuestion.setIdUsera(userId);
                         newResolveQuestion.setIdQuestion(questionId);
+                        newResolveQuestion.setCorrectAns(correctAns);
+                        newResolveQuestion.setQuestionText(questionText);
 
                         new AnswerQuestionAddTask().execute(newResolveQuestion);
                     }
@@ -380,10 +391,9 @@ public class DetailsActivity extends AppCompatActivity
         dialog.show();
     }
 
-    /**
-    *
-    *  get all comments of one question, from database
-    * */
+
+
+
     private void prepareCommentData(Long id) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(RedditAPI.BASE_URL)
@@ -428,6 +438,58 @@ public class DetailsActivity extends AppCompatActivity
 
 
     /**
+     *
+     *  get all comments of one question, from database
+     * */
+    private class CommentAllTask extends AsyncTask<Long, Void, List<Comment>> {
+
+        @Override
+        protected List<Comment> doInBackground(Long... longs) {
+            Long id = longs[0];
+
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(RedditAPI.BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            RedditAPI redditAPI = retrofit.create(RedditAPI.class);
+            Call<List<Comment>> call = redditAPI.getComments(id);
+
+            call.enqueue(new Callback<List<Comment>>() {
+                @Override
+                public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
+                    Log.d(TAG, "onResponse: Server Response:" + response.toString());
+                    Log.d(TAG, "onResponse: received information" + response.body().toString());
+                    List<Comment> commentListResponse = response.body();
+
+                    for(Comment c : commentListResponse){
+                        Comment newComment = new Comment();
+                        newComment.setCreator(c.getCreator());
+                        newComment.setText(c.getText());
+                        newComment.setQuestion(c.getQuestion());
+
+                        if (!commentListResponse.contains(newComment)) {
+                            commentList.add(newComment);
+
+                            adapter = new CommentAdapter(DetailsActivity.this, R.layout.adapter_comment_view_layout, commentList);
+                            listCommentsView.setAdapter(adapter);
+
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<Comment>> call, Throwable t) {
+                    Log.e(TAG, "onFailure:Something went wrong " + t.getMessage());
+                    Toast.makeText(DetailsActivity.this, "Something went wrong" , Toast.LENGTH_SHORT).show();
+                }
+            });
+            return null;
+        }
+    }
+
+    /**
      * inert new comment for one question
      * */
     private void insertCommentData() {
@@ -435,40 +497,53 @@ public class DetailsActivity extends AppCompatActivity
         long questionId = getIntent().getLongExtra("id", 0);
         String text = comment_message.getText().toString();
         User creator = getLoggedInUser();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(RedditAPI.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        RedditAPI redditAPI = retrofit.create(RedditAPI.class);
-        Call<Comment> call = redditAPI.insertComment(questionId, new Comment(creator, question, text));
-
-
-        commented = true;
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("commented","true");
-        editor.apply();
-
-
-        call.enqueue(new Callback<Comment>() {
-            @Override
-            public void onResponse(Call<Comment> call, Response<Comment> response) {
-                Log.d(TAG, "onResponse: Server Response: " + response.toString());
-
-            }
-
-            @Override
-            public void onFailure(Call<Comment> call, Throwable t) {
-                Log.e(TAG, "onFailure: Something went wrong: " + t.getMessage() );
-                Toast.makeText(DetailsActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-
+        Comment newComment = new Comment(creator, question, text);
+        new CommentAddTask().execute(newComment);
     }
+
+    private class CommentAddTask extends AsyncTask<Comment, Void, Comment> {
+        final EditText comment_message = (EditText) findViewById(R.id.comment_message);
+        long questionId = getIntent().getLongExtra("id", 0);
+
+        private Comment commentRequest;
+        private Comment commentResult;
+
+        @Override
+        protected Comment doInBackground(Comment... comments) {
+            commentRequest = comments[0];
+            commentResult = new Comment();
+
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(RedditAPI.BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            RedditAPI redditAPI = retrofit.create(RedditAPI.class);
+            Call<Comment> call = redditAPI.insertComment(questionId, commentRequest);
+
+            commented = true;
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(DetailsActivity.this);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("commented","true");
+            editor.apply();
+
+
+            call.enqueue(new Callback<Comment>() {
+                @Override
+                public void onResponse(Call<Comment> call, Response<Comment> response) {
+                    Log.d(TAG, "onResponse: Server Response: " + response.toString());
+                    commentResult = new Comment();
+                }
+                @Override
+                public void onFailure(Call<Comment> call, Throwable t) {
+                    Log.e(TAG, "onFailure: Something went wrong: " + t.getMessage() );
+                    commentResult = null;
+                }
+            });
+            return commentResult;
+        }
+    }
+
+    
 
     @Override
     protected void onStart() {
@@ -482,10 +557,9 @@ public class DetailsActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
+
+        getIncomingIntent();
         setListenerOnCommentMessage();
-
-
-
 
     }
 

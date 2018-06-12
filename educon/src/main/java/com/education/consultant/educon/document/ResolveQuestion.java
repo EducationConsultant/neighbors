@@ -17,14 +17,20 @@ public class ResolveQuestion {
 
     private String answer;
 
+    private String correctAns;
+
+    private String questionText;
+
     private static Long nextId = 1L;
 
     public ResolveQuestion() {}
 
-    public ResolveQuestion(Long idUsera, Long idQuestion, String answer) {
+    public ResolveQuestion(Long idUsera, Long idQuestion, String answer, String correctAns, String questionText) {
         this.idUsera = idUsera;
         this.idQuestion = idQuestion;
         this.answer = answer;
+        this.correctAns = correctAns;
+        this.questionText = questionText;
     }
 
     public Long getId() {
@@ -65,5 +71,17 @@ public class ResolveQuestion {
 
     public static void setNextId(Long nextId) {
         ResolveQuestion.nextId = nextId;
+    }
+
+    public String getCorrectAns() { return correctAns; }
+
+    public void setCorrectAns(String correctAns) { this.correctAns = correctAns; }
+
+    public String getQuestionText() {
+        return questionText;
+    }
+
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
     }
 }

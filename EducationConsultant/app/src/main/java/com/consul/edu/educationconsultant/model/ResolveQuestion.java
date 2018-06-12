@@ -21,12 +21,21 @@ public class ResolveQuestion {
     @Expose
     private String answer;
 
+    @SerializedName("correctAns")
+    @Expose
+    private String correctAns;
+
+    @SerializedName("questionText")
+    @Expose
+    private String questionText;
+
     public ResolveQuestion(){}
 
-    public ResolveQuestion(Long idUsera, Long idQuestion, String answer){
+    public ResolveQuestion(Long idUsera, Long idQuestion, String answer, String correctAns){
         this.idUsera = idUsera;
         this.idQuestion = idQuestion;
         this.answer = answer;
+        this.correctAns = correctAns;
     }
 
     public Long getIdUsera() {
@@ -53,11 +62,28 @@ public class ResolveQuestion {
         this.answer = answer;
     }
 
+    public String getCorrectAns() {
+        return correctAns;
+    }
+
+    public void setCorrectAns(String correctAns) {
+        this.correctAns = correctAns;
+    }
+
+    public String getQuestionText() {
+        return questionText;
+    }
+
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
+    }
+
     @Override
     public String toString() {
         return "ResolveQuestion{" +
                 "answer='" + answer + '\'' +
                 ", idQuestion='" + idQuestion + '\'' +
+                ", questionText='" + questionText+ '\'' +
                 '}';
 
     }

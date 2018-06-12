@@ -32,11 +32,13 @@
     <!-- Sign up/Login -->
     <string name="link_login">Already have an account? Log in.</string>
     <string name="link_forgot_password">Forgot password?</string>
-    <string name="btn_login">Log in</string>
+    <string name="btn_login">Sign in</string>
     <string name="btn_signup">Sign up</string>
+    <string name="btn_sign_in_google">Sign in with Google</string>
     <string name="btn_reset_password">Send email</string>
     <string name="lbl_forgot_password_msg">To get your password, enter the email address you use to sign into Education Consultant.</string>
     <string name="lbl_reset_password">To reset your password, click the button below.</string>
+    <string name="google_failed">Authentication with google failed.</string>
 
 
     <!-- Messages -->
@@ -108,6 +110,8 @@
     <string name="profile">Profile</string>
     <string name="archive">Archive</string>
     <string name="home">Home</string>
+    <string name="subscribe">Subscribe</string>
+    <string name="unsubscribe">Unsubscribe</string>
 
     <!-- Database -->
     <string name="db_unavailable">Database unavailable</string>
@@ -128,4 +132,9 @@
     <!-- Details view -->
     <string name="btn_submit">Submit</string>
     <string name="comment_msg">Write a comment...</string>
+
+    <!-- Notification -->
+    <string name="channel_name">Channel name</string>
+    <string name="channel_description">channel_description</string>
+    <string name="title_activity_new">NewActivity</string>
 </resources>

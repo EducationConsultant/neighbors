@@ -1,6 +1,8 @@
 package com.consul.edu.educationconsultant.activities;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 
 
@@ -35,6 +37,7 @@ import com.consul.edu.educationconsultant.adapters.QuestionAdapter;
 import com.consul.edu.educationconsultant.R;
 
 
+import com.consul.edu.educationconsultant.fcm.MyFCMClass;
 import com.consul.edu.educationconsultant.listeners.RecyclerTouchListener;
 import com.consul.edu.educationconsultant.model.Question;
 import com.consul.edu.educationconsultant.model.User;
@@ -42,6 +45,7 @@ import com.consul.edu.educationconsultant.retrofit.RedditAPI;
 import com.consul.edu.educationconsultant.wrappers.FilterWrapper;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +67,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
 
     private static final String TAG = "NavActivity";
+    private final String TOPIC = "EduCon";
+    private final String CHANNEL_ID = "my_channel_01";
 
     private Button btnLogout;
     private TextView txtUserFirstLastName;
@@ -106,6 +112,10 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         sharedPrefNameSettings = "Settings" + "_" + firebaseUser.getEmail();
         sharedPreferencesSettings = getSharedPreferences(sharedPrefNameSettings,MODE_PRIVATE);
+
+        // open notification channel
+        createNotificationChannel();
+
 
         // -- location --
         locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
@@ -255,7 +265,17 @@ public class NavigationDrawerActivity extends AppCompatActivity
             intent = new Intent(NavigationDrawerActivity.this,ArchiveActivity.class);
         } else if (id == R.id.nav_profile) {
             intent = new Intent(NavigationDrawerActivity.this,ProfileActivity.class);
-        } else if (id == R.id.nav_logout) {
+        }
+        else if(id == R.id.nav_subscribe) {
+            FirebaseMessaging.getInstance().subscribeToTopic(TOPIC);
+            intent = new Intent(NavigationDrawerActivity.this,NavigationDrawerActivity.class);
+        } else if(id == R.id.nav_unsubscribe) {
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(TOPIC);
+            intent = new Intent(NavigationDrawerActivity.this,NavigationDrawerActivity.class);
+
+        }
+
+        else if (id == R.id.nav_logout) {
             auth.signOut();
             firebaseUser = auth.getCurrentUser();
             if (firebaseUser == null) {
@@ -266,6 +286,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 finish();
                 return true;
             }
+
         }
 
         // Display the appropriate activity
@@ -416,6 +437,24 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 }
             });
             return new ArrayList<>();
+        }
+    }
+
+
+
+    public  void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
         }
     }
 }

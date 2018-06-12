@@ -10,22 +10,31 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import com.consul.edu.educationconsultant.adapters.ArchiveAdapter;
 import com.consul.edu.educationconsultant.R;
 import com.consul.edu.educationconsultant.model.Question;
+import com.consul.edu.educationconsultant.model.ResolveQuestion;
 import com.consul.edu.educationconsultant.model.User;
+import com.consul.edu.educationconsultant.retrofit.RedditAPI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class ArchiveActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ActionBar actionBar;
 
-    private List<Question> questionList = new ArrayList<>();
+    private List<ResolveQuestion> questionList = new ArrayList<>();
     private RecyclerView recyclerView;
     private ArchiveAdapter mAdapter;
 
@@ -77,27 +86,43 @@ public class ArchiveActivity extends AppCompatActivity {
     }
 
     private void prepareQuestionData() {
-        String firstName = sharedPreferences.getString("user_first_name", "");
-        String lastName = sharedPreferences.getString("user_last_name", "");
 
-        User owner = new User(sharedPreferences.getLong("user_id", -1L),firstName,lastName,firebaseUser.getEmail(),sharedPreferences.getString("user_password", ""));
+        Long userId = sharedPreferences.getLong("user_id", -1L);
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(RedditAPI.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-        Question question = new Question(owner,"This is my first question", "Mathematics", "a1", "a2" ,"a3", "a4", "Elementary School", "a1", "a1");
-        questionList.add(question);
+        RedditAPI client = retrofit.create(RedditAPI.class);
+        Call<List<ResolveQuestion>> rqResponse = client.getResolveQuestion(userId);
 
-        question = new Question(owner,"This is my second question", "Sport", "a1", "a2" ,"a3", "a4", "Middle School","a1", "a2");
-        questionList.add(question);
+        rqResponse.enqueue(new Callback<List<ResolveQuestion>>() {
+            @Override
+            public void onResponse(Call<List<ResolveQuestion>> call, Response<List<ResolveQuestion>> response) {
+                List<ResolveQuestion> rqResponse = response.body();
 
-        question = new Question(owner, "This is my third question", "Mathematics",  "a1", "a2" ,"a3", "a4", "High School","a1", "a1");
-        questionList.add(question);
+                for (ResolveQuestion rq:rqResponse){
+                    ResolveQuestion newRQ = new ResolveQuestion();
+                    newRQ.setCorrectAns(rq.getCorrectAns());
+                    newRQ.setAnswer(rq.getAnswer());
+                    newRQ.setIdQuestion(rq.getIdQuestion());
+                    newRQ.setIdUsera(rq.getIdUsera());
+                    newRQ.setQuestionText(rq.getQuestionText());
 
-        question = new Question(owner, "This is my fourth question", "English",  "a1", "a2" ,"a3", "a4", "Master's","a1", "a1");
-        questionList.add(question);
+                    if (!questionList.contains(newRQ)){
+                        questionList.add(newRQ);
+                        mAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
 
-        question = new Question(owner, "This is my fifth question", "Other",  "a1", "a2" ,"a3", "a4", "Doctor's","a1", "a1");
-        questionList.add(question);
+            @Override
+            public void onFailure(Call<List<ResolveQuestion>> call, Throwable t) {
+                Log.e("ArchiveActivity: ", "Something went wrong");
+            }
+        });
 
-        mAdapter.notifyDataSetChanged();
+        //mAdapter.notifyDataSetChanged();
     }
 }

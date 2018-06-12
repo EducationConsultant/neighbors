@@ -15,7 +15,7 @@
     <!-- GPS location -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!-- Network location -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <!-- icon: This attribute assigns an icon to the app. -->
     <!--
@@ -125,6 +125,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.SettingsActivity" />
         </activity>
+
+        <!-- Firebase Service -->
+        <service android:name=".fcm.MyFCMClass">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".activities.NewActivity"
+            android:label="@string/title_activity_new"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

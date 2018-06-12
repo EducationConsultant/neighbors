@@ -16,7 +16,6 @@ public interface UserClient {
 
     String BASE_URL = "http://192.168.0.12:8095/educon/";
 
-
     // find by email and password
     @Headers("Content-Type: application/json")
     @PUT("user")

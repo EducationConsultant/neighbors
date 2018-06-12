@@ -5,6 +5,7 @@ import com.consul.edu.educationconsultant.model.Question;
 import com.consul.edu.educationconsultant.model.ResolveQuestion;
 import com.consul.edu.educationconsultant.model.User;
 import com.consul.edu.educationconsultant.wrappers.FilterWrapper;
+import com.google.gson.JsonElement;
 
 import java.util.List;
 
@@ -28,6 +29,10 @@ public interface RedditAPI {
     // call ipconfig
     String BASE_URL = "http://192.168.0.12:8095/educon/";
 
+
+    @Headers("Content-Type: application/json")
+    @GET("notification/send/{descripiton}")
+    Call<JsonElement> sendNotification(@Path("descripiton") String descripiton);
 
     @Headers("Content-Type: application/json")
     @GET("question/commentsAll/{questionId}")
@@ -60,6 +65,10 @@ public interface RedditAPI {
 	@Headers("Content-Type: application/json")
     @POST("resolvequestion")
     Call<ResolveQuestion> insertResolveQuestion(@Body ResolveQuestion resolveQuestion);
+
+    @Headers("Content-Type: application/json")
+    @GET("resolvequestion/archive/{userId}")
+    Call<List<ResolveQuestion>> getResolveQuestion(@Path("userId") Long id);
 
 }
 

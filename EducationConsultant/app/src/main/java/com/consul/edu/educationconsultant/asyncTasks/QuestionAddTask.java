@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.consul.edu.educationconsultant.model.Question;
 import com.consul.edu.educationconsultant.retrofit.RedditAPI;
+import com.google.gson.JsonElement;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,6 +58,26 @@ public class QuestionAddTask extends AsyncTask<Question, Void, Question> {
             @Override
             public void onResponse(Call<Question> call, Response<Question> response) {
                 Log.w("successInsertQuestion","Question: " + response.body().getCategory());
+
+                // notification
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(RedditAPI.BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                RedditAPI redditAPI = retrofit.create(RedditAPI.class);
+                Call<JsonElement> callNotification = redditAPI.sendNotification(response.body().getDescription());
+                callNotification.enqueue(new Callback<JsonElement>() {
+                    @Override
+                    public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                        Log.d("notification success", "onNotificationResponse: Server Response: " + response.toString());
+                    }
+                    @Override
+                    public void onFailure(Call<JsonElement> call, Throwable t) {
+                        Log.e("notification failed", "onNotificationFailure: Something went wrong: " + t.getMessage() );
+                    }
+                });
+
+
                 questionResult = new Question();
             }
 
@@ -66,6 +87,7 @@ public class QuestionAddTask extends AsyncTask<Question, Void, Question> {
                 questionResult = null;
             }
         });
+
 
         return questionResult;
     }
