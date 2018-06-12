@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "805379385119",
+    "firebase_url": "https://education-consultant-89877.firebaseio.com",
+    "project_id": "education-consultant-89877",
+    "storage_bucket": "education-consultant-89877.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:805379385119:android:1fb27ca2484b34af",
+        "android_client_info": {
+          "package_name": "com.consul.edu.educationconsultant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "805379385119-tvi0opfisvp56gvkmpn0dhh4ubdluo5n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.consul.edu.educationconsultant",
+            "certificate_hash": "22b03ab07bbdb1daba9f49a02c29c0ba5fba82a3"
+          }
+        },
+        {
+          "client_id": "805379385119-hs37jghs4ot825vlq08c0i0a4oaraj1o.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "805379385119-hs37jghs4ot825vlq08c0i0a4oaraj1o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHStiX0YgEgoosE4OOw_YZbdwAGBXF9rc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "805379385119-hs37jghs4ot825vlq08c0i0a4oaraj1o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
