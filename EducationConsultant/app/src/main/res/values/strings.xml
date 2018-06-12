@@ -1,3 +1,140 @@
 <resources>
-    <string name="app_name">EducationConsultant</string>
+    <!-- Activity title -->
+    <string name="app_name">Education Consultant</string>
+    <string name="edit_profile_name">Edit Profile</string>
+    <string name="settings_name">Settings</string>
+    <string name="education_levels_name">Education levels</string>
+    <string name="category_filter_name">Category</string>
+    <string name="archive_name">Archive</string>
+    <string name="location_name">Location</string>
+    <string name="add_question_name">Add question</string>
+    <string name="change_password_name">Change password</string>
+
+
+    <!-- User information-->
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="lbl_user_information">About you</string>
+
+
+    <!-- Change password -->
+    <string name="lbl_change_password">Enter a password into the following fields then tap the icon in the upper right corner.</string>
+    <string name="old_password">Enter your old password</string>
+    <string name="new_password">Enter your new password</string>
+    <string name="new_password_repeat">Re-enter your new password</string>
+    <string name="old_password_error">Incorrect old password/</string>
+    <string name="passwords_do_not_match">New and repeated passwords do not match.</string>
+    <string name="password_changed">Password changed.</string>
+
+
+    <!-- Sign up/Login -->
+    <string name="link_login">Already have an account? Log in.</string>
+    <string name="link_forgot_password">Forgot password?</string>
+    <string name="btn_login">Sign in</string>
+    <string name="btn_signup">Sign up</string>
+    <string name="btn_sign_in_google">Sign in with Google</string>
+    <string name="btn_reset_password">Send email</string>
+    <string name="lbl_forgot_password_msg">To get your password, enter the email address you use to sign into Education Consultant.</string>
+    <string name="lbl_reset_password">To reset your password, click the button below.</string>
+    <string name="google_failed">Authentication with google failed.</string>
+
+
+    <!-- Messages -->
+    <string name="msg_enter_firstname">Enter first name.</string>
+    <string name="msg_enter_lastname">Enter last name.</string>
+    <string name="msg_enter_email">Enter email address.</string>
+    <string name="msg_invalid_email">Invalid email address.</string>
+    <string name="msg_email_unique">Email address already exists.</string>
+    <string name="msg_enter_password">Enter password.</string>
+    <string name="msg_password_length">Password too short, enter minimum 6 characters.</string>
+    <string name="msg_authentication_failed">Authentication failed.</string>
+    <string name="msg_user_not_found">User not found.</string>
+    <string name="msg_send_instructions">We have sent you your password.</string>
+    <string name="msg_failed_send">Failed to send reset email.</string>
+    <string name="msg_profile_updated">User profile updated.</string>
+
+    <string name="msg_enter_question">Enter question.</string>
+    <string name="msg_enter_ans_one">Enter answer one.</string>
+    <string name="msg_enter_ans_two">Enter answer two.</string>
+    <string name="msg_enter_ans_three">Enter answer three.</string>
+    <string name="msg_enter_ans_four">Enter answer four.</string>
+
+
+    <!-- Settings -->
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="title_filters">Filters</string>
+    <string name="title_account">Account</string>
+    <!-- Education levels -->
+    <string name="msg_settings_edu_levels">Choose education levels</string>
+    <string name="elementary_school_title">Elementary school</string>
+    <string name="middle_school_title">Middle school</string>
+    <string name="high_school_title">High school</string>
+    <string name="collage_title">Collage</string>
+    <string name="masters_title">Master</string>
+    <string name="doctors_title">Doctor</string>
+    <!-- Category-->
+    <string name="category_title">Categories</string>
+    <string name="mathematics_title">Mathematics</string>
+    <string name="sport_title">Sport</string>
+    <string name="english_title">English</string>
+    <string name="other_title">Other</string>
+    <!-- Location Filter -->
+    <string name="location_label">Location</string>
+
+    <!-- Education Levels -->
+    <string-array name="edu_levels_arr">
+        <item>Elementary School</item>
+        <item>Middle School</item>
+        <item>High School</item>
+        <item>Collage</item>
+        <item>Master's</item>
+        <item>Doctor's</item>
+    </string-array>
+
+    <!-- Categories -->
+    <string-array name="categories_arr">
+        <item>Mathematics</item>
+        <item>Sport</item>
+        <item>English</item>
+        <item>Other</item>
+    </string-array>
+
+
+    <!--Navigation bar-->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="sign_out">Sign out</string>
+    <string name="profile">Profile</string>
+    <string name="archive">Archive</string>
+    <string name="home">Home</string>
+    <string name="subscribe">Subscribe</string>
+    <string name="unsubscribe">Unsubscribe</string>
+
+    <!-- Database -->
+    <string name="db_unavailable">Database unavailable</string>
+
+    <!-- Add question -->
+    <string name="question">Question</string>
+    <string name="question_hint">Write your question</string>
+    <string name="answer_one">Answer One (correct answer)</string>
+    <string name="answer_one_hint">Ex. Apple</string>
+    <string name="answer_two">Answer Two</string>
+    <string name="answer_two_hint">Ex. Orange</string>
+    <string name="answer_three">Answer Three</string>
+    <string name="answer_three_hint">Ex. Grape</string>
+    <string name="answer_four">Answer Four</string>
+    <string name="answer_four_hint">Ex. Watermelon</string>
+    <string name="education_level">Education Level</string>
+
+    <!-- Details view -->
+    <string name="btn_submit">Submit</string>
+    <string name="comment_msg">Write a comment...</string>
+
+    <!-- Notification -->
+    <string name="channel_name">Channel name</string>
+    <string name="channel_description">channel_description</string>
+    <string name="title_activity_new">NewActivity</string>
 </resources>

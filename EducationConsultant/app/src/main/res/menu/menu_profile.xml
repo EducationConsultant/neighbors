@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- title: The title doesn't always get displayed, but it's good practice to include it in case the action appears in the overflow. -->
+    <!-- icon: This is the name of the drawable resource we want to use as the icon. -->
+    <!-- orderInCategory: If app bar contains multiple actions, you can specify the order in which they appear. -->
+    <!-- showAsAction:  This attribute is used to say how you want the item to appear in the app bar.
+            ifRoom: Place the item in the app bar if there’s space. If there’s not space, put it in the overflow. -->
+    <item android:id="@+id/action_edit_profile"
+        android:title="@string/edit_profile_name"
+        android:icon="@drawable/ic_done"
+        android:orderInCategory="1"
+        app:showAsAction="ifRoom" />
+
+</menu>

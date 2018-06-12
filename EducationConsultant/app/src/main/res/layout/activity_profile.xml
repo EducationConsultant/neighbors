@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ProfileActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <!-- android.support.v7.widget.Toolbar : This is the full path of the Toolbar class in the Support Library -->
+        <!-- ?attr/actionBarSize : The ?attr prefix means that we want to use an attribute from the current theme. -->
+        <!-- ?attr/colorPrimary : Make the toolbar's background the same color as the app bar we had previously  -->
+        <!-- ThemeOverlay : Toolbar will look like app bar from theme Theme.AppCompat.Light -->
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_profile"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/AppTheme.PopupOverlay" />
+    </android.support.design.widget.AppBarLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="50dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="30dp"
+                android:src="@mipmap/ic_user_profile"
+                android:paddingTop="50dp"
+                android:contentDescription="@string/edit_profile_name"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/lbl_user_information"
+                android:layout_marginTop="20dp"
+                android:textSize="16sp"/>
+
+            <EditText
+                android:id="@+id/firstname_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="12dp"
+                android:padding="8dp"
+                android:ems="10"
+                android:inputType="textCapWords"
+                android:background="@android:color/transparent"
+                android:hint="@string/first_name"
+                android:maxLines="1"
+                android:drawableLeft="@drawable/ic_person" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimaryDark"/>
+
+            <EditText
+                android:id="@+id/lastname_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:ems="10"
+                android:background="@android:color/transparent"
+                android:drawablePadding="12dp"
+                android:padding="8dp"
+                android:hint="@string/last_name"
+                android:maxLines="1"
+                android:drawableLeft="@drawable/ic_person"
+                android:layout_marginTop="4dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimaryDark"/>
+
+            <EditText
+                android:id="@+id/email_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:ems="10"
+                android:background="@android:color/transparent"
+                android:drawablePadding="12dp"
+                android:padding="8dp"
+                android:hint="@string/email"
+                android:maxLines="1"
+                android:drawableLeft="@drawable/ic_email"
+                android:layout_marginTop="4dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimaryDark" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:visibility="gone"
+        android:layout_centerInParent="true"/>
+
+</android.support.constraint.ConstraintLayout>

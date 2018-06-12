@@ -1,3 +1,6 @@
+# Android studio stuff
+EducationConsultant/.idea
+
 # Built application files
 *.apk
 *.ap_
@@ -34,11 +37,23 @@ captures/
 
 # Intellij
 *.iml
+*.idea
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/gradle.xml
 .idea/dictionaries
 .idea/libraries
+.idea/assetWizardSettings.xml
+.data-mongodb/mongod.lock
+
+
+.data-mongodb
+
+/local.properties
+.DS_Store
+/build
+/captures
+
 
 # Keystore files
 *.jks
