@@ -53,6 +53,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -243,10 +245,23 @@ public class DetailsActivity extends AppCompatActivity
         descriptionView.setText(description);
         usernameView.setText(username);
         categoryView.setText(category);
-        rb1.setText(answer1);
-        rb2.setText(answer2);
-        rb3.setText(answer3);
-        rb4.setText(answer4);
+
+        String[] ansArr = { answer1, answer2, answer3, answer4 };
+
+        Random rnd = new Random();
+        for (int i = ansArr.length - 1; i > 0; i--) {
+            int index = rnd.nextInt(i + 1);
+            // Simple swap
+            String a = ansArr[index];
+            ansArr[index] = ansArr[i];
+            ansArr[i] = a;
+        }
+
+
+        rb1.setText(ansArr[0]);
+        rb2.setText(ansArr[1]);
+        rb3.setText(ansArr[2]);
+        rb4.setText(ansArr[3]);
         eduLevelView.setText(eduLevel);
         if(answered.equals("")){
             btnSubmitAnswer.setVisibility(View.VISIBLE);
