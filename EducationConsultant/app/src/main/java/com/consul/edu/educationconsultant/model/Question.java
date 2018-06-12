@@ -60,6 +60,14 @@ public class Question {
     @Expose
     private List<Comment>  commentList;
 
+    @SerializedName("longitude")
+    @Expose
+    private String longitude;
+
+    @SerializedName("latitude")
+    @Expose
+    private String latitude;
+
     public Question() {
     }
 
@@ -68,7 +76,8 @@ public class Question {
                     String description, String category,
                     String answer1, String answer2,
                     String answer3, String answer4,
-                    String eduLevel) {
+                    String eduLevel,String latitude,
+                    String longitude) {
         this.owner = owner;
         this.description = description;
         this.category = category;
@@ -77,6 +86,8 @@ public class Question {
         this.answer3 = answer3;
         this.answer4 = answer4;
         this.eduLevel = eduLevel;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     // create question for test
@@ -84,7 +95,8 @@ public class Question {
                     String description, String category,
                     String answer1, String answer2,
                     String answer3, String answer4,
-                    String eduLevel, String answered, String correctAns) {
+                    String eduLevel, String answered, String correctAns,
+                    String longitude, String latitude) {
         this.owner = owner;
         this.description = description;
         this.category = category;
@@ -182,6 +194,22 @@ public class Question {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
     }
 
     @Override

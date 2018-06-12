@@ -1,16 +1,23 @@
 package com.consul.edu.educationconsultant.activities;
 
+import android.Manifest;
 import android.content.Intent;
 
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,6 +63,12 @@ public class AddQuestionActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private String sharedPrefName;
 
+    // -- location --
+    private LocationManager locationManager;
+    private LocationListener locationListener;
+    private String longitude = "";
+    private String latitude = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +78,34 @@ public class AddQuestionActivity extends AppCompatActivity {
 
         sharedPrefName = "currentUser";
         sharedPreferences = getSharedPreferences(sharedPrefName,MODE_PRIVATE);
+
+        // -- location --
+        locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                Log.d("Location: ", location.toString());
+                Log.d("Longitude: ", String.valueOf(location.getLongitude()));
+                longitude = String.valueOf(location.getLongitude());
+                latitude = String.valueOf(location.getLatitude());
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        }; // end listener
+        // ----
 
         /*
         * config spinner for education levels
@@ -204,12 +245,31 @@ public class AddQuestionActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         progressBar.setVisibility(View.GONE);
+
+        // -- location --
+        // check for permissions
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            // Ask for permissions
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 99);
+
+        }else{
+            // permissions already accepted keep requesting the location
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        }
+        // ----
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // stop checking for location while paused
+        locationManager.removeUpdates(locationListener);
     }
 
     /**
@@ -279,7 +339,7 @@ public class AddQuestionActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(categoryStr)){
                     return false;
                 }
-
+                
                 String firstName = sharedPreferences.getString("user_first_name", "");
                 String lastName = sharedPreferences.getString("user_last_name", "");
 
@@ -293,6 +353,8 @@ public class AddQuestionActivity extends AppCompatActivity {
                 newQuestion.setAnswer4(ansFourStr);
                 newQuestion.setEduLevel(eduLevelStr);
                 newQuestion.setCategory(categoryStr);
+                newQuestion.setLatitude(latitude);
+                newQuestion.setLongitude(longitude);
 
 
                 /*

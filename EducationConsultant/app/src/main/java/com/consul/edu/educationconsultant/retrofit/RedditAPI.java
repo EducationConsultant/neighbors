@@ -26,7 +26,7 @@ import retrofit2.http.Query;
 
 public interface RedditAPI {
     // call ipconfig
-    String BASE_URL = "http://192.168.0.14:8095/educon/";
+    String BASE_URL = "http://192.168.0.12:8095/educon/";
 
 
     @Headers("Content-Type: application/json")
