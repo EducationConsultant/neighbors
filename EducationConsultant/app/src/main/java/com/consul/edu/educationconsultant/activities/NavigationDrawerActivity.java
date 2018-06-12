@@ -95,6 +95,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
     // -- location --
     private LocationManager locationManager;
     private LocationListener locationListener;
+    private String longitude;
+    private String latitude;
 
     // ----
 
@@ -120,10 +122,19 @@ public class NavigationDrawerActivity extends AppCompatActivity
         // -- location --
         locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
         locationListener = new LocationListener() {
+
+            SharedPreferences.Editor editor = sharedPreferencesSettings.edit();
+
             @Override
             public void onLocationChanged(Location location) {
                 Log.d("Location: ", location.toString());
-                Log.d("Longitude: ", String.valueOf(location.getLongitude()));
+                
+                longitude = String.valueOf(location.getLongitude());
+                latitude = String.valueOf(location.getLatitude());
+
+                editor.putString("longitude", longitude);
+                editor.putString("latitude", latitude);
+                editor.apply();
             }
 
             @Override
@@ -309,7 +320,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
         filtersStr = new ArrayList<String>();
 
         // Location
-        int radius = sharedPreferencesSettings.getInt("radius", -1);
+        int radius = sharedPreferencesSettings.getInt("radius", 1);
+        String lat = (sharedPreferencesSettings.getString("latitude", "0").equals("0")) ? latitude:sharedPreferencesSettings.getString("latitude", "0");
+        String lon = (sharedPreferencesSettings.getString("longitude", "0").equals("0")) ? longitude:sharedPreferencesSettings.getString("longitude", "0");
 
         // -- location --
         // check for permissions
@@ -371,7 +384,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         FilterWrapper filterWrapper = new FilterWrapper(filtersStr);
 
-        new FilterTask(radius,filterWrapper).execute();
+        new FilterTask(radius,lat,lon,filterWrapper).execute();
     }
 
     @Override
@@ -384,10 +397,14 @@ public class NavigationDrawerActivity extends AppCompatActivity
     private class FilterTask extends AsyncTask<String,Void, List<Question>>{
         private int radius;
         private FilterWrapper filters;
+        private String longitude;
+        private String latitude;
 
-        public FilterTask(int radius, FilterWrapper filterWrapper){
+        public FilterTask(int radius, String latitude, String longitude, FilterWrapper filterWrapper){
             this.radius=radius;
             this.filters=filterWrapper;
+            this.latitude=latitude;
+            this.longitude=longitude;
         }
 
         @Override
@@ -399,36 +416,40 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
             RedditAPI client = retrofit.create(RedditAPI.class);
 
-            // TODO: Change "" with latitude and longitude
-            Call<List<Question>> questionResponse = client.findByFilters(radius,"","",filters);
+            Call<List<Question>> questionResponse = client.findByFilters(radius,latitude,longitude,filters);
 
             questionResponse.enqueue(new Callback<List<Question>>() {
                 @Override
                 public void onResponse(Call<List<Question>> call, Response<List<Question>> response) {
                     List<Question> questionListResponse = response.body();
-                    Log.w(TAG, "questionListResponse.size()" + questionListResponse.size());
 
-                    for(Question q:questionListResponse) {
-                        Question newQuestion = new Question();
-                        newQuestion.setOwner(q.getOwner());
-                        newQuestion.setDescription(q.getDescription());
-                        newQuestion.setCategory(q.getCategory());
+                    if (questionListResponse != null){
 
-                        newQuestion.setAnswer1(q.getAnswer1());
-                        newQuestion.setAnswer2(q.getAnswer2());
-                        newQuestion.setAnswer3(q.getAnswer3());
-                        newQuestion.setAnswer4(q.getAnswer4());
-                        newQuestion.setEduLevel(q.getEduLevel());
-                        newQuestion.setCorrectAns(q.getCorrectAns());
-                        newQuestion.setAnswered(q.getAnswered());
-                        newQuestion.setId(q.getId());
+                        for(Question q:questionListResponse) {
+                            Question newQuestion = new Question();
+                            newQuestion.setOwner(q.getOwner());
+                            newQuestion.setDescription(q.getDescription());
+                            newQuestion.setCategory(q.getCategory());
+
+                            newQuestion.setAnswer1(q.getAnswer1());
+                            newQuestion.setAnswer2(q.getAnswer2());
+                            newQuestion.setAnswer3(q.getAnswer3());
+                            newQuestion.setAnswer4(q.getAnswer4());
+                            newQuestion.setEduLevel(q.getEduLevel());
+                            newQuestion.setCorrectAns(q.getCorrectAns());
+                            newQuestion.setAnswered(q.getAnswered());
+                            newQuestion.setId(q.getId());
 
 
-                        if (!questionList.contains(newQuestion)) {
-                            questionList.add(newQuestion);
-                            mAdapter.notifyDataSetChanged();
+                            if (!questionList.contains(newQuestion)) {
+                                questionList.add(newQuestion);
+                                mAdapter.notifyDataSetChanged();
+                            }
                         }
+                    }else {
+                        Log.e("FilterTask: ", "Returned null object!");
                     }
+
                 }
 
                 @Override
