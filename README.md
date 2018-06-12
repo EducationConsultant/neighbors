@@ -21,7 +21,8 @@ run command:  mongod --dbpath=.
 
 run spring application educon
 
-check your ip adress (192.168...)
-change them in both classes in package retrofit
+check your ip adress (192.168.x.x.) 
+
+change String BASE_URL = "http://192.168.x.x:8095/educon/"   in both classes in package retrofit
 
 run android application EducationConsultant
