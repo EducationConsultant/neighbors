@@ -11,9 +11,13 @@ Danilo Zekovic
 ## Running the app
 
 install mongodb
+
 make folder data-mongodb in git\neighbours\educon
+
 cd git\neighbours\educon\data-mongodb
+
 mongod --dbpath=.
+
 
 run spring application educon
 
