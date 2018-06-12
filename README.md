@@ -25,4 +25,4 @@ check your ip adress (192.168.x.x.)
 
 change String BASE_URL = "http://192.168.x.x:8095/educon/"   in both classes in package retrofit
 
-run android application EducationConsultant
+run android application EducationConsultant  (if user use Android Studio - it is recommended to be installed the latest version)
