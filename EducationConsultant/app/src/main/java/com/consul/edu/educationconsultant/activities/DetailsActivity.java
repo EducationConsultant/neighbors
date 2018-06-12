@@ -606,10 +606,13 @@ public class DetailsActivity extends AppCompatActivity
                         insertCommentData();
 
                         // refresh activity
-                        finish();
+                        /*finish();
                         overridePendingTransition(0, 0);
                         startActivity(getIntent());
-                        overridePendingTransition(0, 0);
+                        overridePendingTransition(0, 0);*/
+
+                        Intent intent = new Intent(DetailsActivity.this, NavigationDrawerActivity.class);
+                        startActivity(intent);
 
                         return true;
                     }
